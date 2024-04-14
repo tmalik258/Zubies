@@ -1,0 +1,64 @@
+{% extends 'store/layout.html' %}
+{% load static %}
+
+{% block title %}Addresses{% endblock %}
+
+{% block style %}
+	<link rel="stylesheet" href="{% static 'address/css/styles.css' %}">
+{% endblock %}
+
+{% block body %}
+	<div class="container mb-3">
+		<div class="hstack gap-3">
+			<a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
+				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Logo" width="50" height="45">
+			</a><div class="vr me-2"></div>
+			<div class="col">
+				<h1 class="h5 mb-0">Your Addresses</h1>
+				<div class="text-muted">Manage your addresses and delivery preferences</div>
+			</div>
+		</div>
+		<hr>
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+		<div class="col">
+			<a href="{% url 'address:add_address' %}" class="text-reset text-decoration-none" role="button" style="max-width: 540px;">
+				<div class="card mb-3 h-100 rounded-4" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+					<div class="row g-0 h-100">
+						<div class="col-12">
+							<div class="card-body text-center position-absolute top-50 start-50 translate-middle">
+								<svg style="color: wheat;" xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5"></path>
+								</svg>
+								<h1 class="h5" style="color: wheat;">Add Address</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		{% for address in addresses %}
+		<div class="col">
+			<div {% if address.default %} class="card default px-3 pb-3 rounded-4" {% endif %} class="card h-100 px-3 rounded-4" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;"">
+				<div class="card-header small text-muted text-center">
+					{% if address.default %}
+					Default
+					<hr class="m-auto" style="width: 70%;">
+					{% endif %}
+				</div>
+				<div class="card-body small py-1">
+					<p class="card-text m-0 fw-bold">{{ address.first_name }} {{ address.last_name }}</p>
+					<p class="card-text m-0">{{ address.phone_number }}</p>
+					<p class="card-text m-0">{{ address.email }}</p>
+					<p class="card-text m-0">{{ address.address_line_1 }}</p>
+					<p class="card-text m-0">{{ address.address_line_2 }}</p>
+					<p class="card-text m-0">{{ address.zip_code }}</p>
+					<p class="card-text m-0">{{ address.city }}</p>
+					<p class="card-text m-0">{{ address.get_country_display }}</p>
+					<div class="pt-3"><a href="{% url 'address:edit_address' address.id %}" class="text-decoration-none">Edit</a> | <a href="{% url 'address:delete_address' address.id %}" class="text-decoration-none">Delete</a> | <a href="{% url 'address:set_default' address.id %}" class="text-decoration-none">Set Default</a></div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	</div>
+{% endblock %}

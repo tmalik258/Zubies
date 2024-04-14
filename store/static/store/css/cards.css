@@ -1,0 +1,100 @@
+:root {
+	--text-color: black;
+	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
+    -10px -10px 15px rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--text-color: rgb(71, 40, 9);
+	}
+}
+
+.products .row .card
+{
+	border-radius: 20px;
+	padding: 0;
+	background: none;
+	width: 18em;
+	font-size: larger;
+	/* margin: 15px 15px; */
+	border: none;
+}
+
+.products .row .card .card-body del, article.product .card del {
+	text-decoration-color: red;
+}
+
+.products .row .card a
+{
+	margin: 0;
+    color: var(--text-color);
+	text-decoration: none;
+}
+
+.products .row .card a.wishlist_icon ion-icon {
+	font-size: 1.4rem;
+}
+
+.products .row .card .btn
+{
+	background: wheat;
+	color: black;
+	margin-top: 10px;
+}
+
+.products .row .card .btn:hover
+{
+	background: rgba(245, 222, 179, 0.8);
+}
+
+.product .card
+{
+	background: none;
+	border: none;
+	margin: auto;
+	font-size: larger;
+	margin-top: 2%;
+}
+
+.product .card .card-body
+{
+	text-align: justify;
+}
+
+.product .card .card-body button.plus-btn.btn,
+.product .card .card-body button.min-btn.btn {
+	color: rgb(34, 23, 4);
+}
+
+.product .card .card-body button.plus-btn.btn:hover,
+.product .card .card-body button.min-btn.btn:hover {
+	color: rgb(126, 87, 16);
+}
+
+.swiper.itemImageSwiper {
+	max-height: max-content;
+	max-width: max-content;
+}
+
+.swiper.itemImageSwiper .swiper-slide {
+	margin: auto;
+	/* padding: 10px; */
+	text-align: center;
+}
+
+.swiper.itemImageSwiper .swiper-slide img {
+	border-radius: 30px; 
+    max-width: 100%;
+	/* margin: auto; */
+	/* align-items: center;
+	justify-content: center; */
+}
+
+.swiper.itemImageSwiper .swiper-slide img::selection {
+	background: none;
+}
+
+.products .row .card .swiper.itemImageSwiper .swiper-slide img {
+    max-height: 330px;
+}

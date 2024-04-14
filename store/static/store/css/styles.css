@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Red+Hat+Text&family=Roboto&family=Viga&display=swap');
+
+*
+{
+    box-sizing: border-box;
+}
+
+:root {
+	--background-color: rgb(253, 251, 248);
+	--color: black;
+}
+
+html body {
+	background: var(--background-color);
+	color: var(--color);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	scroll-behavior: smooth;
+	font-family: 'Playfair Display', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color: rgb(71, 40, 9);
+	}
+}
+
+/* //////////////////////////////////	SCROLL BAR	////////////////////////////////////////////// */
+::-webkit-scrollbar
+{
+	width: 6px;
+	height: 3px;
+	background: black;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background: wheat;
+}
+
+						/* MAIN */
+
+
+						/* Login and Register Form */
+.auth_form{
+	color: wheat;
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background-color: #141414;
+	border-radius: 20px;
+	padding-top: 20px;
+}
+
+.auth_form input, .auth_form .form-select, .auth_form input:focus, .auth_form textarea, .auth_form textarea:focus
+{
+	background: #141414;
+	border: none;
+	outline: none;
+	border-radius: 11px;
+	padding: 12px 20px;
+	color: #fff;
+	margin: 10px auto;
+	margin-bottom: 25px;
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/*------------- Radio button for payment input -----------*/
+.auth_form input#id_payment_method_0
+{
+	display: none;
+}
+
+.auth_form #id_payment_method label::before {
+	content: '';
+	display: inline-block;
+	background-color: #ddd;
+	padding: 6px;
+	cursor: pointer;
+	border-radius: 50%;
+  }
+  
+.auth_form #id_payment_method label:has(> input#id_payment_method_0:checked)::before {
+	background: none;
+	padding: 3px;
+	border: 3px solid wheat;
+}
+
+.auth_form .form-select, .auth_form #id_payment_method label
+{
+	cursor: pointer;
+}
+
+.auth_form input[type="submit"]
+{
+	width: 40%;
+	color: rgb(136, 133, 133);
+	background: wheat;
+}
+
+.auth_form input[type="submit"]:hover,
+.auth_form input[type="submit"].btn-danger:hover
+{
+	background: inherit;
+}
+
+.auth_form input[type="submit"].btn-danger
+{
+	background: red;
+	color: #fff;
+}
+
+.btn.basket
+{
+	color: wheat;
+	border-radius: 10px;
+	border: 1px wheat solid;
+}
+
+.btn.basket:hover, .btn.basket.filled
+{
+	color: black;
+	background: wheat;
+	border: 1px wheat solid;
+	/* box-shadow: 0 0 5px wheat; */
+}
+
+.btn.basket.filled:hover
+{
+	/* box-shadow: none; */
+	background: rgba(245, 222, 179, 0.9);
+}
+
+a.btn-shop, a.btn-shop:hover
+{
+	text-decoration: none;
+	color: rgb(116, 91, 50);;
+}
+
+a.btn-shop:hover
+{
+	text-decoration: 1px solid rgb(116, 91, 50) underline;
+}
+
+.btn-shop ion-icon
+{
+	transform: translateY(-50%);
+	transition: .5s;
+}
+
+.btn-shop:hover ion-icon
+{
+	transform: translateX(-10px) translateY(-50%);
+}
+
+/*------------------ Checkout Cart Form ----------------*/
+.checkout-list li
+{
+	color: white;
+	background: none;
+	border-bottom: 1px rgba(245, 222, 179, 0.05) solid;
+	/* background: #141414; */
+	/* margin: 5px; */
+}
+
+.checkout-list:nth-last-child() li
+{
+	background: wheat;
+	border-bottom: none;
+}
+
+.checkout-list
+{
+	/* padding: 10px; */
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background: #141414;
+	border-radius: 20px;
+}
+
+
+
+                        /* Pagination */
+.pagination .page-item a
+{
+	background: black;
+	color: #969696;
+	/* border: none; */
+}
+
+.pagination .page-item.active a
+{
+	background: #33343a;
+	color: white;
+	border: 1px solid white;
+
+}
+
+.pagination .page-item a:hover
+{
+	background: #969696;
+	color: black;
+}
+
+.pagination .page-item .page-link span
+{
+	color: white;
+}
+
+.pagination .page-item.disabled .page-link span
+{
+	color: #969696;
+}
+
+
+
+  /* ---- Add and Remove Icons ---- */
+.plus-btn.btn,  .min-btn.btn
+{
+	color: #969696;
+}
+.plus-btn.btn:hover, .min-btn.btn:hover
+{
+	color: wheat;
+	cursor: pointer;
+}
