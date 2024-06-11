@@ -11,6 +11,7 @@
 }
 
 body {
+	position: relative;
 	background-color: var(--primary-bg-color);
 }
 
@@ -31,4 +32,11 @@ body {
 .btn.btn-primary:hover {
 	background-color: #312c28;
 	color: var(--primary-bg-color);
+}
+
+
+
+/*      Custom Classes      */
+.min-h-96 {
+	min-height: 24em;
 }

@@ -7,6 +7,11 @@
 	--tertiary-bg-color: #CBC6BE;
 }
 
+.navbar-custom {
+	position: absolute;
+	top: 0;
+}
+
 /*------------------------			 Hero Start		----------------------*/
 .hero {
 	display: flex;

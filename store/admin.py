@@ -1,12 +1,10 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from django.utils.translation import gettext as _
+from django.contrib import messages
 
 from .models import (
 	Category,
-	Brand,
-	Material,
-	ProductMaterial,
 	Product,
 	ProductSpecification,
 	ProductSpecificationValue,
@@ -17,45 +15,11 @@ from .models import (
 admin.site.register(ProductSpecification)
 
 
-# Brand Admin Model
-# @admin.register(GridCategory)
-# class GridCategoryAdmin(admin.ModelAdmin):
-# 	list_display = ["category_name", "slug", "is_active"]
-# 	prepopulated_fields = {"slug": ("category_name",)}
-# 	list_editable = [
-# 		"is_active",
-# 	]
-
-
-# Brand Admin Model
-@admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
-	list_display = ["name", "slug"]
-	prepopulated_fields = {"slug": ("name",)}
-
-
 # Category Model
+@admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin):
 	list_display = ["name", "slug"]
 	prepopulated_fields = {"slug": ("name",)}
-
-
-admin.site.register(Category, CategoryAdmin)
-
-
-# Material Model
-@admin.register(Material)
-class MaterialAdmin(admin.ModelAdmin):
-	list_display = ["name", "slug"]
-	prepopulated_fields = {"slug": ("name",)}
-
-
-# Material Inline Model
-class MaterialInline(admin.TabularInline):
-	model = ProductMaterial
-	fk_name = "item"
-	verbose_name = _("material")
-	verbose_name_plural = _("materials")
 
 
 # ProductSpecificationValue Inline Model
@@ -75,7 +39,6 @@ class ImageInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 	inlines = [
-		MaterialInline,
 		ProductSpecificationValueInline,
 		ImageInline,
 	]
@@ -104,17 +67,17 @@ class ProductAdmin(admin.ModelAdmin):
 	empty_value_display = "-empty-"
 
 
-# 	# @admin.action
-# 	# def make_active (self, request, queryset):
-# 	# 	queryset.update(active=True)
-# 	# 	messages.success(request, "Selected Record(s) Marked as Active Successfully !!")
+	@admin.action
+	def make_active (self, request, queryset):
+		queryset.update(active=True)
+		messages.success(request, "Selected Record(s) Marked as Active Successfully !!")
 
-# 	# @admin.action
-# 	# def make_inactive (self, request, queryset):
-# 	# 	queryset.update(active=False)
-# 	# 	messages.success(request, "Selected Record(s) Marked as Inactive Successfully !!")
+	@admin.action
+	def make_inactive (self, request, queryset):
+		queryset.update(active=False)
+		messages.success(request, "Selected Record(s) Marked as Inactive Successfully !!")
 
-# 	# actions = ['make_active', 'make_inactive']
+	actions = ['make_active', 'make_inactive']
 
 
 # Image Model
