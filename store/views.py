@@ -48,20 +48,20 @@ class CategoryListView (ListView):
         return context
 
 
-class FeaturedCategoryListView (ListView):
-    model = Product
-    queryset = Product.products.filter(category__in=Category.objects.filter(is_featured=True))
-    paginate_by = 12
-    template_name = 'store/products.html'
+# class FeaturedCategoryListView (ListView):
+#     model = Product
+#     queryset = Product.products.filter(category__in=Category.objects.filter(is_featured=True))
+#     paginate_by = 12
+#     template_name = 'store/products.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        wishlist_listings = []
-        if self.request.user.is_authenticated:
-            wishlist_listings = self.request.user.user_wishlist.all()
-        context['wishlist_listings'] = wishlist_listings
-        context['heading'] = 'Featured Products'
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         wishlist_listings = []
+#         if self.request.user.is_authenticated:
+#             wishlist_listings = self.request.user.user_wishlist.all()
+#         context['wishlist_listings'] = wishlist_listings
+#         context['heading'] = 'Featured Products'
+#         return context
 
 
 class MaterialListView (ListView):

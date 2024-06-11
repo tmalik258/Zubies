@@ -86,7 +86,7 @@ class Category (MPTTModel):
 		max_length=124,
 		unique=True
 	)
-	is_featured = models.BooleanField(default=False)
+	# is_featured = models.BooleanField(default=False)
 	slug = models.SlugField(verbose_name=_("Category Safe URL"), max_length=255, unique=True)
 	parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
