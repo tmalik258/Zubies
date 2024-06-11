@@ -5,7 +5,7 @@ from django.views.generic import DetailView, ListView, View
 from django.db.models import BooleanField, Case, When, Q
 
 # from .forms import ProductForm
-from .models import ProductImages, Product, Category, GridCategory, Brand
+from .models import ProductImages, Product, Category, Brand
 from account.models import User
 
 
@@ -21,7 +21,6 @@ class HomeView(ListView):
         if self.request.user.is_authenticated:
             wishlist_listings = self.request.user.user_wishlist.all()
         context['wishlist_listings'] = wishlist_listings
-        context['grid_categories'] = GridCategory.objects.filter(is_active=True).order_by('-id')
         return context
 
 

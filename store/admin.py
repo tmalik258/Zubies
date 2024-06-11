@@ -11,7 +11,6 @@ from .models import (
 	ProductSpecification,
 	ProductSpecificationValue,
 	ProductImages,
-	GridCategory,
 )
 
 # Register your models here.
@@ -19,13 +18,13 @@ admin.site.register(ProductSpecification)
 
 
 # Brand Admin Model
-@admin.register(GridCategory)
-class GridCategoryAdmin(admin.ModelAdmin):
-	list_display = ["category_name", "slug", "is_active"]
-	prepopulated_fields = {"slug": ("category_name",)}
-	list_editable = [
-		"is_active",
-	]
+# @admin.register(GridCategory)
+# class GridCategoryAdmin(admin.ModelAdmin):
+# 	list_display = ["category_name", "slug", "is_active"]
+# 	prepopulated_fields = {"slug": ("category_name",)}
+# 	list_editable = [
+# 		"is_active",
+# 	]
 
 
 # Brand Admin Model

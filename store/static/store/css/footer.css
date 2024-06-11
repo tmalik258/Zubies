@@ -1,0 +1,31 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+footer {
+	background-color: var(--tertiary-bg-color);
+	color: var(--primary-color);
+}
+
+.footer-rights {
+	background-color: var(--primary-color);
+	color: var(--primary-bg-color);
+}
+
+footer .subscribe {
+	box-shadow: 0px 4px 4px 0px #00000040;
+	height: 41px;
+	padding-inline: 1.5em;
+}
+
+footer .footer-link {
+	text-decoration: none;
+	color: var(--primary-color);
+}
+
+footer .footer-link:hover {
+	text-decoration: underline solid var(--primary-color);
+}

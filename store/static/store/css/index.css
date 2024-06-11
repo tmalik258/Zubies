@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Island+Moments&family=Sedan:ital@0;1&display=swap');
+
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+/*------------------------			 Hero Start		----------------------*/
+.hero {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 50px;
+
+	height: 100vh;
+	background-color: var(--tertiary-bg-color);
+	z-index: 10;
+}
+
+.hero .side {
+	border-radius: 20px;
+	background-color: var(--primary-color);
+	height: 95%;
+	width: 160px;
+	/* position: relative; */
+	/* top: 50%;
+	transform: translateY(-50%); */
+}
+
+.hero .wrapper {
+	position: relative;
+	width: 500px;
+	height: 500px;
+	z-index: 0;
+	margin-left: -8%;
+}
+
+.hero .wrapper .text {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+
+	padding: 10px;
+	background-color: #A39F9C;
+	box-shadow: 0px 4px 4px 0px #00000040;
+	/* width: 450px; */
+	height: 500px;
+	border-radius: 20px;
+}
+
+.hero .wrapper .text h1 {
+	font-size: 4em;
+}
+
+.hero .wrapper .text .box {
+	/* display: block; */
+	width: 180px;
+	box-shadow: 0px 4px 4px 0px #00000040;
+	height: 200px;
+	border-radius: 20px;
+	background: var(--primary-color);
+	position: absolute;
+	bottom: -25px;
+	right: -15px;
+	z-index: -1;
+}
+
+.hero .hero-image {
+	/* width: 1400px; */
+	height: 700px;
+	border-radius: 30px;
+	overflow: hidden;
+	object-fit: cover;
+	object-position: center;
+	position: relative;
+}
+
+.hero .hero-image img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+/*------------------------			 Hero End		----------------------*/
+
+
+/*------------------------			 Categories Start		----------------------*/
+.categories {
+	min-height: 75vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	gap: 0;
+	font-family: "Epilogue", sans-serif;
+}
+
+.categories-main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: -1rem;
+
+	/* margin-bottom: 1em;
+	padding-block: 4em; */
+	padding-inline: 5em;
+}
+
+
+.categories-main .item {
+	position: relative;
+    width: 200px;
+    min-width: 150px;
+	/* box-shadow: 0px 7px 10px #463f3a35;
+	border-radius: 50px; */
+}
+
+.categories-main .item.item-even {
+	flex: 1 1 calc(25% - 1rem);
+	z-index: 10;
+}
+
+.categories-main .item.item-odd {
+	flex: 1 1 calc(25% - 1rem);
+	margin-inline: -20px;
+}
+
+.categories-main .item.item-even img {
+	height: 270px;
+	box-shadow: 0px 7px 10px #463f3a35;
+	border-radius: 50px;
+}
+
+.categories-main .item.item-odd img {
+	height: 370px;
+	box-shadow: 0px 7px 10px #463f3a35;
+	border-radius: 50px;
+}
+
+.categories-main .item img {
+	width: 100%;
+    display: block;
+    border-radius: 50px;
+}
+
+.categories-main .item p {
+	/* position: absolute;
+    left: 50%;
+    transform: translateX(-50%); */
+	text-align: center;
+    padding: 0.5rem 1rem;
+	font-optical-sizing: auto;
+	font-weight: 200;
+	font-style: italic;
+	font-size: 3.5em;
+	color: #695f57;
+}
+
+.categories-main .item.item-odd p {
+    position: relative;
+	top: -460px;
+}
+
+.statement {
+    text-align: center;
+}
+
+.statement p {
+    font-size: 1.2rem;
+	font-weight: 700;
+	margin-top: -40px;
+}
+
+@media only screen and (max-width: 768px) {
+	.categories-main {
+		flex-direction: column;
+		padding-block: 0;
+		padding-inline: 0;
+		gap: 20px;
+	}
+	.categories-main .item {
+		width: 400px;
+	}
+	.categories-main .item.item-odd, .categories-main .item.item-even {
+        flex: 1 1 calc(50% - 0.5rem);
+    }
+}
+/*------------------------			 Categories End		----------------------*/
+
+
+/*------------------------			 Arrival Start		----------------------*/
+.arrival {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+.arrival .text {
+	transform: rotate(-90deg);
+	line-height: 1px;
+	margin-right: -80px;
+}
+
+.arrival .text h1 {
+	font-family: "Sedan", serif;
+	font-size: 4em;
+}
+
+.arrival .text p {
+	font-family: "Island Moments", cursive;
+	font-size: 3em;
+}
+
+.arrival .arrival-image {
+	border-radius: 20px;
+	flex-basis: 1100px;
+	height: 700px;
+	overflow: hidden;
+}
+
+.arrival .arrival-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/*------------------------			 Categories End		----------------------*/
