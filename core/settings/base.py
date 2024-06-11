@@ -143,4 +143,5 @@ BILLING_ADDRESS_SESSION_ID = "billing_address"
 DELIVERY_CHARGES_SESSION_ID = 'delivery_charges'
 
 
+# Facebook ID
 # FACEBOOK_PIXEL_CODE_ID = os.getenv("FACEBOOK_PIXEL_CODE_ID")
