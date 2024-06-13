@@ -1,0 +1,107 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	position: relative;
+	background-color: var(--primary-bg-color);
+}
+
+::-webkit-scrollbar {
+	background-color: var(--primary-bg-color);
+	width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--primary-color);
+}
+
+.btn.btn-primary {
+	background-color: var(--primary-color);
+	color: var(--primary-bg-color);
+}
+
+.btn.btn-primary:hover {
+	background-color: #312c28;
+	color: var(--primary-bg-color);
+}
+
+
+
+/*      Custom Classes      */
+.min-h-96 {
+	min-height: 24em;
+}
+
+/* 		Buttons			 */
+.btn.basket
+{
+	color: var(--primary-color);
+	border-radius: 10px;
+	border: 1px var(--primary-color) solid;
+}
+
+.btn.basket:hover, .btn.basket.filled
+{
+	color: var(--primary-bg-color);
+	background: var(--primary-color);
+	border: 1px var(--primary-color) solid;
+	/* box-shadow: 0 0 5px wheat; */
+}
+
+.btn.basket.filled:hover
+{
+	/* box-shadow: none; */
+	--primary-color: #322d29;
+	background: var(--primary-color);
+}
+
+a.btn-shop, a.btn-shop:hover
+{
+	text-decoration: none;
+	color: rgb(116, 91, 50);;
+}
+
+a.btn-shop:hover
+{
+	text-decoration: 1px solid rgb(116, 91, 50) underline;
+}
+
+.btn-shop ion-icon
+{
+	transform: translateY(-50%);
+	transition: .5s;
+}
+
+.btn-shop:hover ion-icon
+{
+	transform: translateX(-10px) translateY(-50%);
+}
+
+  /* ---- Add and Remove Icons ---- */
+.plus-btn.btn, .min-btn.btn
+{
+	color: #969696;
+}
+.plus-btn.btn:hover, .min-btn.btn:hover
+{
+	color: wheat;
+	cursor: pointer;
+}
+
+
+/*--------------- Basket Summary Start ---------------*/
+.product-item {
+	max-width: 60rem;
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;
+	color: wheat;
+}
+/*--------------- Basket Summary End ---------------*/

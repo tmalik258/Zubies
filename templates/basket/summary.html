@@ -4,21 +4,17 @@
 {% block title %}Basket Summary{% endblock %}
 
 {% block style %}
-<style>
-	.product-item {
-		max-width: 60rem;
-		box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;
-		color: wheat;
-	}
-</style>
+<!-- <style>
+	
+</style> -->
 {% endblock style %}
 
 {% block body %}
 	<div class="container pt-4">
 		<h1 class="h5 hstack gap-3">
-			<a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
+			<!-- <a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
 				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" id="logo_heading" alt="Sanwal Logo" width="50" height="45">
-			</a><div class="vr me-2"></div>
+			</a> -->
 			Your Shopping Basket
 		</h1>
 		{% if basket|length == 0 %}
@@ -46,9 +42,9 @@
 						{% endfor %}
 					</div>
 					<div class="col-5 col-sm-5 col-md-3 col-lg-2 m-md-auto">
-						<button class="plus-btn btn p-0" type="button" data-index="{{ product.key }}"><ion-icon name="add-outline"></ion-icon></button>
-						<span class="quantity">{{ item.qty }}</span>
 						<button type="button" class="min-btn btn p-0" data-index="{{ product.key }}"><ion-icon name="remove-outline"></ion-icon></button>
+						<span class="quantity">{{ item.qty }}</span>
+						<button class="plus-btn btn p-0" type="button" data-index="{{ product.key }}"><ion-icon name="add-outline"></ion-icon></button>
 					</div>
 					<div class="col-7 col-md-3 m-md-auto">
 						{% if item.discount_price %}
@@ -79,6 +75,8 @@
 {% endblock %}
 
 {% block script %}
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
 	// Quantity Change
 	$('.plus-btn').on('click', function (e) {

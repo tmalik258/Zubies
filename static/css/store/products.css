@@ -1,0 +1,118 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
+	-10px -10px 15px rgba(255, 255, 255, 0.05);
+}
+
+/*------------ Products Start -----------*/
+.products .row .card
+{
+	border-radius: 20px;
+	padding: 0;
+	/* width: 18em; */
+	font-size: larger;
+	border: none;
+	background-color: var(--secondary-bg-color);
+}
+
+.products .row .card .card-body del, .products .card del {
+	text-decoration-color: red;
+}
+
+.products .row .card a
+{
+    color: var(--text-color);
+	text-decoration: none;
+}
+
+.products .row .card a.wishlist_icon ion-icon {
+	font-size: 1.4rem;
+}
+
+.products .row .card .btn
+{
+	background: wheat;
+	color: black;
+	margin-top: 10px;
+}
+
+.products .row .card .btn:hover
+{
+	background: rgba(245, 222, 179, 0.8);
+}
+
+.products .row .card .product-img-container {
+	min-height: 15em;
+	border-radius: 20px;
+}
+/*------------ Products End -----------*/
+
+
+/*------------ Product Start -----------*/
+.product .card
+{
+	background: none;
+	border: none;
+	margin: auto;
+	font-size: larger;
+	margin-top: 2%;
+}
+
+.product .card .card-body
+{
+	text-align: justify;
+}
+
+.product .card .card-body button.plus-btn.btn,
+.product .card .card-body button.min-btn.btn {
+	color: rgb(34, 23, 4);
+}
+
+.product .card .card-body button.plus-btn.btn:hover,
+.product .card .card-body button.min-btn.btn:hover {
+	color: rgb(126, 87, 16);
+}
+/*------------ Product End -----------*/
+
+
+/*------------ Swiper Start -----------*/
+.products .swiper.itemImageSwiper, .product .swiper.itemImageSwiper {
+	max-height: 15em;
+	border-radius: 20px; 
+	overflow: hidden;
+	/* max-width: max-content; */
+}
+
+.product .swiper.itemImageSwiper {
+	max-height: fit-content;
+}
+
+.swiper.itemImageSwiper .swiper-slide {
+	text-align: center;
+}
+
+.swiper.itemImageSwiper .swiper-slide img {
+    width: 100%;
+	height: 100%;
+}
+
+.swiper.itemImageSwiper .swiper-slide img::selection {
+	background: none;
+}
+
+.products .row .card .swiper.itemImageSwiper .swiper-slide img {
+    max-height: 330px;
+}
+
+
+input[type="radio"] {
+	display: none;
+}
+
+label:has(> input[type="radio"]:checked) {
+	background: var(--primary-color);
+	color: var(--primary-bg-color);
+}

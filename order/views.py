@@ -1,24 +1,16 @@
 from django.contrib import messages
 from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import (
-	HttpResponseRedirect,
-	reverse,
 	redirect,
 	render,
 	get_object_or_404,
 )
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
 
 from .models import Order, OrderItem, OrderItemAttribute
 
 from store.models import Product, ProductSpecificationValue
 
-from account.models import User
-
-from address.forms import BillingForm
-from address.models import BillingAddress
 from address.billingaddress import Billing
 
 from basket.basket import Basket

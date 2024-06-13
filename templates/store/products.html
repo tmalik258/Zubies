@@ -6,57 +6,66 @@
 	{% if subheading %}
 		- {{ subheading | title }}
 	{% endif %}
-{% endblock %}
+{% endblock title %}
+
+{% block style %}
+	<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+{% endblock style %}
 
 {% block body %}
-<div class="container">
+<div class="container-fluid px-5">
 	<!-- <h1 class="text-center">
 		{{ heading | title }}
 		{% if subheading %}
 			- {{ subheading | title }}
 		{% endif %}
 	</h1> -->
-	<article class="products">
-		<div class="row g-4 my-2 justify-content-center">
+	<section class="products">
+		<div class="row g-4 g-xl-5 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mx-md-5 my-2">
 			{% for item in object_list %}
-				<div class="card">
-					<div class="row g-2">
+				<div class="col">
+					<div class="card h-100 p-2">
 						<a href="{{ item.get_absolute_url }}">
-							<div class="col-md-12 pb-2">
-								{% if item.img.first.image %}
-									<div class="swiper itemImageSwiper">
-										<div class="swiper-wrapper">
-											{% for image in item.img.all %}
-												<div class="swiper-slide">
-													<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" >
-												</div>
-											{% endfor %}
+							<div class="position-relative d-flex flex-column justify-content-between align-content-between h-100">
+								<div class="mt-2 px-2 product-img-container h-100">
+									{% if item.img.first.image %}
+										<div class="swiper itemImageSwiper">
+											<div class="swiper-wrapper">
+												{% for image in item.img.all %}
+													<div class="swiper-slide">
+														<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" >
+													</div>
+												{% endfor %}
+											</div>
 										</div>
-									</div>
-								{% else %}
-									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
-								{% endif %}
-							</div>
-							<div class="card-body text-center col-12 pt-0 position-relative">
-								<h3 class="card-title h5">{{ item.title | title }}</h3>
-								{% if item.discount_price %}
-									<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
-								{% else %}
-									Rs. {{ item.regular_price }}
-								{% endif %}
-								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute bottom-0 end-0 translate-middle">
-									{% if item in wishlist_listings %}
-										<ion-icon name="heart"></ion-icon>
 									{% else %}
-										<ion-icon name="heart-outline"></ion-icon>
+										<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+											No Image
+										</div>
 									{% endif %}
-								</a>
+								</div>
+								<div class="card-body position-relative">
+									<h3 class="card-title h5">{{ item.title | title }}</h3>
+									{% if item.discount_price %}
+										<del>Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
+									{% else %}
+										Rs. {{ item.regular_price }}
+									{% endif %}
+									<!-- <a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute text-success bottom-0 end-0 translate-middle">
+										{% if item in wishlist_listings %}
+											<ion-icon name="heart"></ion-icon>
+										{% else %}
+											<ion-icon name="heart-outline"></ion-icon>
+										{% endif %}
+									</a> -->
+								</div>
+							<!-- <div class="position-absolute"></div> -->
 							</div>
 						</a>
 					</div>
 				</div>
 			{% endfor %}
-			</col>
 		</div>
 								<!-- PAGINATION START -->
 		{% if is_paginated %}
@@ -103,6 +112,12 @@
 			</nav>
 		{% endif %}
 								<!-- PAGINATION END -->
-	</article>
+	</section>
 </div>
-{% endblock %}
+{% endblock body %}
+
+
+{% block script %}
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+	<script src="{% static 'js/store/products-swiper.js' %}"></script>
+{% endblock script %}

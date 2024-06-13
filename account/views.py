@@ -18,7 +18,7 @@ from .forms import (RegistrationForm, ProfileEditForm)
 from .token import account_activation_token
 
 # Store App
-# from store.models import Product
+from store.models import Product
 
 
 # Create your views here.
@@ -27,8 +27,8 @@ class WishlistView(LoginRequiredMixin, ListView):
 	template_name = 'account/user/wishlist.html'
 	paginate_by = 12
 
-	# def get_queryset(self, *kwargs):
-	# 	return Product.products.filter(user_wishlist=self.request.user)
+	def get_queryset(self, *kwargs):
+		return Product.products.filter(user_wishlist=self.request.user)
 	
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
