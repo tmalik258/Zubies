@@ -87,8 +87,8 @@ class CustomLoginView(LoginView):
 			next_url = self.request.GET.get('next')
 			if next_url != None:
 				return redirect(next_url)
-			# else:
-			# 	return redirect('store:index')
+			else:
+				return redirect('store:index')
 		return super().dispatch(request, *args, **kwargs)
 
 	def form_invalid(self, form):
@@ -100,7 +100,6 @@ class CustomLoginView(LoginView):
 				# Setup email
 				current_site = get_current_site(self.request)
 				subject = 'Activate your Account'
-				# user = self.request.user
 				message = render_to_string('account/registration/account_verification_resent_email.html', {
 					'user': user,
 					'domain': current_site.domain,
@@ -123,11 +122,12 @@ class CustomLoginView(LoginView):
 	def get_success_url(self):
 		# Get the value of the 'next' parameter from the request's GET parameters
 		next_url = self.request.GET.get('next')
+		messages.success(self.request, 'Yayy! You have successfully logged in.')
 
 		if next_url != None:
 			return next_url
-		# else:
-		# 	return reverse('store:index')
+		else:
+			return reverse('store:index')
 
 
 def register(request):
@@ -186,4 +186,4 @@ def account_activate(request, uid64, token):
 def logout_view(request):
     logout(request)
     messages.success(request, 'You have successfully logged out.')
-    # return redirect("store:index")
+    return redirect("store:index")

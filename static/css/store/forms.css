@@ -1,0 +1,93 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+.auth_form{
+	font-size: 1.2em;
+	/* color: var(--primary-color); */
+	/* box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5); */
+	/* border: 1px solid #463f3a18; */
+	background-color: var(--tertiary-bg-color);
+	border-radius: 20px;
+	padding-top: 20px;
+}
+
+.auth_form input, .auth_form .form-select, .auth_form input:focus, .auth_form textarea, .auth_form textarea:focus
+{
+	/* background: #141414; */
+	background-color: var(--primary-bg-color);
+	/* border: none; */
+	outline: none;
+	border-radius: 11px;
+	padding: 12px 20px;
+	/* color: var(--primary-bg-color); */
+	margin: 10px auto;
+	margin-bottom: 25px;
+	/* box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+	inset 5px 5px 15px rgba(0, 0, 0, 0.5); */
+}
+
+.auth_form input:disabled {
+	color: #adadad;
+	background: #141414;
+}
+
+.auth_form input::placeholder {
+	color: rgb(136, 133, 133);
+}
+
+/*------------- Radio button for payment input -----------*/
+.auth_form input#id_payment_method_0
+{
+	display: none;
+}
+
+.auth_form #id_payment_method label::before {
+	content: '';
+	display: inline-block;
+	background-color: #ddd;
+	padding: 6px;
+	cursor: pointer;
+	border-radius: 50%;
+  }
+  
+.auth_form #id_payment_method label:has(> input#id_payment_method_0:checked)::before {
+	background: none;
+	padding: 3px;
+	border: 3px solid var(--tertiary-bg-color);
+}
+
+.auth_form .form-select, .auth_form #id_payment_method label
+{
+	cursor: pointer;
+}
+
+.auth_form input[type="submit"]
+{
+	/* width: 40%; */
+	font-weight: 500;
+	font-size: 1.1em;
+	color: var(--primary-bg-color);
+	background: var(--primary-color);
+}
+
+.auth_form input[type="submit"]:hover
+{
+	/* color: #fff; */
+	--primary-color: #332e2a;
+	background: var(--primary-color);
+}
+
+.auth_form input[type="submit"].btn-danger
+{
+	background: rgb(203, 65, 65);
+	color: #fff;
+}
+
+.auth_form input[type="submit"].btn-danger:hover {
+	background: rgb(143, 46, 46);
+}

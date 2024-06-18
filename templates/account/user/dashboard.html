@@ -3,22 +3,27 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block style %}
+	<link rel="stylesheet" href="{% static 'css/account/card.css' %}">
+{% endblock style %}
+
 {% block body %}
-	<div class="container py-4" style="max-width: 1050px;">
+	<div class="container dashboard py-4">
 		<div class="hstack gap-3">
-			<a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
+			<!-- <a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
 				<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="Logo" width="50" height="45">
-			</a><div class="vr me-2"></div>
-			<div class="col">
+			</a> -->
+			<!-- <div class="col"> -->
 				<h1 class="h5 mb-0">Your Dashboard</h1>
+				<div class="vr"></div>
 				<div class="text-muted">Manage your orders and personal details</div>
-			</div>
+			<!-- </div> -->
 		</div>
 		<hr>
 		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 			<div class="col">
-				<a href="#" class="text-light text-decoration-none" role="button" style="max-width: 540px;">
-					<div class="card rounded-4 mb-3" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+				<a href="{% url 'order:orders-history' %}" class="text-light text-decoration-none" role="button" style="max-width: 540px;">
+					<div class="card rounded-4 mb-3">
 						<div class="row g-0">
 							<div class="col-3 position-relative">
 								<div class="position-absolute top-50 start-50 translate-middle">
@@ -37,7 +42,7 @@
 			</div>
 			<div class="col">
 				<a href="{% url 'account:edit_details' %}" class="text-light text-decoration-none" role="button" style="max-width: 540px;">
-					<div class="card rounded-4 mb-3" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+					<div class="card rounded-4 mb-3">
 						<div class="row g-0">
 							<div class="col-3 position-relative">
 								<div class="position-absolute top-50 start-50 translate-middle">
@@ -56,7 +61,7 @@
 			</div>
 			<div class="col">
 				<a href="{% url 'address:addresses' %}" class="text-light text-decoration-none" role="button" style="max-width: 540px;">
-					<div class="card rounded-4 mb-3" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+					<div class="card rounded-4 mb-3">
 						<div class="row g-0">
 							<div class="col-3 position-relative">
 								<div class="position-absolute top-50 start-50 translate-middle">
@@ -73,9 +78,9 @@
 					</div>
 				</a>
 			</div>
-			<div class="col">
+			<!-- <div class="col">
 				<a href="{% url 'account:wishlist' %}" class="text-light text-decoration-none" role="button" style="max-width: 540px;">
-					<div class="card rounded-4 mb-3" style="box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;">
+					<div class="card rounded-4 mb-3">
 						<div class="row g-0">
 							<div class="col-3 position-relative">
 								<div class="position-absolute top-50 start-50 translate-middle">
@@ -91,7 +96,12 @@
 						</div>
 					</div>
 				</a>
-			</div>
+			</div> -->
 		</div>
 	</div>
 {% endblock %}
+
+{% block script %}
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+{% endblock script %}

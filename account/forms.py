@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.forms import (AuthenticationForm, SetPasswordForm, PasswordResetForm)
+from django.contrib.auth.forms import (AuthenticationForm, SetPasswordForm, PasswordResetForm, UserCreationForm)
 
 from .models import User
 
@@ -22,11 +22,11 @@ class LoginForm(AuthenticationForm):
 	))
 
 
-class RegistrationForm(forms.ModelForm):
-	username = forms.CharField(label='Username', min_length=4, max_length=50, help_text='Required')
-	email = forms.EmailField(max_length=100, help_text='Required', error_messages={'required': 'Sorry, you will need an email address'})
-	password = forms.CharField(label='Password', widget=forms.PasswordInput(), help_text='At least 8 characters and 1 digit')
-	password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
+class RegistrationForm(UserCreationForm):
+	# username = forms.CharField(label='Username', min_length=4, max_length=50, help_text='Required')
+	# email = forms.EmailField(max_length=100, help_text='Required', error_messages={'required': 'Sorry, you will need an email address'})
+	# password = forms.CharField(label='Password', widget=forms.PasswordInput(), help_text='At least 8 characters and 1 digit')
+	# password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
 	class Meta:
 		model = User
 		fields = ('username', 'email', 'first_name', 'last_name')
@@ -39,11 +39,11 @@ class RegistrationForm(forms.ModelForm):
 			raise forms.ValidationError('Username already exists')
 		return username
 
-	def cleaned_password2(self):
-		cd = self.cleaned_data
-		if c['password'] != cd['password2']:
-			raise forms.ValidationError('Passwords do not match.')
-		return cd['password2']
+	# def cleaned_password2(self):
+	# 	cd = self.cleaned_data
+	# 	if cd['password1'] != cd['password2']:
+	# 		raise forms.ValidationError('Passwords do not match.')
+	# 	return cd['password2']
 
 	def cleaned_email(self):
 		email = self.cleaned_data['email']
@@ -66,17 +66,19 @@ class RegistrationForm(forms.ModelForm):
 			'name': 'email'
 		})
 		self.fields['first_name'].widget.attrs.update({
+			'class': 'w-100',
 			'placeholder': 'First Name'
 		})
 		self.fields['last_name'].widget.attrs.update({
+			'class': 'w-100',
 			'placeholder': 'Last Name'
 		})
-		self.fields['password'].widget.attrs.update({
-			'class': 'form-control',
+		self.fields['password1'].widget.attrs.update({
+			'class': 'form-control mb-2',
 			'placeholder': 'Password'
 		})
 		self.fields['password2'].widget.attrs.update({
-			'class': 'form-control',
+			'class': 'form-control mb-2',
 			'placeholder': 'Repeat Password'
 		})
 
@@ -120,12 +122,12 @@ class PwdResetConfirmForm(SetPasswordForm):
 class ProfileEditForm(forms.ModelForm):
 
 	email = forms.EmailField(
-		label='Account email', max_length=200, widget=forms.EmailInput(
+		label='Email', max_length=200, widget=forms.EmailInput(
 			attrs={
 				'class': 'form-control mb-3',
 				'placeholder': 'email',
 				'id': 'form-email',
-				'readonly': 'readonly'
+				'disabled': 'true'
 			}
 		)
 	)
@@ -135,7 +137,7 @@ class ProfileEditForm(forms.ModelForm):
 				'class': 'form-control mb-3',
 				'placeholder': 'Username',
 				'id': 'form-username',
-				'readonly': 'readonly'
+				'disabled': 'true'
 			}
 		)
 	)

@@ -1,0 +1,15 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+.dashboard {
+	max-width: 1050px;
+}
+
+.row .card {
+	/* box-shadow: inset -5px -5px 10px var(--primary-bg-color), inset 5px 5px 15px var(--primary-bg-color); */
+	background-color: var(--secondary-bg-color);
+}

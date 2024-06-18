@@ -9,18 +9,18 @@ app_name = 'account'
 
 urlpatterns = [
 	# login
-	path("login", views.CustomLoginView.as_view(
+	path("login/", views.CustomLoginView.as_view(
 		template_name='account/user/login.html', 
 		form_class=LoginForm
 	), name="login"),
 	# logout
-	path("logout", views.logout_view, name="logout"),
+	path("logout/", views.logout_view, name="logout"),
 	# register
 	path('register/', views.register, name='register'),
 	# account activation
 	path('activate/<slug:uid64>/<slug:token>/', views.account_activate, name='activate'),
 	# password reset
-	path('password_reset', PasswordResetView.as_view(
+	path('password_reset/', PasswordResetView.as_view(
 		template_name='account/pwd_reset/password_reset.html',
 		success_url='password_reset/password_reset_email_confirm/',
 		email_template_name='account/pwd_reset/password_reset_email.html',
@@ -53,5 +53,5 @@ urlpatterns = [
 	path('profile/delete_confirm/', TemplateView.as_view(template_name='account/user/delete_confirm.html'), name='delete_confirm'),
 	# wishlist
 	path('wishlist/', views.WishlistView.as_view(), name="wishlist"),
-	path('wishlist/add_to_wishlist/<slug:slug>', views.Add_to_wishlist_view, name="add-to-wishlist"),
+	path('wishlist/add_to_wishlist/<slug:slug>/', views.Add_to_wishlist_view, name="add-to-wishlist"),
 ]

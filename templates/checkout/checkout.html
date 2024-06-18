@@ -1,14 +1,10 @@
 {% extends 'store/layout.html' %}
+{% load static %}
 
 {% block title %}Checkout{% endblock %}
 
 {% block style %}
-<style>
-	.title+small,
-	.title+small+span {
-		color: wheat;
-	}
-</style>
+	<link rel="stylesheet" href="{% static 'css/store/forms.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -19,12 +15,12 @@
 				<div class="row row-cols-1">
 					<div class="col">
 						<h3 class="d-flex justify-content-between align-items-center mb-3">
-							<span style="color: wheat;">Delivery Options</span>
+							<span>Delivery Options</span>
 						</h3>
 						<ul class="list-group py-2 px-2 mb-3 checkout-list rounded-4">
 							{% for option in delivery_options %}
 								<li class="list-group-item d-flex justify-content-between lh-sm">
-									<label class="d-flex gap-3" for="id_{{ option.id }}" style="color: wheat;">
+									<label class="d-flex gap-3" for="id_{{ option.id }}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-truck m-auto" viewBox="0 0 16 16">
 											<path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
 										  </svg>
@@ -42,8 +38,8 @@
 					</div>
 					<div class="col">
 						<h3 class="d-flex justify-content-between align-items-center mb-3">
-							<span style="color: wheat;">Your cart</span>
-							<span class="badge rounded-pill" style="background: wheat; color: initial;">
+							<span>Your cart</span>
+							<span class="badge rounded-pill btn basket filled">
 								{% with total_qty=basket|length %}
 								<span class="basket-qty d-inline-flex">{{ total_qty }}</span>
 								{% endwith %}
@@ -61,7 +57,7 @@
 							</li>
 							{% endwith %}
 							{% endfor %}
-							<li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+							<li class="list-group-item d-flex justify-content-between">
 								<span>Sub Total (PKR)</span>
 								<strong>Rs. {{ basket.get_before_discount_subtotal_price }}</strong>
 							</li>
@@ -80,17 +76,17 @@
 								<span class="text-danger">Rs. {{ basket.get_discount_price }}</span>
 								{% endif %}
 							</li>
-							<li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+							<li class="list-group-item d-flex justify-content-between">
 								<div class="text-warning">
 									<h6 class="my-0">Delivery Charges</h6>
 								</div>
 								<span class="text-warning" id="dc_value">Rs. 0.0</span>
 							</li>
-							<li class="list-group-item d-flex justify-content-between" style="color: wheat;">
+							<li class="list-group-item d-flex justify-content-between">
 								<span>Total (PKR)</span>
 								<strong id="total_price">Rs. {{ basket.get_total_price }}</strong>
 							</li>
-							<li class="list-group-item border border-0 d-flex justify-content-between" style="color: wheat;">
+							<li class="list-group-item border border-0 d-flex justify-content-between">
 								{% if not form %}
 									<a href="{% url 'order:order-placement' %}" id="confirm_order" class="w-75 mt-2 m-auto"><button class="btn basket w-100" role="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</button></a>
 								{% endif %}
@@ -107,7 +103,7 @@
 				<div class="container">
 					<div class="row ">
 						<h3 class="d-flex justify-content-between align-items-center mb-3">
-							<span style="color: wheat;">Billing Address</span>
+							Billing Address
 						</h3>
 						<div class="auth_form col-12 col-lg-11">
 							<form action="" class="rounded mx-auto p-4 col-lg-11" method="post">
@@ -200,7 +196,7 @@
 		{% else %}
 		<div class="col-12 col-sm-6 col-md-5 me-lg-0 p-0 order-first mt-4 m-auto">
 			<h3 class="d-flex justify-content-between align-items-center mb-3">
-				<span style="color: wheat;">Your Default Address</span>
+				<span>Your Default Address</span>
 				<!-- <span class="badge rounded-pill" style="background: wheat; color: initial;">
 					<span class="basket-qty d-inline-flex">Label</span>
 				</span> -->

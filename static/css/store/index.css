@@ -12,6 +12,12 @@
 	top: 0;
 }
 
+.alert-custom {
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+}
+
 /*------------------------			 Hero Start		----------------------*/
 .hero {
 	display: flex;

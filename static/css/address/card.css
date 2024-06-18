@@ -1,0 +1,37 @@
+:root {
+	--primary-color: #463F3A;
+	--primary-bg-color: #F4F3EE;
+	--secondary-bg-color: #BCB8B159;
+	--tertiary-bg-color: #CBC6BE;
+}
+
+.row .card {
+	/* box-shadow: inset -5px -5px 10px var(--primary-bg-color), inset 5px 5px 15px var(--primary-bg-color); */
+	background-color: var(--secondary-bg-color);
+	color: var(--primary-color);
+	font-size: 1.2em;
+}
+
+.row .card.default
+{
+	border: 1px solid var(--primary-color);
+}
+
+.row .card a
+{
+	margin: 0;
+    color: var(--primary-color);
+	font-weight: 600;
+	text-decoration: none;
+	transition: 0.2s color;
+}
+
+.row .card a:hover
+{
+	color: rgb(170, 169, 168);
+}
+
+.add-address {
+	max-width: 540px;
+	min-height: 17.81em;
+}
