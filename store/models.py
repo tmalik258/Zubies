@@ -1,17 +1,18 @@
 from django.conf import settings
 from django.db import models
-from django.core.files.storage import default_storage
-from django.shortcuts import reverse
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from mptt.models import MPTTModel, TreeForeignKey
-# Image Resize and Upload
-from PIL import Image as PillowImage
-from io import BytesIO
 from django.core.files.base import ContentFile
 from django.utils.safestring import mark_safe
 from django.utils.crypto import get_random_string
 from django.utils import timezone
+
+from mptt.models import MPTTModel, TreeForeignKey
+
+# Image Resize and Upload
+from PIL import Image as PillowImage
+from io import BytesIO
 
 
 # Model Managers
@@ -56,13 +57,23 @@ class Category (MPTTModel):
 			self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
+class Material (models.Model):
+	"""
+	Product made by which material
+	"""
+
+	name = models.CharField(verbose_name=_("Material Name"), help_text=_("Required"), max_length=255)
+
+	def __str__(self):
+		return self.name
+
 
 class ProductSpecification(models.Model):
 	"""
 	The Product Specification Table contains product specification of features for the product types
 	"""
 
-	name = models.CharField(verbose_name=_("Name"), help_text=_("Required"), max_length=255)
+	name = models.CharField(verbose_name=_("Attribute Name"), help_text=_("Required"), max_length=255)
 	
 
 	class Meta:
@@ -72,9 +83,6 @@ class ProductSpecification(models.Model):
 	def __str__(self):
 		return self.name
 
-	def get_absolute_url(self):
-		return reverse("productspecification_detail", kwargs={"slug": self.slug})
-
 
 class ProductSpecificationValue(models.Model):
 	"""
@@ -83,7 +91,7 @@ class ProductSpecificationValue(models.Model):
 	
 	product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="specification")
 	specification = models.ForeignKey("ProductSpecification", on_delete=models.CASCADE)
-	value = models.CharField(verbose_name=_("value"), max_length=255, help_text=_("Product Specification Value (maximum of 255 characters)"))
+	value = models.CharField(verbose_name=_("Attribute Value"), max_length=255, help_text=_("Product Specification Value (maximum of 255 characters)"))
 
 
 	class Meta:
@@ -100,6 +108,7 @@ class Product (models.Model):
 	"""
 
 	title = models.CharField(max_length=255, unique=True, help_text=_("Required"))
+	slug = models.SlugField(max_length=255, unique=True)
 	regular_price = models.DecimalField(verbose_name=_("Regular Price"), max_digits=10, decimal_places=2, help_text=_("Maximum 99999999.99"), error_messages={
 		"name": {
 			"max_length": _("The price must be between 0 and 99999999.99."),
@@ -111,21 +120,24 @@ class Product (models.Model):
 		},
 	}, blank=True, null=True)
 	description = models.TextField(help_text=_("Required"))
+	sku = models.CharField(default='123', max_length=124)
 	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
-	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
-	in_stock = models.BooleanField(default=True)
+	material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
 	weight = models.IntegerField(default=0)
-	time_created = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True, editable=False)
-	updated = models.DateTimeField(verbose_name=_("Updated At"), auto_now=True)
-	slug = models.SlugField(max_length=255, unique=True)
+	stock = models.IntegerField(default=0)
+	in_stock = models.BooleanField(default=True)
+	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
 	user_wishlist = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_wishlist', blank=True)
+	created = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True, editable=False)
+	updated = models.DateTimeField(verbose_name=_("Updated At"), auto_now=True)
+
 	objects = models.Manager()
 	products = ProductManager()
 
 	class Meta:
 		verbose_name = _("Product")
 		verbose_name_plural = _("Products")
-		ordering = ('-time_created',)
+		ordering = ('-created',)
 
 	def __str__(self):
 		return self.title
@@ -147,6 +159,8 @@ class Product (models.Model):
 		if self.slug == '':
 			value = self.title.replace(" ", "-")
 			self.slug = slugify(value, allow_unicode=True)
+		if self.stock == 0:
+			self.in_stock = False
 		super().save(*args, **kwargs)
 
 
@@ -176,23 +190,23 @@ class ProductImages (models.Model):
 	image_tag.short_description = 'Image'
 
 
-	# def save(self, *args, **kwargs):
-	# 	img = PillowImage.open(self.image)
-	# 	# Resize image
-	# 	output_size = (800, 800)
-	# 	img.thumbnail(output_size)
+	def save(self, *args, **kwargs):
+		img = PillowImage.open(self.image)
+		# Resize image
+		output_size = (800, 800)
+		img.thumbnail(output_size)
 
-	# 	# Save the resized image to a BytesIO buffer
-	# 	output_buffer = BytesIO()
-	# 	img.save(output_buffer, format='WebP')
-	# 	output_buffer.seek(0)
+		# Save the resized image to a BytesIO buffer
+		output_buffer = BytesIO()
+		img.save(output_buffer, format='WebP')
+		output_buffer.seek(0)
 
-	# 	# Generate a unique name for the image
-	# 	random_string = get_random_string(length=8)
-	# 	timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-	# 	filename = f'{random_string}_{timestamp}.webp'
+		# Generate a unique name for the image
+		random_string = get_random_string(length=8)
+		timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+		filename = f'{random_string}_{timestamp}.webp'
 
-	# 	# Save the buffer content to the image field with the unique filename
-	# 	self.image.save(filename, ContentFile(output_buffer.read()), save=False)
+		# Save the buffer content to the image field with the unique filename
+		self.image.save(filename, ContentFile(output_buffer.read()), save=False)
 
-	# 	super().save(*args, **kwargs)
+		super().save(*args, **kwargs)

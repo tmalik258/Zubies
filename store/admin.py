@@ -45,12 +45,13 @@ class ProductAdmin(admin.ModelAdmin):
 	list_display = (
 		"title",
 		"regular_price",
-		"slug",
 		"discount_price",
+		'sku',
+		'stock',
 		"in_stock",
 		"is_active",
 		"category",
-		"time_created",
+		"created",
 		"updated",
 		"image_tag",
 	)
@@ -60,9 +61,9 @@ class ProductAdmin(admin.ModelAdmin):
 		"in_stock",
 		"is_active",
 		"category",
-		"time_created",
+		"created",
 	)
-	list_editable = ["regular_price", "discount_price", "is_active", "in_stock"]
+	list_editable = ["regular_price", "discount_price", "stock", "is_active"]
 	prepopulated_fields = {"slug": ("title",)}
 	empty_value_display = "-empty-"
 
