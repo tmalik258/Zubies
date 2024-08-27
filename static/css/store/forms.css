@@ -1,9 +1,11 @@
-:root {
-	--primary-color: #463F3A;
-	--primary-bg-color: #F4F3EE;
-	--secondary-bg-color: #BCB8B159;
-	--tertiary-bg-color: #CBC6BE;
-}
+/* :root {
+	--primary-color: #463f3a;
+	--secondary-color: #f4f3ee;
+	--primary-bg-color: #f4f3ee;
+	--secondary-bg-color: #463f3a;
+	--secondary-bg-color--transparent: #bcb8b159;
+	--tertiary-bg-color: #cbc6be;
+} */
 
 .auth_form{
 	font-size: 1.2em;

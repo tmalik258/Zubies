@@ -10,9 +10,9 @@ urlpatterns = [
 	# Category Url
 	path('category/<slug:category_slug>/', views.CategoryListView.as_view(), name='products-by-category'),
 	# Features Url
-	# path('?featured-products', views.FeaturedCategoryListView.as_view(), name='product-by-featured-categories'),
+	path('featured-products/<slug:featured_slug>/', views.FeaturedCategoryListView.as_view(), name='product-by-featured-categories'),
 	# Material Url
-	path('material/<slug:material_slug>/', views.MaterialListView.as_view(), name='products-by-material'),
+	# path('material/<slug:material_slug>/', views.MaterialListView.as_view(), name='products-by-material'),
 	# # Brand Url
 	# path('brands/', views.BrandsListView.as_view(), name='products-by-brands'),
 	# # Brand Individual Url

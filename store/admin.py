@@ -5,6 +5,8 @@ from django.contrib import messages
 
 from .models import (
 	Category,
+	FeaturedCategory,
+	Material,
 	Product,
 	ProductSpecification,
 	ProductSpecificationValue,
@@ -20,6 +22,17 @@ admin.site.register(ProductSpecification)
 class CategoryAdmin(MPTTModelAdmin):
 	list_display = ["name", "slug"]
 	prepopulated_fields = {"slug": ("name",)}
+
+# Featured Category Model
+@admin.register(FeaturedCategory)
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ["name", "slug"]
+	prepopulated_fields = {"slug": ("name",)}
+
+# Material Model
+@admin.register(Material)
+class MaterialAdmin(admin.ModelAdmin):
+	list_display = ["name"]
 
 
 # ProductSpecificationValue Inline Model

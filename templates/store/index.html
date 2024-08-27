@@ -8,7 +8,22 @@
 
 {% block body %}
 
-    <!-- Hero Start -->
+	<!-- Arrival Start -->
+	<div class="container-fluid arrival">
+		<div class="text">
+			<h1 class="animate-text">New Arrivals</h1>
+			<p class="animate-text">We know you'll love!</p>
+		</div>
+		<div class="arrival-image">
+			<img src="{% static 'img/carousel/arrival.webp' %}" alt="New Arrivals">
+		</div>
+	</div>
+	<!-- Arrival End -->
+
+    
+
+
+	<!-- Hero Start -->
     <div class="container-fluid hero py-5 pe-lg-5">
         <div class="side"></div>
         <div class="wrapper">
@@ -25,10 +40,8 @@
     </div>
     <!-- Hero End -->
 
-    
-
-    <!-- Categories Start -->
-    <div class="container-fluid categories">
+	<!-- Categories Start -->
+    <div class="container-fluid categories mb-5">
         <div class="categories-main">
             <div class="item item-even">
                 <img src="{% static 'img/cat-stilettos.png' %}" alt="Stilettos">
@@ -52,18 +65,21 @@
         </div>
     </div>
     <!-- Categories End -->
-
-
-    <!-- Arrival Start -->
-    <div class="container-fluid arrival">
-        <div class="text">
-            <h1>New Arrivals</h1>
-            <p>We know you'll love!</p>
-        </div>
-        <div class="arrival-image">
-            <img src="{% static 'img/arrival.png' %}" alt="New Arrivals">
-        </div>
-    </div>
-    <!-- Arrival End -->
+    
 
 {% endblock body %}
+
+
+{% block script %}
+
+	<script src="{% static 'js/store/index.js' %}" data-rel-js></script>
+	<script>
+		const textOptions = [
+        { h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/carousel/arrival.webp' %}" },
+        { h1: "Seasoned Picks", p: "Perfect for the season.", img: "{% static 'img/carousel/seasoned.webp' %}" },
+        { h1: "Most Loved", p: "Fan favorites!", img: "{% static 'img/carousel/featured.webp' %}" },
+        { h1: "Big Discounts", p: "Deals you can't miss!", img: "{% static 'img/carousel/discount2.webp' %}" },
+    ];
+
+	</script>
+{% endblock script %}
