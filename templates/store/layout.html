@@ -7,7 +7,7 @@
     <head>
 	{% fpc %}
         <meta charset="utf-8">
-        <title>Welcome</title>
+        <title>ZUBIES &#8482; Official Store</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <!-- <meta content="Free HTML Templates" name="keywords">
         <meta content="Free HTML Templates" name="description"> -->
@@ -31,7 +31,14 @@
         <link href="{% static 'css/store/style.css' %}" rel="stylesheet">
         <link href="{% static 'css/store/navbar.css' %}" rel="stylesheet">
         <link href="{% static 'css/store/footer.css' %}" rel="stylesheet">
-
+		<style type="text/css">
+			@font-face {
+				font-family: "engravers";
+				src: local('engravers'), url("{% static 'fonts/Engravers_MT_Regular.ttf' %}") format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+		</style>
         {% block style %}
         {% endblock style %}
     </head>

@@ -213,11 +213,6 @@
 	font-size: 3em;
 }
 
-/* .arrival .text .animate-text {
-	display: inline-block;
-	overflow: hidden;
-} */
-
 .arrival .text .animate-text .letter {
 	display: inline-block;
     transform: translate3d(2em, 100%, 0);
@@ -232,7 +227,6 @@
 
 .arrival .arrival-image {
 	transform: translate3d(10em, 0, 0);
-	/* visibility: hidden; */
 	opacity: 0;
 	border-radius: 20px;
 	flex-basis: 1100px;
@@ -246,14 +240,89 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	/* object-position: center; */
 }
 
 
 .arrival .arrival-image.visible {
 	transform: translate3d(0, 0, 0);
-	/* visibility: visible; */
 	opacity: 1;
 }
 
-/*------------------------			 Categories End		----------------------*/
+/*------------------------			 Arrival End		----------------------*/
+
+
+/*------------------------			 Catalog Start		----------------------*/
+.catalog {
+	display: flex;
+	flex-direction: column;
+}
+
+/* .catalog h1, p {
+	grid-column: 1 / span 3;
+} */
+
+.catalog h1 {
+	border: 1px solid;
+	border-top: 0;
+	font-family: "engravers", serif;
+	letter-spacing: -12px;
+	font-size: 11.5vw;
+	/* text-align: center; */
+}
+
+.catalog p {
+	border: 1px solid;
+	border-bottom: 0;
+	font-family: "Island Moments", cursive;
+	text-align: end;
+	font-size: 3em;
+	order: -1;
+	margin-bottom: -1em;
+	padding-right: .5em;
+}
+
+.catalog .catalog-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1em;
+	margin-top: 3em;
+}
+
+.catalog .catalog-grid .catalog-grid-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.catalog .catalog-grid .catalog-grid-item {
+	overflow: hidden;
+}
+
+.catalog .catalog-grid .catalog-grid-item:nth-of-type(1) {
+	border-top-left-radius: 20em;
+}
+
+.catalog .catalog-grid .catalog-grid-item:nth-of-type(3) {
+	border-top-right-radius: 20em;
+}
+
+.catalog .catalog-grid .catalog-grid-item:last-child {
+	display: flex;
+	align-items: flex-end;
+}
+
+.catalog .catalog-grid .catalog-grid-item .btn-explore {
+	width: 100%;
+	border: 1px solid var(--secondary-bg-color);
+	border-radius: 0;
+	background: none;
+	padding: .7em;
+	font-size: 1.7em;
+}
+
+.catalog .catalog-grid .catalog-grid-item .btn-explore:hover {
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-color);
+}
+
+/*------------------------			 Catalog End		----------------------*/
