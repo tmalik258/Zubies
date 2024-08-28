@@ -1,28 +1,16 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 
-# from .forms import ProductForm
-from .models import ProductImages, Product, Category
+from .models import Product, Category
 
 
 # Create your views here.
-class HomeView(ListView):
-    model = Category
-    queryset = Category.objects.filter(level=1, posts__is_active=True).distinct().order_by("name")
+class HomeView(TemplateView):
     template_name = 'store/index.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        wishlist_listings = []
-        if self.request.user.is_authenticated:
-            wishlist_listings = self.request.user.user_wishlist.all()
-        context['wishlist_listings'] = wishlist_listings
-        return context
 
-
-def AboutUsView(request):
-    return render(request, 'store/about_us.html')
+class AboutView(TemplateView):
+    template_name = 'store/about_us.html'
 
 
 class CategoryListView (ListView):
@@ -59,30 +47,11 @@ class FeaturedCategoryListView (ListView):
 		if self.request.user.is_authenticated:
 			wishlist_listings = self.request.user.user_wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
-		context['heading'] = 'Featured Products'
+		context['heading'] = self.kwargs['category_slug']
 		return context
 
 
-# class MaterialListView (ListView):
-#     model = Product
-#     paginate_by = 12
-#     template_name = 'store/products.html'
-
-#     def get_queryset(self, **kwargs):
-#         qs = Product.products.all()
-#         return qs.filter(material__material__slug=self.kwargs['material_slug'])
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         wishlist_listings = []
-#         if self.request.user.is_authenticated:
-#             wishlist_listings = self.request.user.user_wishlist.all()
-#         context['wishlist_listings'] = wishlist_listings
-#         context['heading'] = self.kwargs['material_slug']
-#         return context
-
-
-class ItemDetailView (DetailView):
+class ProductDetailView (DetailView):
     model = Product
     template_name = 'store/product.html'
 

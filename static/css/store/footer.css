@@ -1,33 +1,36 @@
 :root {
-	--primary-color: #463f3a;
+	/* --primary-color: #463f3a; */
+	--primary-color: #000;
 	--secondary-color: #f4f3ee;
 	--primary-bg-color: #f4f3ee;
-	--secondary-bg-color: #463f3a;
-	--secondary-bg-color--transparent: #bcb8b159;
+	--secondary-bg-color: #000;
+	/* --secondary-bg-color: #463f3a; */
+	/* --secondary-bg-color--transparent: #bcb8b159; */
+	--secondary-bg-color--transparent: #00000059;
 	--tertiary-bg-color: #cbc6be;
 }
 
 footer {
-	background-color: var(--tertiary-bg-color);
-	color: var(--primary-color);
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-color);
 }
 
 .footer-rights {
-	background-color: var(--primary-color);
-	color: var(--primary-bg-color);
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-color);
 }
 
 footer .subscribe {
-	box-shadow: 0px 4px 4px 0px #00000040;
+	/* box-shadow: 0px 4px 4px 0 var(--primary-bg-color); */
 	height: 41px;
 	padding-inline: 1.5em;
 }
 
 footer .footer-link {
 	text-decoration: none;
-	color: var(--primary-color);
+	color: var(--secondary-color);
 }
 
 footer .footer-link:hover {
-	text-decoration: underline solid var(--primary-color);
+	text-decoration: underline solid var(--secondary-color);
 }

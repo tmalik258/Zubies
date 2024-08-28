@@ -33,7 +33,7 @@ class Category (MPTTModel):
 		unique=True
 	)
 	# is_featured = models.BooleanField(default=False)
-	slug = models.SlugField(verbose_name=_("Category Safe URL"), max_length=255, unique=True)
+	slug = models.SlugField(verbose_name=_("Category Safe URL"), max_length=255, unique=True, editable=False)
 	parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
 	class MPTTMeta:
@@ -52,9 +52,8 @@ class Category (MPTTModel):
 		})
 	
 	def save (self, *args, **kwargs):
-		if self.slug == '':
-			value = self.name.replace(" ", "-")
-			self.slug = slugify(value, allow_unicode=True)
+		value = self.name.replace(" ", "-")
+		self.slug = slugify(value, allow_unicode=True)
 		super().save(*args, **kwargs)
 
 class FeaturedCategory (models.Model):
@@ -62,7 +61,7 @@ class FeaturedCategory (models.Model):
 	Featured Categories for products like seasoned, new articles, best-selling
 	"""
 	name = models.CharField(verbose_name=_("Featured Category Name"), help_text=_("Required"), max_length=255)
-	slug = models.SlugField(verbose_name=_("Featured Category Safe URL"), max_length=255, unique=True)
+	slug = models.SlugField(verbose_name=_("Featured Category Safe URL"), max_length=255, unique=True, editable=False)
 
 	class Meta:
 		verbose_name = _("Featured Category")
@@ -75,6 +74,11 @@ class FeaturedCategory (models.Model):
 		return reverse('store:product-by-featured-categories', kwargs={
 			'featured_slug': self.slug
 		})
+
+	def save (self, *args, **kwargs):
+		value = self.name.replace(" ", "-")
+		self.slug = slugify(value, allow_unicode=True)
+		super().save(*args, **kwargs)
 
 
 class Material (models.Model):
@@ -128,7 +132,7 @@ class Product (models.Model):
 	"""
 
 	title = models.CharField(max_length=255, unique=True, help_text=_("Required"))
-	slug = models.SlugField(max_length=255, unique=True)
+	slug = models.SlugField(max_length=255, unique=True, editable=False)
 	regular_price = models.DecimalField(verbose_name=_("Regular Price"), max_digits=10, decimal_places=2, help_text=_("Maximum 99999999.99"), error_messages={
 		"name": {
 			"max_length": _("The price must be between 0 and 99999999.99."),
@@ -177,11 +181,11 @@ class Product (models.Model):
 	image_tag.short_description = 'Image'
 
 	def save (self, *args, **kwargs):
-		if self.slug == '':
-			value = self.title.replace(" ", "-")
-			self.slug = slugify(value, allow_unicode=True)
-		if self.stock == 0:
-			self.in_stock = False
+		value = self.title.replace(" ", "-")
+		self.slug = slugify(value, allow_unicode=True)
+
+		self.in_stock = False if self.stock==0 else True
+
 		super().save(*args, **kwargs)
 
 
@@ -190,8 +194,12 @@ class ProductImages (models.Model):
         # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
 		return 'product_media/item_{0}/{1}'.format(instance.item.title, filename)
 
+	def image_tag(self):
+		return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url) if self.image else 'No image found'
+
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
 	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
+	image_tag.short_description = 'Image'
 	alt_text = models.CharField(verbose_name=_("Alternative text of image"), max_length=255, help_text=_('In case image is not displayed due to slow internet connection, what should be displayed instead of this image as text. Text should describe what kind of image has to be displayed. It\'s important for SEO.'))
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -202,14 +210,6 @@ class ProductImages (models.Model):
 
 	def __str__(self):
 		return f"{self.item}"
-
-	def image_tag(self):
-		if self.image:
-			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url)
-		else:
-			return 'No image found'
-	image_tag.short_description = 'Image'
-
 
 	def save(self, *args, **kwargs):
 		img = PillowImage.open(self.image)

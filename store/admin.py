@@ -21,13 +21,13 @@ admin.site.register(ProductSpecification)
 @admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin):
 	list_display = ["name", "slug"]
-	prepopulated_fields = {"slug": ("name",)}
+
 
 # Featured Category Model
 @admin.register(FeaturedCategory)
 class CategoryAdmin(admin.ModelAdmin):
 	list_display = ["name", "slug"]
-	prepopulated_fields = {"slug": ("name",)}
+
 
 # Material Model
 @admin.register(Material)

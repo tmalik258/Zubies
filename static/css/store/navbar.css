@@ -275,13 +275,8 @@
 	height: 2.5rem;
 	border-radius: 50%;
 	padding: .5rem;
-	/* border: 1px solid; */
 	position: relative;
 	z-index: 1000;
-	/* transition-property: background-color;
-	--def-transition-duration:0.2s;
-	transition-duration: var(--def-transition-duration);
-	transition-timing-function: ease-in-out; */
 }
 
 .header-side-content #menu-button span {

@@ -78,15 +78,23 @@ class Basket():
 		"""
 
 		def serialize_product(product, attributes, key):
-			# Convert the Product object to a dictionary
-			product_data = {
-				'id': product.id,
-				'title': product.title,
-				'description': product.description,
-				'image': product.img.first().image.url,
-				'attributes': {key.specification.name: key.value for key in attributes},
-				'key': key
-			}
+			"""
+			Convert the Product object to a dictionary
+			"""
+			if product is None:
+				product_data = {
+					'id': None,
+					'key': key
+				}
+			else:
+				product_data = {
+					'id': product.id,
+					'title': product.title,
+					'description': product.description,
+					'image': product.img.first().image.url if product.img.exists() else None,
+					'attributes': {key.specification.name: key.value for key in attributes},
+					'key': key
+				}
 			return product_data
 
 		dict_keys = self.basket.keys()
@@ -97,12 +105,15 @@ class Basket():
 		basket = self.basket.copy()
 
 		for key in dict_keys:
+			print('key', key)
 			ids = key.split('-')
 			product_id = ids[0]
+			product = product_dict.get(product_id)
+
 			attribute_ids = ids[1:]
 			attributes = ProductSpecificationValue.objects.filter(id__in=attribute_ids)
 
-			basket[str(key)]['product'] = serialize_product(product_dict.get(product_id), attributes, key)
+			basket[str(key)]['product'] = serialize_product(product, attributes, key)
 
 		for item in basket.values():
 			item['total_price'] = item['regular_price'] * item['qty']

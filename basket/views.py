@@ -28,7 +28,9 @@ def basket_update(request):
 			basket.update(item_key=item_key, qty=product_qty)
 
 		elif request.POST.get('action') == 'delete':
+			print(request.POST.get('key'))
 			item_key = str(request.POST.get('key'))
+			print(item_key)
 			basket.delete(item_key=item_key)
 
 		basketqty = basket.__len__()
