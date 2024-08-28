@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "mptt",
     "django_mptt_admin",
     'facebook_pixel_code',
-	'django_seed',
     # INTERNAL APPS
     "account",
     "address",

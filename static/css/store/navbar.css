@@ -99,7 +99,10 @@
 	place-content: center;
 	z-index: 99;
 	height: 0;
-	transition: height cubic-bezier(0.14, 0.65, 0.15, 1);
+	opacity: 0;
+	visibility: hidden;
+	transition-property: height, opacity, visibility;
+	transition-timing-function: cubic-bezier(0.14, 0.65, 0.15, 1);
 	transition-duration: var(--def-transition-duration);
 }
 
@@ -139,6 +142,8 @@
 
 :root[menu-open] .header-side-content #menu-container {
 	height: 100%;
+	opacity: 1;
+	visibility: visible;
 }
 
 :root[menu-open] .header-side-content #menu-container li {
@@ -154,6 +159,8 @@
 	position: fixed;
 	opacity: 0;
 	visibility: hidden;
+	overflow: hidden;
+	border-radius: .5em;
 	transform: translate3d(0, 1.5em, 0);
 	transition: var(--def-transition-duration) ease-in-out;
 	transition-property: opacity, transform;

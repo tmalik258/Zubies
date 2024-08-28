@@ -18,6 +18,76 @@
 body {
 	position: relative;
 	background-color: var(--primary-bg-color);
+	overflow: hidden;
+}
+
+.loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: calc(100vw - .5em);
+	background-color: var(--primary-bg-color);
+	display: grid;
+	place-content: center;
+	z-index: 10000;
+}
+
+.loading.hide {
+	animation: 1s ease-in-out forwards hideLoader 1;
+}
+
+@keyframes hideLoader {
+	to {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.loading svg {
+	position: relative;
+	bottom: 6.5em;
+	right: 2em;
+	width: 10em;
+	height: 30em;
+}
+
+.loading svg :is(.st0, .st2, .st4) {
+	stroke-width: 12;
+	font-size: 25rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	stroke: var(--secondary-bg-color);
+	animation: 3s infinite alternate ease-in-out animate-stroke;
+}
+
+.loading svg .st3 {
+	fill: var(--primary-bg-color);
+}
+
+@keyframes animate-stroke {
+	0% {
+		fill: transparent;
+		stroke: var(--secondary-bg-color);
+		stroke-width: 3;
+		stroke-dashoffset: 25%;
+		stroke-dasharray: 0 32%;
+	}
+
+	50% {
+		fill: transparent;
+		stroke: var(--secondary-bg-color);
+		stroke-width: 3;
+	}
+
+	80%,
+	100% {
+		fill: var(--secondary-bg-color);
+		stroke: transparent;
+		stroke-width: 0;
+		stroke-dashoffset: -25%;
+		stroke-dasharray: 32% 0;
+	}
 }
 
 ::-webkit-scrollbar {

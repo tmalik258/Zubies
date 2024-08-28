@@ -75,3 +75,30 @@
 		}
 	});
 })(jQuery);
+
+window.addEventListener('load', () => {
+    const loadingElement = document.querySelector('.loading');
+    const animatedElements = loadingElement.querySelectorAll(':is(.st0, .st2, .st4)');
+	console.log(animatedElements)
+    
+    // Function to check if all animations have completed their first cycle
+    const checkAnimationsComplete = () => {
+        return Array.from(animatedElements).every(el => {
+            const animationDuration = parseFloat(getComputedStyle(el).animationDuration);
+            return el.getAnimations()[0].currentTime >= animationDuration * 1000;
+        });
+    };
+
+    // Function to add 'hide' class
+    const hideLoader = () => {
+        if (checkAnimationsComplete()) {
+            loadingElement.classList.add('hide');
+			$('body').css('overflow', 'initial');
+        } else {
+            requestAnimationFrame(hideLoader);
+        }
+    };
+
+    // Start checking for animation completion
+    hideLoader();
+});
