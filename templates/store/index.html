@@ -15,27 +15,44 @@
 			<p class="animate-text"></p>
 		</div>
 		<div class="arrival-image">
-			<img src="{% static 'img/carousel/arrival.webp' %}" alt="New Arrivals">
+			<img src="{% static 'img/carousel/arrival.webp' %}" alt="New Arrivals" decoding="async" loading="eager">
 		</div>
 	</div>
 	<!-- Arrival End -->
 
+	<div class="divider"></div>
     
 	<!-- Catalog Start -->
 	<div class="container catalog">
 		<h1>CATALOG</h1>
 		<p>Explore our collection.</p>
 		<div class="catalog-grid">
-			<div class="catalog-grid-item"><img src="{% static 'img/catalog/img-1.webp' %}" alt="item 1"></div>
-			<div class="catalog-grid-item"><img src="{% static 'img/catalog/img-2.webp' %}" alt="item 2"></div>
-			<div class="catalog-grid-item"><img src="{% static 'img/catalog/img-3.webp' %}" alt="item 3"></div>
-			<div class="catalog-grid-item"><img src="{% static 'img/catalog/img-4.webp' %}" alt="item 4"></div>
-			<div class="catalog-grid-item"><img src="{% static 'img/catalog/img-5.webp' %}" alt="item 5"></div>
-			<div class="catalog-grid-item"><a href="#" class="btn btn-explore">Explore More</a></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-1.webp' %}" alt="item 1" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-2.webp' %}" alt="item 2" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-3.webp' %}" alt="item 3" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-4.webp' %}" alt="item 4" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-5.webp' %}" alt="item 5" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><a href="#" class="btn btn-explore">Explore More</a></div>
 		</div>
 	</div>
 	<!-- Catalog End -->
 
+	<div class="divider"></div>
+
+	<!-- About Start -->
+	<div class="container about">
+		<h1>About</h1>
+		<p>ZUBIES-where passion is the base and fashion is in every step, every single move articulates a story. Being amongst the latest brands, we are committed to fashioning stilettos and shoes that are extremely beautiful, where elegance combines with innovation.</p>
+		<div class="about-img appear"><img src="{% static 'img/catalog/img-5.webp' %}" alt="leather shoe"></div>
+		<p>We believe that every pair of shoes should be more than just an accessory; they should be a statement of style and individuality. Our team of designers and artisans is committed to creating high-quality footwear that combines timeless aesthetics with contemporary trends.</p>
+		<h1>Store</h1>
+		<p>Our journey began with a vision to revolutionize the footwear industry by offering designs that not only captivate but also inspire confidence. We invite you to go through our collections and experience the artistry and craftsmanship that define ZUBIES. Step into elegance and let your shoes make a difference.</p>
+		<div class="about-img appear"><img src="{% static 'img/categories/stilettos/img-2.webp' %}" alt="stilettos"></div>
+		<div class="btn-read-container appear"><a href="#" class="btn btn-read">Read More</a></div>
+	</div>
+	<!-- About End -->
+
+	<div class="divider"></div>
 
 	<!-- Hero Start -->
     <!-- <div class="container-fluid hero py-5 pe-lg-5">

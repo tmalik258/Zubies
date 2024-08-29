@@ -21,17 +21,19 @@
 	});
 
 	// Back to top button
-	$(window).scroll(function () {
-		if ($(this).scrollTop() > 100) {
-			$(".back-to-top").fadeIn("slow");
-		} else {
-			$(".back-to-top").fadeOut("slow");
-		}
-	});
-	$(".back-to-top").click(function () {
-		$("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
-		return false;
-	});
+	$(".back-to-top").fadeOut("slow");
+	// $(window).scroll(function () {
+	// 	if ($(this).scrollTop() > 100) {
+	// 		$(".back-to-top").fadeIn("slow");
+	// 	} else {
+	// 		$(".back-to-top").fadeOut("slow");
+	// 	}
+	// });
+	// $(".back-to-top").click(function () {
+	// 	$("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
+	// 	// $(".back-to-top").fadeOut("slow");
+	// 	return false;
+	// });
 
 	// Menu Button
 	const menuButton = document.querySelector("#menu-button");
@@ -79,8 +81,7 @@
 window.addEventListener('load', () => {
     const loadingElement = document.querySelector('.loading');
     const animatedElements = loadingElement.querySelectorAll(':is(.st0, .st2, .st4)');
-	console.log(animatedElements)
-    
+
     // Function to check if all animations have completed their first cycle
     const checkAnimationsComplete = () => {
         return Array.from(animatedElements).every(el => {
@@ -102,3 +103,35 @@ window.addEventListener('load', () => {
     // Start checking for animation completion
     hideLoader();
 });
+
+// SHOW SCROLL UP
+window.addEventListener("scroll", scrollUp);
+
+function scrollUp() {
+	const scrollUpBtn = $("#scroll-up");
+	$(scrollUpBtn).click(() => {scrollToTop()});
+	if (this.scrollY >= 350) {
+		$(scrollUpBtn).fadeIn("slow");
+	} else $(scrollUpBtn).fadeOut("slow");
+}
+
+function scrollToTop() {
+	const scrollDuration = 300; // Set the total scroll duration (in milliseconds)
+	const start = window.scrollY;
+	const startTime = performance.now();
+
+	function scrollStep(timestamp) {
+		const currentTime = timestamp - startTime;
+		const progress = Math.min(currentTime / scrollDuration, 1); // Calculate progress (0 to 1)
+		const easeInOutQuad = progress < 0.5 
+			? 2 * progress * progress 
+			: -1 + (4 - 2 * progress) * progress; // Ease-in-out function for smoother scrolling
+		window.scrollTo(0, start - (start * easeInOutQuad));
+
+		if (progress < 1) {
+			requestAnimationFrame(scrollStep);
+		}
+	}
+
+	requestAnimationFrame(scrollStep);
+}
