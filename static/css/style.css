@@ -1,11 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Island+Moments&family=Sedan:ital@0;1&display=swap');
+
 :root {
-	/* --primary-color: #463f3a; */
 	--primary-color: #000;
 	--secondary-color: #f4f3ee;
 	--primary-bg-color: #f4f3ee;
 	--secondary-bg-color: #000;
-	/* --secondary-bg-color: #463f3a; */
-	/* --secondary-bg-color--transparent: #bcb8b159; */
 	--secondary-bg-color--transparent: #00000059;
 	--tertiary-bg-color: #cbc6be;
 }
@@ -15,18 +14,49 @@
 	margin: 0;
 }
 
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
 body {
 	position: relative;
 	background-color: var(--primary-bg-color);
 	overflow: hidden;
+	overflow-x: hidden;
 }
 
+/*------------------------			 Lenis Scroll CSS Setup Start		----------------------*/
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+/*------------------------			 Lenis Scroll CSS Setup End		----------------------*/
+
+
+/*------------------------			 Loading Start		----------------------*/
 .loading {
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100vh;
-	width: calc(100vw - .5em);
+	width: 100vw;
 	background-color: var(--primary-bg-color);
 	display: grid;
 	place-content: center;
@@ -47,8 +77,8 @@ body {
 .loading svg {
 	position: relative;
 	bottom: 6.5em;
-	right: 2em;
-	width: 10em;
+	right: 1em;
+	width: 8em;
 	height: 30em;
 }
 
@@ -90,62 +120,49 @@ body {
 	}
 }
 
-@keyframes appear {
-	from {
-		opacity: 0;
-		/* scale: 0.5; */
-		clip-path: inset(100% 100% 0 0);
-		/* transform: translate3d(-100%, 0, 0); */
-	}
-	to {
-		opacity: 1;
-		/* scale: 1; */
-		clip-path: inset(0 0 0 0);
-		/* transform: translate3d(0, 0, 0); */
+@media screen and (max-width: 1400px) {
+	.loading svg {
+		width: 7em;
+		right: 0em;
 	}
 }
 
-.appear {
-    opacity: 0; /* Initially hidden */
-    transition: opacity 0.5s ease;
+@media screen and (max-width: 992px) {
+	.loading svg {
+		width: 6.5em;
+		bottom: 4em;
+	}
 }
 
-.appear.in-view {
-    animation: appear 0.75s ease forwards;
+@media screen and (max-width: 768px) {
+	.loading svg {
+		width: 5em;
+	}
 }
+/*------------------------			 Loading End		----------------------*/
 
-.appear.in-view:nth-of-type(2) {
-	animation-delay: 0.25s;
-}
 
-.appear.in-view:nth-of-type(3) {
-	animation-delay: 0.5s;
-}
-
-.appear.in-view:nth-of-type(4) {
-	animation-delay: 0.75s;
-}
-
-.appear.in-view:nth-of-type(5) {
-	animation-delay: 1s;
-}
-
-.appear.in-view:nth-of-type(6) {
-	animation-delay: 1.25s;
-}
-
+/*------------------------			 ScrollBar Start		----------------------*/
 ::-webkit-scrollbar {
 	background-color: var(--primary-bg-color);
 	width: 8px;
+	height: 1px;
 }
 
 ::-webkit-scrollbar-thumb {
 	background-color: var(--primary-color);
 }
+/*------------------------			 ScrollBar End		----------------------*/
 
 .btn.btn-primary {
 	background-color: var(--secondary-bg-color);
 	color: var(--secondary-color);
+}
+
+.alert-custom {
+	position: absolute;
+	width: 100%;
+	z-index: 100;
 }
 
 .btn.btn-primary:hover {
@@ -153,74 +170,66 @@ body {
 	color: var(--primary-color);
 }
 
-
-
 /*      Custom Classes      */
 .min-h-96 {
 	min-height: 24em;
 }
 
 /* 		Buttons			 */
-.btn.basket
-{
+.btn.basket {
 	color: var(--primary-color);
 	border-radius: 10px;
 	border: 1px var(--primary-color) solid;
 }
 
-.btn.basket:hover, .btn.basket.filled
-{
+.btn.basket:hover,
+.btn.basket.filled {
 	color: var(--primary-bg-color);
 	background: var(--primary-color);
 	border: 1px var(--primary-color) solid;
-	/* box-shadow: 0 0 5px wheat; */
 }
 
-.btn.basket.filled:hover
-{
-	/* box-shadow: none; */
+.btn.basket.filled:hover {
 	--primary-color: #322d29;
 	background: var(--primary-color);
 }
 
-a.btn-shop, a.btn-shop:hover
-{
+a.btn-shop,
+a.btn-shop:hover {
 	text-decoration: none;
-	color: rgb(116, 91, 50);;
+	color: rgb(116, 91, 50);
 }
 
-a.btn-shop:hover
-{
+a.btn-shop:hover {
 	text-decoration: 1px solid rgb(116, 91, 50) underline;
 }
 
-.btn-shop ion-icon
-{
+.btn-shop ion-icon {
 	transform: translateY(-50%);
-	transition: .5s;
+	transition: 0.5s;
 }
 
-.btn-shop:hover ion-icon
-{
+.btn-shop:hover ion-icon {
 	transform: translateX(-10px) translateY(-50%);
 }
 
-  /* ---- Add and Remove Icons ---- */
-.plus-btn.btn, .min-btn.btn
-{
+/* ---- Add and Remove Icons ---- */
+.plus-btn.btn,
+.min-btn.btn {
 	color: #969696;
 }
-.plus-btn.btn:hover, .min-btn.btn:hover
-{
+.plus-btn.btn:hover,
+.min-btn.btn:hover {
 	color: wheat;
 	cursor: pointer;
 }
 
-
 /*--------------- Basket Summary Start ---------------*/
 .product-item {
 	max-width: 60rem;
-	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05), inset 5px 5px 15px rgba(0, 0, 0, 0.5); background-color: #141414;
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+		inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background-color: #141414;
 	color: wheat;
 }
 /*--------------- Basket Summary End ---------------*/

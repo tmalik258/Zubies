@@ -22,18 +22,6 @@
 
 	// Back to top button
 	$(".back-to-top").fadeOut("slow");
-	// $(window).scroll(function () {
-	// 	if ($(this).scrollTop() > 100) {
-	// 		$(".back-to-top").fadeIn("slow");
-	// 	} else {
-	// 		$(".back-to-top").fadeOut("slow");
-	// 	}
-	// });
-	// $(".back-to-top").click(function () {
-	// 	$("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
-	// 	// $(".back-to-top").fadeOut("slow");
-	// 	return false;
-	// });
 
 	// Menu Button
 	const menuButton = document.querySelector("#menu-button");
@@ -62,11 +50,17 @@
 			const words = text.split(" ");
 			let html = "";
 			for (let word of words) {
-				html += word.split("").map((letter, index) => `<span class="letter" style="--letter-index: ${index}">${letter}</span>`).join("") + " ";
+				html +=
+					word
+						.split("")
+						.map(
+							(letter, index) =>
+								`<span class="letter" style="--letter-index: ${index}">${letter}</span>`
+						)
+						.join("") + " ";
 			}
 			link.innerHTML = html;
-		}
-		else {
+		} else {
 			link.innerHTML = text
 				.split("")
 				.map(
@@ -78,30 +72,36 @@
 	});
 })(jQuery);
 
-window.addEventListener('load', () => {
-    const loadingElement = document.querySelector('.loading');
-    const animatedElements = loadingElement.querySelectorAll(':is(.st0, .st2, .st4)');
+window.addEventListener("load", () => {
+	const loadingElement = document.querySelector(".loading");
+	const animatedElements = loadingElement.querySelectorAll(
+		":is(.st0, .st2, .st4)"
+	);
 
-    // Function to check if all animations have completed their first cycle
-    const checkAnimationsComplete = () => {
-        return Array.from(animatedElements).every(el => {
-            const animationDuration = parseFloat(getComputedStyle(el).animationDuration);
-            return el.getAnimations()[0].currentTime >= animationDuration * 1000;
-        });
-    };
+	// Function to check if all animations have completed their first cycle
+	const checkAnimationsComplete = () => {
+		return Array.from(animatedElements).every((el) => {
+			const animationDuration = parseFloat(
+				getComputedStyle(el).animationDuration
+			);
+			return (
+				el.getAnimations()[0].currentTime >= animationDuration * 1000
+			);
+		});
+	};
 
-    // Function to add 'hide' class
-    const hideLoader = () => {
-        if (checkAnimationsComplete()) {
-            loadingElement.classList.add('hide');
-			$('body').css('overflow', 'initial');
-        } else {
-            requestAnimationFrame(hideLoader);
-        }
-    };
+	// Function to add 'hide' class
+	const hideLoader = () => {
+		if (checkAnimationsComplete()) {
+			loadingElement.classList.add("hide");
+			$("body").css("overflow", "initial");
+		} else {
+			requestAnimationFrame(hideLoader);
+		}
+	};
 
-    // Start checking for animation completion
-    hideLoader();
+	// Start checking for animation completion
+	hideLoader();
 });
 
 // SHOW SCROLL UP
@@ -109,7 +109,9 @@ window.addEventListener("scroll", scrollUp);
 
 function scrollUp() {
 	const scrollUpBtn = $("#scroll-up");
-	$(scrollUpBtn).click(() => {scrollToTop()});
+	$(scrollUpBtn).click(() => {
+		scrollToTop();
+	});
 	if (this.scrollY >= 350) {
 		$(scrollUpBtn).fadeIn("slow");
 	} else $(scrollUpBtn).fadeOut("slow");
@@ -123,10 +125,11 @@ function scrollToTop() {
 	function scrollStep(timestamp) {
 		const currentTime = timestamp - startTime;
 		const progress = Math.min(currentTime / scrollDuration, 1); // Calculate progress (0 to 1)
-		const easeInOutQuad = progress < 0.5 
-			? 2 * progress * progress 
-			: -1 + (4 - 2 * progress) * progress; // Ease-in-out function for smoother scrolling
-		window.scrollTo(0, start - (start * easeInOutQuad));
+		const easeInOutQuad =
+			progress < 0.5
+				? 2 * progress * progress
+				: -1 + (4 - 2 * progress) * progress; // Ease-in-out function for smoother scrolling
+		window.scrollTo(0, start - start * easeInOutQuad);
 
 		if (progress < 1) {
 			requestAnimationFrame(scrollStep);
@@ -135,3 +138,14 @@ function scrollToTop() {
 
 	requestAnimationFrame(scrollStep);
 }
+
+// Lenis Basic GSAP js setup
+const lenis = new Lenis();
+
+lenis.on("scroll", ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+	lenis.raf(time * 1000);
+});
+
+gsap.ticker.lagSmoothing(0);

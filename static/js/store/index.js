@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loaderElement = document.querySelector('.loading');
-    const h1Element = document.querySelector('.arrival .text h1');
-    const pElement = document.querySelector('.arrival .text p');
-    const imgElement = document.querySelector('.arrival .arrival-image');
+    const h1Element = document.querySelector('.carousel .text h1');
+    const pElement = document.querySelector('.carousel .text p');
+    const imgElement = document.querySelector('.carousel .carousel-image');
     let currentIndex = 0;
 
     function animateText(element, text) {
@@ -89,18 +89,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	const elements = document.querySelectorAll(".appear");
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("in-view");
-                }
-            });
-        },
-        { threshold: 0.25 } // Adjust threshold as needed
-    );
+	elements.forEach((el) => {
+		gsap.set(el, {
+			clipPath: "inset(100% 100% 0 0)",
+			opacity: 0
+		})
 
-    elements.forEach((element) => {
-        observer.observe(element);
-    });
+		gsap.to(el, {
+			scrollTrigger: {
+				trigger: el,
+				start: 'top bottom',
+				end: 'bottom 80%',
+				scrub: true
+			},
+			clipPath: "inset(0% 0% 0 0)",
+			opacity: 1
+		})
+	})
 });

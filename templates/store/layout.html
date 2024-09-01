@@ -7,10 +7,11 @@
     <head>
 	{% fpc %}
         <meta charset="utf-8">
-        <title>ZUBIES &#8482; Official Store</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <!-- <meta content="Free HTML Templates" name="keywords">
         <meta content="Free HTML Templates" name="description"> -->
+
+        <title>ZUBIES &#8482; Official Store</title>
 
         <!-- Favicon -->
         <link href="{% static 'img/favicon.png' %}" type="image/x-icon" rel="icon">
@@ -28,13 +29,19 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
         <!-- Customized Stylesheet -->
-        <link href="{% static 'css/store/style.css' %}" rel="stylesheet">
-        <link href="{% static 'css/store/navbar.css' %}" rel="stylesheet">
-        <link href="{% static 'css/store/footer.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+        <link href="{% static 'css/footer.css' %}" rel="stylesheet">
 		<style type="text/css">
 			@font-face {
 				font-family: "engravers";
 				src: local('engravers'), url("{% static 'fonts/Engravers_MT_Regular.ttf' %}") format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+			@font-face {
+				font-family: "chopin-script";
+				src: local('engravers'), url("{% static 'fonts/chopin-script/ChopinScript.ttf' %}") format('truetype');
 				font-weight: normal;
 				font-style: normal;
 			}
@@ -91,26 +98,6 @@
 					C751,674.19,663.15,637.13,592.06,637.86z"
 						/>
 					</g>
-					<!-- <g>
-						<path
-							class="st1"
-							d="M1035.62,533.72c0,0-48.18-74.04-58.09-79.42c0,0-12.06,0-14.76,14.84c0,0,50.52,62.94,58.6,79.09
-					c29.29,46.96,77.82,186.39,52.83,322.99c-28.26,168.98-104.23,229.83-206.35,322.06c-1.29,0-2.57,0-3.86,0
-					c39.41,15.05,124.69-91.06,142.71-115.71C1108.74,937.97,1134.1,700.15,1035.62,533.72z M557.18,447.25
-					c-0.01,0.01-0.02,0.02-0.04,0.04C557.19,447.27,557.21,447.25,557.18,447.25z M592.06,637.86l-1.93-3.86
-					c29.77-9.5,73.76-30.66,88.71-55.93c-59.82,16.32-145.46,24.69-201.43-0.38c0.16-1.91,0.16-1.93,0.32-3.84
-					c55.28-14.54,101.83-18.84,131.68-57.49c-64.48,12.19-136.79,35.4-204.82,11.43c-0.1-2.09-0.1-2.23-0.2-4.32
-					c53.16-23.8,115.29-36.98,152.75-76.19c-1.88,0.87-66.21,19.16-100.08,28.57c-80.82,16.69-199.41,12.52-275.78-1.93
-					c-0.04-1.05-0.03-0.86-0.07-1.91c40.52-10.29,85.16-19.86,123.85-33.22c118.58-39.74,272.53-121.31,429.71-86.36
-					c54.6,12.14,107.68,30.52,150.42,55.93c0,0,52.14,28.84,62.73,44.96c6.43-13.11,18.27-17.97,18.27-17.97
-					c-19.88-15.5-25.84-21.96-82.93-54c-77.17-39.78-171.65-61.89-271.92-55.93c-132.25,10.29-248.78,66.86-300.85,86.78
-					c-88.69,28.95-202.32,35.66-309.88,23.21c-0.34,1.04-0.27,0.82-0.61,1.86l63.64,36.64c59.47,26.33,192.07,56.88,279.64,42.43
-					c-9.56,32.41-77.4,39.8-119.57,38.57c49.59,21.93,122.13,10.62,184.06,9.66c0.49,0.85,0.6,1.04,1.09,1.89
-					c-12.12,21.61-44.96,37.9-77.15,38.59c22.98,9.08,65.08-0.04,86.78-1.93c51.75-4.51,96.67,6.67,136.93,15.43
-					c-23.64,17.51-65.9,12.3-88.71,28.93c-1.29,0-2.57,0-3.86,0c37.28,3.86,74.57,7.71,111.85,11.57l133.07,25.07l79.07,28.93
-					C751,674.19,663.15,637.13,592.06,637.86z"
-						/>
-					</g> -->
 				</g>
 				<circle class="st2" cx="973.64" cy="254.75" r="83.53" />
 				<ellipse
@@ -160,17 +147,22 @@
         </main>
 
         <!-- Footer Start -->
-            {% include 'components/footer.html' %}
+		{% block footer %}
+		{% include 'components/footer.html' %}
+		{% endblock footer %}
         <!-- Footer End -->
 
 
         <!-- Back to Top -->
-        <button class="btn btn-primary back-to-top position-fixed bottom-0 border-light translate-middle end-0" id="scroll-up"><i class="fa fa-angle-double-up"></i></button>
+        <!-- <button class="btn btn-primary back-to-top position-fixed bottom-0 border-light translate-middle end-0" id="scroll-up"><i class="fa fa-angle-double-up"></i></button> -->
 
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script> 
 
         <!-- Template Javascript -->
         <script src="{% static 'js/store/main.js' %}"></script>

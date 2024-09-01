@@ -2,8 +2,8 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
+from django.conf import settings
 
-# Create your models here.
 
 class BillingAddress (models.Model):
 	CITY_CHOICES = (
@@ -82,7 +82,7 @@ class BillingAddress (models.Model):
 
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	# Customer
-	customer = models.ForeignKey("account.User", on_delete=models.CASCADE, verbose_name=_("Customer"), blank=True, null=True)
+	customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Customer"), blank=True, null=True)
 	first_name = models.CharField(_("First Name"), max_length=150)
 	last_name = models.CharField(_("Last Name"), max_length=150)
 	email = models.EmailField()

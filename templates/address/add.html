@@ -4,7 +4,7 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/store/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 {% endblock style %}
 
 {% block body %}
@@ -15,10 +15,10 @@
 				<div class="container">
 					<div class="row">
 						<div class="auth_form col-12 col-lg-8 mx-auto">
-							<form action="" class="rounded mx-auto p-4 col-lg-10" method="post">
+							<form action="" class="rounded mx-auto p-4" method="post">
 								{% csrf_token %}
-								<h3 class="mb-2">Add Address</h3>
-								<p class="mb-4 text-muted">Add a new delivery address and delivery preferences.</p>
+								<h1 class="mb-2">Add Address</h1>
+								<p class="mb-4 text-muted">Add a new delivery address</p>
 
 								{% if form.errors %}
 								<p class="text-danger">Please correct the following errors:</p>
@@ -80,7 +80,7 @@
 										{{ form.zip_code }}
 									</div>
 								</div>
-								<input class="btn w-100" type="submit" value="Save">
+								<input class="btn btn-continue" type="submit" value="Save">
 							</form>
 						</div>
 					</div>

@@ -4,21 +4,27 @@
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/store/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+	<style>
+		.contact .contact-img-section {
+			background-image: url('{% static "img/index/contact-side.webp" %}');
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
 
-	<!-- Arrival Start -->
-	<div class="container-fluid arrival">
+	<!-- Carousel Start -->
+	<div class="container-fluid carousel">
 		<div class="text">
 			<h1 class="animate-text"></h1>
 			<p class="animate-text"></p>
 		</div>
-		<div class="arrival-image">
-			<img src="{% static 'img/carousel/arrival.webp' %}" alt="New Arrivals" decoding="async" loading="eager">
+		<div class="carousel-image">
+			<img src="{% static 'img/index/carousel/arrival.webp' %}" alt="New Arrivals" decoding="async" loading="eager">
 		</div>
 	</div>
-	<!-- Arrival End -->
+	<!-- Carousel End -->
 
 	<div class="divider"></div>
     
@@ -27,12 +33,12 @@
 		<h1>CATALOG</h1>
 		<p>Explore our collection.</p>
 		<div class="catalog-grid">
-			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-1.webp' %}" alt="item 1" decoding="async" loading="lazy"></div>
-			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-2.webp' %}" alt="item 2" decoding="async" loading="lazy"></div>
-			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-3.webp' %}" alt="item 3" decoding="async" loading="lazy"></div>
-			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-4.webp' %}" alt="item 4" decoding="async" loading="lazy"></div>
-			<div class="catalog-grid-item appear"><img src="{% static 'img/catalog/img-5.webp' %}" alt="item 5" decoding="async" loading="lazy"></div>
-			<div class="catalog-grid-item appear"><a href="#" class="btn btn-explore">Explore More</a></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/index/catalog/img-1.webp' %}" alt="item 1" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/index/catalog/img-2.webp' %}" alt="item 2" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/index/catalog/img-3.webp' %}" alt="item 3" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/index/catalog/img-4.webp' %}" alt="item 4" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item appear"><img src="{% static 'img/index/catalog/img-5.webp' %}" alt="item 5" decoding="async" loading="lazy"></div>
+			<div class="catalog-grid-item"><a href="#" class="btn btn-explore appear">Explore More</a></div>
 		</div>
 	</div>
 	<!-- Catalog End -->
@@ -43,60 +49,56 @@
 	<div class="container about">
 		<h1>About</h1>
 		<p>ZUBIES-where passion is the base and fashion is in every step, every single move articulates a story. Being amongst the latest brands, we are committed to fashioning stilettos and shoes that are extremely beautiful, where elegance combines with innovation.</p>
-		<div class="about-img appear"><img src="{% static 'img/catalog/img-5.webp' %}" alt="leather shoe"></div>
+		<div class="about-img appear"><img src="{% static 'img/index/about/img-1.webp' %}" alt="leather shoe"></div>
 		<p>We believe that every pair of shoes should be more than just an accessory; they should be a statement of style and individuality. Our team of designers and artisans is committed to creating high-quality footwear that combines timeless aesthetics with contemporary trends.</p>
 		<h1>Store</h1>
 		<p>Our journey began with a vision to revolutionize the footwear industry by offering designs that not only captivate but also inspire confidence. We invite you to go through our collections and experience the artistry and craftsmanship that define ZUBIES. Step into elegance and let your shoes make a difference.</p>
-		<div class="about-img appear"><img src="{% static 'img/categories/stilettos/img-2.webp' %}" alt="stilettos"></div>
-		<div class="btn-read-container appear"><a href="#" class="btn btn-read">Read More</a></div>
+		<div class="about-img appear"><img src="{% static 'img/index/about/img-2.webp' %}" alt="stilettos"></div>
+		<div class="btn-read-container"><a href="#" class="btn btn-read appear">Read More</a></div>
 	</div>
 	<!-- About End -->
 
 	<div class="divider"></div>
 
-	<!-- Hero Start -->
-    <!-- <div class="container-fluid hero py-5 pe-lg-5">
-        <div class="side"></div>
-        <div class="wrapper">
-            <div class="text-light text">
-                <h1 class="text-uppercase lh-1">
-                    <span class="fw-bold">special</span><br>
-                    <span class="fw-normal fst-italic">fashion</span>
-                </h1>
-                <p class="fs-3 fst-italic lh-1">debut of our exclusive<br>Stelliot couture!</p>
-                <div class="box"></div>
-            </div>
-        </div>
-        <div class="hero-image"><img src="{% static 'img/cover.jpeg' %}" alt="Cover"></div>
-    </div> -->
-    <!-- Hero End -->
-
-	<!-- Categories Start -->
-    <!-- <div class="container-fluid categories mb-5">
-        <div class="categories-main">
-            <div class="item item-even">
-                <img src="{% static 'img/cat-stilettos.png' %}" alt="Stilettos">
-                <p>Stilettos.</p>
-            </div>
-            <div class="item item-odd">
-                <img src="{% static 'img/cat-jacket.png' %}" alt="Jacket">
-                <p>Jackets.</p>
-            </div>
-            <div class="item item-even">
-                <img src="{% static 'img/cat-shoes.png' %}" alt="Shoes">
-                <p>Shoes.</p>
-            </div>
-            <div class="item item-odd">
-                <img src="{% static 'img/cat-bag.png' %}" alt="Bags">
-                <p>Bags.</p>
-            </div>
-        </div>
-        <div class="statement">
-            <p>every step is a statement, and every layer is luxury</p>
-        </div>
-    </div> -->
-    <!-- Categories End -->
+	<!-- Subscribe Start -->
+	<div class="container-fluid subscribe">
+		<div class="subscribe-img"><img src="{% static 'img/index/subscribe.webp' %}" alt="subsribe stiletto bg"></div>
+		<h1>Subscribe</h1>
+		<p>Subscribe now for exclusive updates, offers, and news delivered directly to your inbox! <br> And get 10% discount on your FIRST order</p>
+		<form action="">
+			<input type="email" name="email" placeholder="Your Email">
+			<button type="submit">Subscribe</button>
+		</form>
+	</div>
+	<!-- Subscribe End -->
     
+	<div class="divider"></div>
+
+	<!-- Contact Us Start -->
+	<div class="container contact">
+		<p>Step into style, fall in love with every step.</p>
+		<h1>Reach Out</h1>
+		<form action="" class="auth_form row">
+			{% csrf_token %}
+			<div class="col-12 col-md-6">
+				<input type="text" class="form-control" name="fname" placeholder="First Name">
+			</div>
+			<div class="col-12 col-md-6">
+				<input type="text" class="form-control" name="lname" placeholder="Last Name">
+			</div>
+			<div class="col-12"><input type="email" class="form-control" name="email" placeholder="Email"></div>
+			<div class="col-12"><textarea name="message" class="form-control" placeholder="Message" rows="4"></textarea></div>
+			<div class="col-12"><button type="submit" class="btn btn-continue">Send</button></div>
+		</form>
+		<div class="contact-img-container">
+			<div class="contact-img-section contact-img-left"></div>
+			<div class="contact-img-section contact-img-center"></div>
+			<div class="contact-img-section contact-img-right"></div>
+		</div>
+	</div>
+	<!-- Contact Us End -->
+
+	<div class="divider"></div>
 
 {% endblock body %}
 
@@ -106,10 +108,10 @@
 	<script src="{% static 'js/store/index.js' %}" data-rel-js></script>
 	<script>
 		const textOptions = [
-        { h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/carousel/arrival.webp' %}" },
-        { h1: "Seasoned Picks", p: "Perfect for the season.", img: "{% static 'img/carousel/seasoned.webp' %}" },
-        { h1: "Most Loved", p: "Fan favorites!", img: "{% static 'img/carousel/featured.webp' %}" },
-        { h1: "Upto 50% Sale", p: "Deals you can't miss!", img: "{% static 'img/carousel/discount2.webp' %}" },
+        { h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/index/carousel/arrival.webp' %}" },
+        { h1: "Seasoned Picks", p: "Perfect for the season.", img: "{% static 'img/index/carousel/seasoned.webp' %}" },
+        { h1: "Most Loved", p: "Fan favorites!", img: "{% static 'img/index/carousel/featured.webp' %}" },
+        { h1: "Upto 50% Sale", p: "Deals you can't miss!", img: "{% static 'img/index/carousel/discount2.webp' %}" },
     ];
 
 	</script>

@@ -2,13 +2,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import (render, redirect, get_object_or_404, HttpResponseRedirect, reverse)
+from django.shortcuts import (render, redirect)
 
 from .billingaddress import Billing
 from .forms import UserAddressForm
 from .models import BillingAddress
 
-# Create your views here.
+
 def AddressView(request):
 	return BillingAddress.objects.filter(customer=request.user)
 
@@ -35,6 +35,7 @@ def add_address(request):
 		if address_form.is_valid():
 			address_form = address_form.save(commit=False)
 			address_form.customer = request.user
+			address_form.default = True
 			address_form.save()
 			messages.success(request, 'New Delivery Address has been added')
 			return redirect('address:addresses')

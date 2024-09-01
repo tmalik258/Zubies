@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.shortcuts import (render, redirect)
-from django.http import (HttpResponse, JsonResponse)
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.template.loader import render_to_string
@@ -8,12 +7,12 @@ from django.contrib.auth import (login, logout)
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import (force_bytes, force_str)
 from django.utils.http import (urlsafe_base64_decode, urlsafe_base64_encode)
 from django.views.generic import ListView
 
-from .models import User
 from .forms import (RegistrationForm, ProfileEditForm)
 from .token import account_activation_token
 
@@ -21,9 +20,7 @@ from .token import account_activation_token
 from store.models import Product
 
 
-# Create your views here.
 class WishlistView(LoginRequiredMixin, ListView):
-	# model = Product
 	template_name = 'account/user/wishlist.html'
 	paginate_by = 12
 
@@ -74,7 +71,7 @@ def edit_details(request):
 
 @login_required
 def delete_user(request):
-	user = User.objects.get(email=request.user)
+	user = get_user_model().objects.get(email=request.user)
 	user.is_active = False
 	user.save()
 	logout(request)
@@ -93,7 +90,7 @@ class CustomLoginView(LoginView):
 
 	def form_invalid(self, form):
 		try:
-			user = User.objects.get(email=form.cleaned_data.get('username'))
+			user = get_user_model().objects.get(email=form.cleaned_data.get('username'))
 			# Check if the user is active
 			if not user.is_active and not user.is_verified:
 				# Resend verification email to the user
@@ -155,7 +152,6 @@ def register(request):
 			})
 			user.send_verification_email(subject=subject, message=message)
 			messages.success(request, 'Your account has been created successfully. Please check your mail for account verification')
-			# return redirect('store:index')
 
 	else:
 		registerForm = RegistrationForm()
@@ -167,7 +163,7 @@ def register(request):
 def account_activate(request, uid64, token):
 	try:
 		uid = force_str(urlsafe_base64_decode(uid64))
-		user = User.objects.get(pk=uid)
+		user = get_user_model().objects.get(pk=uid)
 	except():
 		pass
 	if user is not None and account_activation_token.check_token(user, token):
@@ -180,10 +176,8 @@ def account_activate(request, uid64, token):
 	else:
 		messages.error(request, 'Invalid User/token')
 		return redirect('account:login')
-		# return render(request, 'account/registration/activation_invalid.html')
 
 
 def logout_view(request):
     logout(request)
-    messages.success(request, 'You have successfully logged out.')
     return redirect("store:index")

@@ -15,7 +15,7 @@ class User(AbstractUser):
 		verbose_name_plural = 'Accounts'
 
 	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+	REQUIRED_FIELDS = ['first_name', 'last_name']
 
 	email = models.EmailField(unique=True)
 	is_verified = models.BooleanField(default=False)

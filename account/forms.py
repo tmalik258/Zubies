@@ -23,27 +23,10 @@ class LoginForm(AuthenticationForm):
 
 
 class RegistrationForm(UserCreationForm):
-	# username = forms.CharField(label='Username', min_length=4, max_length=50, help_text='Required')
-	# email = forms.EmailField(max_length=100, help_text='Required', error_messages={'required': 'Sorry, you will need an email address'})
-	# password = forms.CharField(label='Password', widget=forms.PasswordInput(), help_text='At least 8 characters and 1 digit')
-	# password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
 	class Meta:
 		model = User
-		fields = ('username', 'email', 'first_name', 'last_name')
+		fields = ('email', 'first_name', 'last_name')
 
-
-	def clean_username(self):
-		username = self.cleaned_data['username'].lower()
-		r = User.objects.filter(username=username)
-		if r.count():
-			raise forms.ValidationError('Username already exists')
-		return username
-
-	# def cleaned_password2(self):
-	# 	cd = self.cleaned_data
-	# 	if cd['password1'] != cd['password2']:
-	# 		raise forms.ValidationError('Passwords do not match.')
-	# 	return cd['password2']
 
 	def cleaned_email(self):
 		email = self.cleaned_data['email']
@@ -55,11 +38,6 @@ class RegistrationForm(UserCreationForm):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.fields['username'].widget.attrs.update({
-			'class': 'form-control',
-			'placeholder': 'Username',
-			'autofocus': 'autofocus'
-		})
 		self.fields['email'].widget.attrs.update({
 			'class': 'form-control',
 			'placeholder': 'Email',
@@ -79,7 +57,7 @@ class RegistrationForm(UserCreationForm):
 		})
 		self.fields['password2'].widget.attrs.update({
 			'class': 'form-control mb-2',
-			'placeholder': 'Repeat Password'
+			'placeholder': 'Confirm Password'
 		})
 
 
@@ -131,16 +109,6 @@ class ProfileEditForm(forms.ModelForm):
 			}
 		)
 	)
-	username = forms.CharField(
-		label='Username', min_length=4, max_length=50, widget=forms.TextInput(
-			attrs={
-				'class': 'form-control mb-3',
-				'placeholder': 'Username',
-				'id': 'form-username',
-				'disabled': 'true'
-			}
-		)
-	)
 	first_name = forms.CharField(
 		label='First Name', min_length=4, max_length=50, widget=forms.TextInput(
 			attrs={
@@ -151,7 +119,7 @@ class ProfileEditForm(forms.ModelForm):
 		)
 	)
 	last_name = forms.CharField(
-		label='First Name', min_length=4, max_length=50, widget=forms.TextInput(
+		label='Last Name', min_length=4, max_length=50, widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
 				'placeholder': 'Last Name',
@@ -162,9 +130,8 @@ class ProfileEditForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('email', 'username', 'first_name', 'last_name')
+		fields = ('email', 'first_name', 'last_name')
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.fields['username'].required = True
 		self.fields['email'].required = True

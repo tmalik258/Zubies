@@ -1,0 +1,144 @@
+:root {
+	--box-shadow: -20px -20px 60px #fff, 20px 20px 60px #bebebe;
+}
+
+.auth_form {
+	font-size: 1em;
+	background-color: var(--primary-bg-color);
+	padding-top: 20px;
+}
+
+.auth_form h1 {
+	font-family: "engravers", serif;
+	letter-spacing: -5px;
+	font-size: 3em;
+}
+
+.auth_form p {
+	font-family: "Island Moments", cursive;
+	font-size: 2em;
+}
+
+.auth_form .forgot-link {
+	font-family: "Island Moments", cursive;
+	font-size: 2em;
+	text-decoration: none;
+	color: var(--primary-color);
+}
+
+.auth_form input,
+.auth_form .form-select,
+.auth_form input:focus,
+.auth_form textarea,
+.auth_form textarea:focus {
+	background-color: #fff;
+	outline: none;
+	border-radius: 0;
+	border: 1px solid #2525257d;
+	margin: 10px auto;
+	padding: .5em;
+	font-size: 1.3em;
+	resize: none;
+}
+
+.auth_form input:disabled {
+	color: #adadad;
+	background: #141414;
+}
+
+.auth_form :is(input, textarea)::placeholder {
+	color: rgb(136, 133, 133);
+}
+
+/*------------- Radio button for payment input -----------*/
+.auth_form input#id_payment_method_0 {
+	display: none;
+}
+
+.auth_form #id_payment_method label::before {
+	content: "";
+	display: inline-block;
+	background-color: #ddd;
+	padding: 6px;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+.auth_form
+	#id_payment_method
+	label:has(> input#id_payment_method_0:checked)::before {
+	background: none;
+	padding: 3px;
+	border: 3px solid var(--tertiary-bg-color);
+}
+
+.auth_form .form-select,
+.auth_form #id_payment_method label {
+	cursor: pointer;
+}
+
+.auth_form :is(.btn-signup, .btn-login) {
+	position: relative;
+	width: 100%;
+	border: 1px solid var(--secondary-bg-color);
+	border-radius: 0;
+	background: none;
+	padding: .5em;
+	margin-bottom: 1em;
+	margin-top: .5em;
+	font-size: 1.3em;
+	transition-timing-function: ease-in-out;
+	transition-duration: .7s;
+	transition-property: color;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.auth_form :is(.btn-signup, .btn-login)::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: var(--secondary-bg-color);
+	clip-path: inset(0 100% 0 100%);
+	transition: clip-path 1s;
+	transition-timing-function: cubic-bezier( 0.83, -0.02, 0.22, 0.86 );
+	z-index: -1;
+}
+
+.auth_form :is(.btn-signup, .btn-login):hover::after {
+	clip-path: inset(0 0 0 0);
+}
+
+.auth_form :is(.btn-signup, .btn-login):hover {
+	color: var(--secondary-color);
+}
+
+.auth_form .btn-continue {
+	width: 100%;
+	border: 1px solid var(--secondary-bg-color);
+	border-radius: 0;
+	background: #252525;
+	color: var(--secondary-color);
+	padding: .5em;
+	margin-top: 1em;
+	font-size: 1.3em;
+	transition-timing-function: ease-in-out;
+	transition-duration: .3s;
+	transition-property: background-color;
+}
+
+.auth_form .btn-continue:hover {
+	background-color: var(--secondary-bg-color);
+}
+
+.auth_form input[type="submit"].btn-danger {
+	background: rgb(203, 65, 65);
+	color: #fff;
+}
+
+.auth_form input[type="submit"].btn-danger:hover {
+	background: rgb(143, 46, 46);
+}

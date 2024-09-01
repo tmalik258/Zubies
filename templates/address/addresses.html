@@ -23,13 +23,13 @@
 	</div>
 	<hr />
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-		<div {% if addresses|length == 0 %} class="col mx-auto add-address" {% endif %} class="col add-address">
-			<a
-				href="{% url 'address:add_address' %}"
-				class="text-reset"
-				role="button"
-			>
-				<div class="card mb-3 h-100 rounded-4">
+		<div class="col add-address {% if addresses|length == 0 %}mx-auto{% endif %}">
+			<div class="card mb-3 h-100 rounded-4 shadow">
+				<a
+					href="{% url 'address:add_address' %}"
+					class="text-reset w-100 h-100"
+					role="button"
+				>
 					<div class="row g-0 h-100">
 						<div class="col-12">
 							<div
@@ -51,21 +51,20 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</a>
+				</a>
+			</div>
 		</div>
 		{% for address in addresses %}
-		<div class="col h-100">
+		<div class="col">
 			<div
-				{% if address.default %}
-				class="card default h-100 px-3 pb-3 rounded-4"
-				{% endif %}
-				class="card h-100 px-3 rounded-4"
+				class="card h-100 p-3 rounded-4 shadow {% if address.default %}default{% endif %}"
 			>
-				<div class="card-header small text-muted text-center">
-					{% if address.default %} Default {% endif %}
-				</div>
-				<div class="card-body small py-1">
+				{% if address.default %}
+					<div class="card-header small text-muted text-center">
+						Default
+					</div>
+				{% endif %}
+				<div class="card-body small py-2">
 					<p class="card-text m-0 fw-bold">
 						{{ address.first_name }} {{ address.last_name }}
 					</p>
@@ -78,11 +77,13 @@
 					<p class="card-text m-0">
 						{{ address.get_country_display }}
 					</p>
-					<div class="pt-3 hstack gap-3 justify-content-center">
+				</div>
+				<div class="card-footer text-body-secondary">
+					<div class="hstack gap-3 justify-content-center">
 						<a href="{% url 'address:edit_address' address.id %}">Edit</a>
 						<div class="vr"></div>
 						<a href="{% url 'address:delete_address' address.id %}">Delete</a>
-
+	
 						{% if not address.default %}
 							<div class="vr"></div>
 							<a href="{% url 'address:set_default' address.id %}" class="text-decoration-none">Set Default</a>

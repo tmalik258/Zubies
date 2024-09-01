@@ -1,7 +1,5 @@
 from django import forms
 
-from account.models import User
-
 from .models import BillingAddress
 
 

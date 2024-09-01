@@ -1,25 +1,21 @@
 :root {
-	/* --primary-color: #463f3a; */
-	/* --primary-color: #000;
-	--secondary-color: #f4f3ee;
-	--primary-bg-color: #f4f3ee;
-	--secondary-bg-color: #000; */
-	/* --secondary-bg-color: #463f3a; */
-	/* --secondary-bg-color--transparent: #bcb8b159; */
-	/* --secondary-bg-color--transparent: #00000059;
-	--tertiary-bg-color: #cbc6be; */
 	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
 		-10px -10px 15px rgba(255, 255, 255, 0.05);
+}
+
+h1 {
+	font-family: "engravers", serif;
+	letter-spacing: -8px;
+	font-size: 6em;
 }
 
 /*------------ Products Start -----------*/
 .products .row .card {
 	border-radius: 20px;
 	padding: 0;
-	/* width: 18em; */
 	font-size: larger;
 	border: none;
-	background-color: var(--secondary-bg-color--transparent);
+	background: none;
 }
 
 .products .row .card .card-body del,
@@ -52,6 +48,7 @@
 }
 /*------------ Products End -----------*/
 
+
 /*------------ Product Start -----------*/
 .product .card {
 	background: none;
@@ -75,6 +72,7 @@
 	color: rgb(126, 87, 16);
 }
 /*------------ Product End -----------*/
+
 
 /*------------ Swiper Start -----------*/
 .products .swiper.itemImageSwiper,
@@ -114,6 +112,7 @@ label:has(> input[type="radio"]:checked) {
 	color: var(--primary-bg-color);
 }
 /*------------ Swiper End -----------*/
+
 
 /*-------------------- Pagination Start ------------------*/
 .pagination .page-item a {
