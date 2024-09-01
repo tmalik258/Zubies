@@ -3,7 +3,7 @@ from django.http import JsonResponse
 
 from .models import NewsLetter
 
-# Create your views here.
+
 def SubscribeView(request):
 	if request.POST:
 		email = request.POST.get('email')

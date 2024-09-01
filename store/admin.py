@@ -13,7 +13,7 @@ from .models import (
 	ProductImages,
 )
 
-# Register your models here.
+
 admin.site.register(ProductSpecification)
 
 

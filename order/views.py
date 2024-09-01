@@ -16,7 +16,6 @@ from address.billingaddress import Billing
 from basket.basket import Basket
 
 
-# Create your views here.
 def Order_placement(request):
 	"""
 	Orders and Orderitems are fetched from basket_session if exist, and are stored in actual order and orderitem models respectively.

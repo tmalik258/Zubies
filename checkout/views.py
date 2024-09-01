@@ -9,7 +9,7 @@ from address.billingaddress import Billing
 
 from .models import DeliveryOptions
 from basket.basket import Basket
-# Create your views here.
+
 
 def CheckoutView(request):
 	"""
@@ -51,7 +51,6 @@ def CheckoutView(request):
 				return render(request, "checkout/checkout.html", {"form": bform, 'delivery_options': delivery_options})
 
 		return HttpResponseRedirect(reverse("order:order-placement"))
-		# return render(request, "checkout/checkout.html", {"form": bform})
 	else:
 		if request.user.is_authenticated:
 			try:
@@ -60,7 +59,7 @@ def CheckoutView(request):
 				)
 				return render(
 					request, "checkout/checkout.html", {"address": address, 'delivery_options': delivery_options}
-				)  # seems to be the problem
+				)
 
 			except ObjectDoesNotExist:
 				bform = BillingForm(

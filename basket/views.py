@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from .basket import Basket
 from store.models import Product
 
-# Create your views here.
+
 def basket_summary(request):
 	basket = Basket(request)
 	return render(request, 'basket/summary.html', {

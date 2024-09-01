@@ -4,7 +4,6 @@ from django.utils.translation import gettext as _
 from .models import (Order, OrderItem, OrderItemAttribute)
 from store.models import Product
 
-# Register your models here.
 
 # Order Items Model
 class OrderItemAttributeInline(admin.TabularInline):

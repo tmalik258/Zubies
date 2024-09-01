@@ -4,7 +4,6 @@ from django.views.generic import DetailView, ListView, TemplateView
 from .models import Product, Category
 
 
-# Create your views here.
 class HomeView(TemplateView):
     template_name = 'store/index.html'
 

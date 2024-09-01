@@ -21,7 +21,7 @@ class ProductManager(models.Manager):
 		return super(ProductManager, self).get_queryset().filter(is_active=True, in_stock=True)
 
 
-# Create your models here.
+# Models
 class Category (MPTTModel):
 	"""
 	Category table implimented with MPTT
