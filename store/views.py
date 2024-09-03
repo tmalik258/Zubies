@@ -78,7 +78,7 @@ class ProductDetailView (DetailView):
 #             product_form.save()
 
 #             for img in images:
-#                 ProductImages.objects.create(item=product_form, image=img)
+#                 ProductImage.objects.create(item=product_form, image=img)
 
 #             messages.success(request, "Yeew, check it out on the home page!")
 #             return redirect("store:index")

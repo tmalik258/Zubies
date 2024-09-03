@@ -173,7 +173,7 @@ class Product (models.Model):
 		})
 	
 	def image_tag(self):
-		f_image = self.img.first()
+		f_image = self.images.first()
 		if f_image:
 			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % f_image.image.url)
 		else:
@@ -184,24 +184,20 @@ class Product (models.Model):
 		value = self.title.replace(" ", "-")
 		self.slug = slugify(value, allow_unicode=True)
 
-		self.in_stock = False if self.stock==0 else True
+		self.in_stock = self.stock > 0
 
 		super().save(*args, **kwargs)
 
 
-class ProductImages (models.Model):
+class ProductImage (models.Model):
 	def user_directory_path(instance, filename):
-        # file will be uploaded to MEDIA_ROOT/user_<id>/listing_<title>/<filename>
-		return 'product_media/item_{0}/{1}'.format(instance.item.title, filename)
+		return f'product_media/item_{instance.product.title}/{filename}'
 
-	def image_tag(self):
-		return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % self.image.url) if self.image else 'No image found'
 
-	item = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='img')
+	product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
 	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
-	image_tag.short_description = 'Image'
-	alt_text = models.CharField(verbose_name=_("Alternative text of image"), max_length=255, help_text=_('In case image is not displayed due to slow internet connection, what should be displayed instead of this image as text. Text should describe what kind of image has to be displayed. It\'s important for SEO.'))
-	created_at = models.DateTimeField(auto_now_add=True, editable=False)
+	alt_text = models.CharField(verbose_name=_("Alternative text"), max_length=255, help_text=_("Description of the image for SEO purposes"), default='product image')
+	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	class Meta:
@@ -209,7 +205,11 @@ class ProductImages (models.Model):
 		verbose_name_plural = _("Product Images")
 
 	def __str__(self):
-		return f"{self.item}"
+		return f"Image for {self.product.title}"
+
+	def image_tag(self):
+		return mark_safe(f'<img src="{self.image.url}" style="width: 45px; height:45px;" />') if self.image else 'No image found'
+	image_tag.short_description = 'Image'
 
 	def save(self, *args, **kwargs):
 		img = PillowImage.open(self.image)

@@ -18,10 +18,10 @@
 		<div class="row g-2">
 			<!------------ Image -------------->
 			<div class="col-md-5">
-				{% if object.img.first.image %}
+				{% if object.images.first.image %}
 				<div class="swiper itemImageSwiper">
 					<div class="swiper-wrapper">
-						{% for image in object.img.all %}
+						{% for image in object.images.all %}
 						<div class="swiper-slide">
 							<div class="swiper-zoom-container">
 								<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async">

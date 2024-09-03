@@ -29,10 +29,10 @@
 						<a href="{{ item.get_absolute_url }}">
 							<div class="position-relative d-flex flex-column justify-content-between align-content-between h-100">
 								<div class="mt-2 px-2 product-img-container h-100">
-									{% if item.img.first.image %}
+									{% if item.images.first.image %}
 										<div class="swiper itemImageSwiper">
 											<div class="swiper-wrapper">
-												{% for image in item.img.all %}
+												{% for image in item.images.all %}
 													<div class="swiper-slide">
 														<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" >
 													</div>

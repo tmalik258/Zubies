@@ -1,7 +1,9 @@
-from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
+from typing import Any, Sequence
+from django import forms
+from django.contrib import (admin, messages)
 from django.utils.translation import gettext as _
-from django.contrib import messages
+
+from mptt.admin import MPTTModelAdmin
 
 from .models import (
 	Category,
@@ -10,7 +12,7 @@ from .models import (
 	Product,
 	ProductSpecification,
 	ProductSpecificationValue,
-	ProductImages,
+	ProductImage,
 )
 
 
@@ -41,19 +43,47 @@ class ProductSpecificationValueInline(admin.TabularInline):
 
 
 # Image Inline Model
-class ImageInline(admin.TabularInline):
-	model = ProductImages
-	fk_name = "item"
-	max_num = 5
-	verbose_name_plural = _("image")
+class ProductImageInline(admin.TabularInline):
+	model = ProductImage
+	extra = 0
+	can_delete = True
+	verbose_name_plural = 'Images'
+	fields = ('image', 'alt_text')
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+	allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+	def __init__(self, *args, **kwargs):
+		kwargs.setdefault("widget", MultipleFileInput())
+		super().__init__(*args, **kwargs)
+	
+	def clean(self, data, initial=None):
+		single_file_clean = super().clean
+		if isinstance(data, (list, tuple)):
+			result = [single_file_clean(d, initial) for d in data]
+		else:
+			result = single_file_clean(data, initial)
+		return result
+
+
+class ProductAdminForm(forms.ModelForm):
+	images = MultipleFileField(required=False)
+
+	class Meta:
+		model = Product
+		fields = '__all__'
 
 
 # Product Model
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+	form = ProductAdminForm
 	inlines = [
 		ProductSpecificationValueInline,
-		ImageInline,
+		ProductImageInline,
 	]
 	list_display = (
 		"title",
@@ -79,6 +109,13 @@ class ProductAdmin(admin.ModelAdmin):
 	list_editable = ["regular_price", "discount_price", "stock", "is_active"]
 	empty_value_display = "-empty-"
 
+	def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+		super().save_model(request, obj, form, change)
+		images = request.FILES.getlist('images')
+
+		for image in images:
+			ProductImage.objects.create(product=obj, image=image)
+
 
 	@admin.action
 	def make_active (self, request, queryset):
@@ -94,9 +131,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 # Image Model
-class ImageAdmin(admin.ModelAdmin):
-	list_display = ("item", "image_tag")
-	list_filter = ("item",)
-
-
-admin.site.register(ProductImages, ImageAdmin)
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+	list_display = ("product", "image_tag")
+	list_filter = ("product",)
