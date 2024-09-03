@@ -77,7 +77,6 @@ class ProductAdmin(admin.ModelAdmin):
 		"created",
 	)
 	list_editable = ["regular_price", "discount_price", "stock", "is_active"]
-	prepopulated_fields = {"slug": ("title",)}
 	empty_value_display = "-empty-"
 
 

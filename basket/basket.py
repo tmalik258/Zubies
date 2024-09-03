@@ -72,30 +72,32 @@ class Basket():
 			del self.basket[item_key]
 			self.save()
 
+	def serialize_product(self, product, attributes, key):
+		"""
+		Convert the Product object to a dictionary
+		"""
+		if product is None:
+			product_data = {
+				'id': None,
+				'key': key
+			}
+		else:
+			product_data = {
+				'id': product.id,
+				'title': product.title,
+				'description': product.description,
+				'image': product.img.first().image.url if product.img.exists() else None,
+				'attributes': {key.specification.name: key.value for key in attributes},
+				'get_absolute_url': product.get_absolute_url,
+				'key': key
+			}
+		return product_data
+
 	def __iter__(self):
 		"""
 		Collect the product_id in the session data to query the database and return products
 		"""
 
-		def serialize_product(product, attributes, key):
-			"""
-			Convert the Product object to a dictionary
-			"""
-			if product is None:
-				product_data = {
-					'id': None,
-					'key': key
-				}
-			else:
-				product_data = {
-					'id': product.id,
-					'title': product.title,
-					'description': product.description,
-					'image': product.img.first().image.url if product.img.exists() else None,
-					'attributes': {key.specification.name: key.value for key in attributes},
-					'key': key
-				}
-			return product_data
 
 		dict_keys = self.basket.keys()
 		product_ids = [pid.split('-')[0] for pid in dict_keys]
@@ -104,16 +106,23 @@ class Basket():
 
 		basket = self.basket.copy()
 
+		keys_to_delete = []
+
 		for key in dict_keys:
-			print('key', key)
 			ids = key.split('-')
 			product_id = ids[0]
 			product = product_dict.get(product_id)
 
+			if product is None:
+				keys_to_delete.append(key)
+
 			attribute_ids = ids[1:]
 			attributes = ProductSpecificationValue.objects.filter(id__in=attribute_ids)
 
-			basket[str(key)]['product'] = serialize_product(product, attributes, key)
+			basket[str(key)]['product'] = self.serialize_product(product, attributes, key)
+		
+		for key in keys_to_delete:
+			self.delete(key)
 
 		for item in basket.values():
 			item['total_price'] = item['regular_price'] * item['qty']

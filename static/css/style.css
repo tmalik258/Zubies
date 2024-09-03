@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Island+Moments&family=Sedan:ital@0;1&display=swap');
 
 :root {
-	--primary-color: #000;
+	--primary-color: #141414;
 	--secondary-color: #f4f3ee;
 	--primary-bg-color: #f4f3ee;
-	--secondary-bg-color: #000;
-	--secondary-bg-color--transparent: #00000059;
+	--secondary-bg-color: #141414;
+	--secondary-bg-color--transparent: #14141459;
 	--tertiary-bg-color: #cbc6be;
 }
 
@@ -154,15 +154,16 @@ html.lenis body {
 }
 /*------------------------			 ScrollBar End		----------------------*/
 
-.btn.btn-primary {
-	background-color: var(--secondary-bg-color);
-	color: var(--secondary-color);
-}
-
 .alert-custom {
 	position: absolute;
 	width: 100%;
 	z-index: 100;
+}
+
+.btn.btn-primary {
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-color);
+	border: 1px solid var(--secondary-bg-color);
 }
 
 .btn.btn-primary:hover {
@@ -172,64 +173,5 @@ html.lenis body {
 
 /*      Custom Classes      */
 .min-h-96 {
-	min-height: 24em;
+	min-height: 35em;
 }
-
-/* 		Buttons			 */
-.btn.basket {
-	color: var(--primary-color);
-	border-radius: 10px;
-	border: 1px var(--primary-color) solid;
-}
-
-.btn.basket:hover,
-.btn.basket.filled {
-	color: var(--primary-bg-color);
-	background: var(--primary-color);
-	border: 1px var(--primary-color) solid;
-}
-
-.btn.basket.filled:hover {
-	--primary-color: #322d29;
-	background: var(--primary-color);
-}
-
-a.btn-shop,
-a.btn-shop:hover {
-	text-decoration: none;
-	color: rgb(116, 91, 50);
-}
-
-a.btn-shop:hover {
-	text-decoration: 1px solid rgb(116, 91, 50) underline;
-}
-
-.btn-shop ion-icon {
-	transform: translateY(-50%);
-	transition: 0.5s;
-}
-
-.btn-shop:hover ion-icon {
-	transform: translateX(-10px) translateY(-50%);
-}
-
-/* ---- Add and Remove Icons ---- */
-.plus-btn.btn,
-.min-btn.btn {
-	color: #969696;
-}
-.plus-btn.btn:hover,
-.min-btn.btn:hover {
-	color: wheat;
-	cursor: pointer;
-}
-
-/*--------------- Basket Summary Start ---------------*/
-.product-item {
-	max-width: 60rem;
-	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
-		inset 5px 5px 15px rgba(0, 0, 0, 0.5);
-	background-color: #141414;
-	color: wheat;
-}
-/*--------------- Basket Summary End ---------------*/

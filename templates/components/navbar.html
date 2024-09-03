@@ -243,16 +243,25 @@
 					</svg>
 				</span>
 				<ul class="custom-dropdown-menu">
+					{% if user.is_authenticated and user.is_superuser %}
+						<li>
+							<a
+								class="dropdown-item"
+								href="{% url 'admin:index' %}"
+								>Admin Panel</a
+							>
+						</li>
+					{% endif %}
 					<li>
 						<a
 							class="dropdown-item"
 							href="{% url 'account:dashboard' %}"
-							>Dashboard</a
+							>Action Hub</a
 						>
 					</li>
 					<li>
 						<a href="{% url 'account:wishlist' %}" class="dropdown-item">
-							Saved Items
+							My Picks
 						</a>
 					</li>
 					{% if user.is_authenticated %}

@@ -225,8 +225,13 @@ main {
 	font-size: 1.7em;
 	transition-timing-function: ease-in-out;
 	transition-duration: .7s;
-	transition-property: color;
+	transition-property: color, padding;
 	overflow: hidden;
+}
+
+.catalog .catalog-grid .catalog-grid-item .btn-explore:hover {
+	color: var(--secondary-color);
+	padding: .5em;
 }
 
 .catalog .catalog-grid .catalog-grid-item .btn-explore::after {
@@ -245,10 +250,6 @@ main {
 
 .catalog .catalog-grid .catalog-grid-item .btn-explore:hover::after {
 	clip-path: inset(0 0 0 0);
-}
-
-.catalog .catalog-grid .catalog-grid-item .btn-explore:hover {
-	color: var(--secondary-color);
 }
 
 @media screen and (width < 1600px) {
@@ -421,8 +422,13 @@ main {
 	font-size: 1.7em;
 	transition-timing-function: ease-in-out;
 	transition-duration: .7s;
-	transition-property: color;
+	transition-property: color, padding;
 	overflow: hidden;
+}
+
+.about .btn-read:hover {
+	color: var(--secondary-color);
+	padding: .5em;
 }
 
 .about .btn-read::after {
@@ -441,10 +447,6 @@ main {
 
 .about .btn-read:hover::after {
 	clip-path: inset(0 0 0 0);
-}
-
-.about .btn-read:hover {
-	color: var(--secondary-color);
 }
 
 @media screen and (width < 1200px) {

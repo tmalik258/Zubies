@@ -23,6 +23,16 @@ footer .footer-link:hover {
 	text-decoration: underline solid var(--primary-color);
 }
 
+footer .footer-link-icon {
+	transition: .15s ease-in-out;
+	transition-property: width, height;
+}
+
+footer .footer-link-icon:hover {
+	width: 20px;
+	height: 20px;
+}
+
 @media screen and (width < 1400px) {
 	
 }

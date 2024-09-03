@@ -83,6 +83,7 @@
 }
 
 .header-side-content #menu-container a .letter {
+	--def-transition-duration: .3s;
 	display: inline-block;
 	opacity: 0;
 	transform: translate3d(0, 2.5rem, 0);
@@ -103,7 +104,7 @@
 	li:nth-child(1)
 	a
 	.letter {
-	transition-delay: calc(0.5s + 0.05s * var(--letter-index));
+	transition-delay: calc(0.5s + 0.1s * var(--letter-index));
 }
 
 :root[menu-open]
@@ -112,7 +113,7 @@
 	li:nth-child(2)
 	a
 	.letter {
-	transition-delay: calc(0.55s + 0.05s * var(--letter-index));
+	transition-delay: calc(0.55s + 0.1s * var(--letter-index));
 }
 
 :root[menu-open]
@@ -121,7 +122,7 @@
 	li:nth-child(3)
 	a
 	.letter {
-	transition-delay: calc(0.6s + 0.05s * var(--letter-index));
+	transition-delay: calc(0.6s + 0.1s * var(--letter-index));
 }
 
 :root[menu-open]
@@ -130,7 +131,7 @@
 	li:nth-child(4)
 	a
 	.letter {
-	transition-delay: calc(0.65s + 0.05s * var(--letter-index));
+	transition-delay: calc(0.65s + 0.1s * var(--letter-index));
 }
 
 :root[menu-open]
@@ -139,7 +140,7 @@
 	li:nth-child(5)
 	a
 	.letter {
-	transition-delay: calc(0.7s + 0.05s * var(--letter-index));
+	transition-delay: calc(0.7s + 0.1s * var(--letter-index));
 }
 
 .header-side-content #menu-container li {

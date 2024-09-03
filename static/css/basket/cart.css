@@ -1,0 +1,86 @@
+/*--------------- Add and Remove Icons Start ---------------*/
+.plus-btn.btn,
+.min-btn.btn {
+	color: var(--secondary-color);
+	cursor: pointer;
+}
+
+.plus-btn.btn:hover,
+.min-btn.btn:hover {
+	--secondary-color: #d8d7d4;
+}
+/*--------------- Add and Remove Icons End ---------------*/
+
+.product-item {
+	box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+		inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-color);
+}
+
+a.btn-shop {
+	text-decoration: none;
+	color: var(--primary-color);
+}
+
+a.btn-shop:hover {
+	text-decoration: 1px solid rgb(116, 91, 50) underline;
+}
+
+.btn-shop ion-icon {
+	margin-right: .5rem;
+	transition: 0.5s ease-in-out transform;
+}
+
+.btn-shop:hover ion-icon {
+	transform: translateX(-10px);
+}
+
+/* 		Buttons			 */
+.btn.basket {
+	position: relative;
+	color: var(--primary-color);
+	border-radius: 0;
+	padding: .5em;
+	padding-inline: 2.5em;
+	border: 1px var(--secondary-bg-color) solid;
+	transition: .7s ease-in-out;
+	transition-property: color;
+	overflow: hidden;
+}
+
+.btn.basket:is(:hover) {
+	color: var(--secondary-color);
+}
+
+.btn.basket::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: black;
+	clip-path: inset(0 100% 0 100%);
+	transition: clip-path .7s ;
+	transition-timing-function: cubic-bezier( 0.83, -0.02, 0.22, 0.86 );
+	z-index: -1;
+}
+
+.btn.basket:hover::after {
+	clip-path: inset(0 0 0 0);
+}
+
+.btn.basket.filled:hover {
+	--primary-color: #322d29;
+	background: var(--primary-color);
+}
+
+.dlt-btn ion-icon {
+	transition: .5s ease-in-out;
+	transition-property: rotate;
+}
+
+.dlt-btn ion-icon:hover {
+	rotate: 180deg;
+}
