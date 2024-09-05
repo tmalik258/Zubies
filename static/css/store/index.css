@@ -1,7 +1,3 @@
-:root {
-	--def-transition-duration: 0.5s;
-}
-
 main {
 	display: flex;
 	flex-direction: column;

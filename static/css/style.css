@@ -7,6 +7,9 @@
 	--secondary-bg-color: #141414;
 	--secondary-bg-color--transparent: #14141459;
 	--tertiary-bg-color: #cbc6be;
+	--def-transition-duration: 0.5s;
+	--box-shadow: 10px 10px 15px rgba(255, 255, 255, 0.08),
+		-10px -10px 15px rgba(255, 255, 255, 0.05);
 }
 
 * {

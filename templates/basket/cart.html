@@ -22,18 +22,20 @@
 			{% else %}
 				{% for item in basket %}
 					{% with product=item.product %}
-						<div data-index="{{ product.key }}" class="row col-11 col-sm-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0">
+						<div data-index="{{ product.key }}" class="row col-12 col-md-10 my-4 p-3 product-item m-auto rounded-4 gx-0 text-md-center">
 							{% if product.id %}
 								<!--------------- Image ----------------->
-								<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto justify-content-center" style="width: 70px; height: 70px;">
-									{% if product.image %}
-									<img src="{{ product.image }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
-									{% else %}
-									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
-									{% endif %}
+								<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto" >
+									<div style="width: 80px; height: 80px;">
+										{% if product.image %}
+										<img src="{{ product.image }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
+										{% else %}
+										<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
+										{% endif %}
+									</div>
 								</div>
 								<!------------- Product Body ------------>
-								<div class="row col-8 col-md-9 m-auto">
+								<div class="row col-8 col-md-9 col-lg-10 m-auto">
 									<a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset col-12 col-md-3 my-auto">
 										<h1 class="h5">{{ product.title }}</h1>
 									</a>
@@ -42,12 +44,12 @@
 										<div class="col">{{ attribute }}: <span class="ms-1">{{ value }}</span></div>
 										{% endfor %}
 									</div>
-									<div class="col-5 col-sm-5 col-md-3 col-lg-2 m-md-auto">
+									<div class="col-12 col-sm-5 col-md-3 col-lg-2 m-md-auto">
 										<button type="button" class="min-btn btn p-0" data-index="{{ product.key }}"><ion-icon name="remove-outline"></ion-icon></button>
 										<span class="quantity">{{ item.qty }}</span>
 										<button class="plus-btn btn p-0" type="button" data-index="{{ product.key }}"><ion-icon name="add-outline"></ion-icon></button>
 									</div>
-									<div class="col-7 col-md-3 m-md-auto">
+									<div class="col-12 col-md-3 m-md-auto">
 										{% if item.discount_price %}
 											Rs. <del style="text-decoration-color: red;">{{ item.regular_price }}</del> {{ item.discount_price }}
 										{% else %}
@@ -69,7 +71,7 @@
 		<div class="col-11 text-end">
 			<div class="h6 text-muted">Sub Total: <span id="sub-total" class="ms-2">Rs. {{ basket.get_after_discount_subtotal_price }}</span></div>
 
-			<div class="d-flex justify-content-between mb-5">
+			<div class="d-flex flex-column flex-md-row justify-content-between mb-5">
 				<a href="{% url 'store:index' %}"class="d-flex align-items-center btn-shop h-100"><ion-icon name="chevron-back-outline" class=""></ion-icon>Continue Shopping</a>
 				{% if basket %}
 					<a href="{% url 'checkout:checkout' %}" class="btn basket">Proceed to Checkout</a>

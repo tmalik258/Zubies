@@ -22,33 +22,25 @@
 		{% endif %}
 	</h1>
 	<section class="products">
-		<div class="row place g-4 g-xl-5 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mx-md-5 my-2">
+		<div class="row place g-4 g-xl-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4 mx-md-5 my-2">
 			{% for item in object_list %}
 				<div class="col">
-					<div class="card h-100 p-2">
-						<a href="{{ item.get_absolute_url }}">
-							<div class="position-relative d-flex flex-column justify-content-between align-content-between h-100">
-								<div class="mt-2 px-2 product-img-container h-100">
+					<div class="card position-relative p-3">
+						<a href="{{ item.get_absolute_url }}" class="h-100 w-100">
+							<div class="d-flex flex-column justify-content-between h-100">
+								<div class="product-img-container">
 									{% if item.images.first.image %}
-										<div class="swiper itemImageSwiper">
-											<div class="swiper-wrapper">
-												{% for image in item.images.all %}
-													<div class="swiper-slide">
-														<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" >
-													</div>
-												{% endfor %}
-											</div>
-										</div>
+										{% with image=item.images.first.image %}
+												<img src="{{ image.url }}" width="370" alt="{{ image.alt_text }}" >
+										{% endwith %}
 									{% else %}
-										<div class="w-100 h-100 d-flex justify-content-center align-items-center">
-											No Image
-										</div>
+										No Image
 									{% endif %}
 								</div>
-								<div class="card-body position-relative">
+								<div class="card-body">
 									<h3 class="card-title h5">{{ item.title | title }}</h3>
 									{% if item.discount_price %}
-										<del>Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
+										<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}</span>
 									{% else %}
 										Rs. {{ item.regular_price }}
 									{% endif %}

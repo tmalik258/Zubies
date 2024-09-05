@@ -1,4 +1,5 @@
-from typing import Any, Sequence
+from django.core.files.uploadedfile import UploadedFile
+import os
 from django import forms
 from django.contrib import (admin, messages)
 from django.utils.translation import gettext as _
@@ -109,12 +110,23 @@ class ProductAdmin(admin.ModelAdmin):
 	list_editable = ["regular_price", "discount_price", "stock", "is_active"]
 	empty_value_display = "-empty-"
 
-	def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+	def save_model(self, request, obj, form, change) -> None:
 		super().save_model(request, obj, form, change)
 		images = request.FILES.getlist('images')
 
 		for image in images:
-			ProductImage.objects.create(product=obj, image=image)
+			if isinstance(image, UploadedFile):
+            # Get the filename without extension
+				filename = os.path.splitext(image.name)[0]
+				
+				# Create ProductImage with alt_text
+				ProductImage.objects.create(
+					product=obj,
+					image=image,
+					alt_text=filename
+				)
+			else:
+				print(f"Unexpected type for image: {type(image)}")
 
 
 	@admin.action
