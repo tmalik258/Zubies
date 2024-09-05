@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import (render, redirect)
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -135,8 +136,6 @@ def register(request):
 		registerForm = RegistrationForm(request.POST)
 		if registerForm.is_valid():
 			user = registerForm.save(commit=False)
-			user.email = registerForm.cleaned_data['email']
-			user.set_password(registerForm.cleaned_data['password'])
 			user.is_active = False
 			user.is_verified = False
 			user.save()

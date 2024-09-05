@@ -414,7 +414,7 @@
 
 .navbar-nav .nav-item.nav-link.logo-header {
 	position: relative;
-	left: 1em;
+	left: 3em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -500,7 +500,17 @@
 	color: #000;
 }
 
+@media screen and (max-width: 992px) {
+	.navbar-nav .nav-item.nav-link.logo-header {
+		left: 2em;
+	}
+}
+
 @media screen and (max-width: 600px) {
+	.navbar-nav .nav-item.nav-link.logo-header {
+		left: 1em;
+	}
+
 	.navbar-nav .nav-item.nav-link.logo-header .logo-header-text {
 		font-size: 1em;
 	}

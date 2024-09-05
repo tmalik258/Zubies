@@ -86,7 +86,7 @@ class Basket():
 				'id': product.id,
 				'title': product.title,
 				'description': product.description,
-				'image': product.img.first().image.url if product.img.exists() else None,
+				'image': product.images.first().image.url if product.images.exists() else None,
 				'attributes': {key.specification.name: key.value for key in attributes},
 				'get_absolute_url': product.get_absolute_url,
 				'key': key
