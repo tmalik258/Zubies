@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			if(result.message) {
 				// Handle Success
 				$(".form_message").text(JSON.stringify(result.message));
+				// Reset form fields
+				$("#contact-us")[0].reset();
 			}
 			else if (result.error) {
 				// Handle error

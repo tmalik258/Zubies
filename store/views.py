@@ -106,7 +106,7 @@ def contact_view(request):
         Email: {cleaned_data['email']}
         Message: {cleaned_data['message']}
         """
-		send_mail('New Contact Form Submission', message, cleaned_data['email'], ['info@zubies.co'], fail_silently=False)
+		# send_mail('New Contact Form Submission', message, cleaned_data['email'], ['info@zubies.co'], fail_silently=False)
 		return JsonResponse({"message": "Thankyou for contacting us."}, status=201)
 	else:
 		return JsonResponse({"error": form.errors}, status=400)
