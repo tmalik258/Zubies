@@ -16,4 +16,8 @@ DATABASES = {
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ADMINS = 
+ADMINS = ['talhamalik25.tm@gmail.com']
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

@@ -705,6 +705,10 @@ main {
 	font-weight: 200;
 }
 
+.contact form p#form_message {
+	font-size: 3em;
+}
+
 .contact h1 {
 	grid-column: 1 / -1;
 	font-family: "engravers", serif;

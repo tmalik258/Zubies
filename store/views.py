@@ -1,7 +1,18 @@
-from django.contrib.admin.views.decorators import staff_member_required
+import logging
+import json
+
+from django.http import JsonResponse
+from django.core.mail import send_mail
 from django.views.generic import DetailView, ListView, TemplateView
+from django.views.decorators.csrf import csrf_protect
+
+from store.decorators import rate_limit
+from store.forms import ContactForm
 
 from .models import Product, Category
+
+
+logger = logging.getLogger(__name__)
 
 
 class HomeView(TemplateView):
@@ -68,33 +79,44 @@ class ProductDetailView (DetailView):
     #     return context
 
 
-# @staff_member_required
-# def create_product(request):
-#     if request.method == "POST":
-#         product_form = ProductForm(request.POST)
-#         images = request.FILES.getlist('images')
+@rate_limit(limit=5, period=60)
+@csrf_protect
+def contact_view(request):
+	# Composing a new message must be via POST
+	if request.method != "POST":
+		return JsonResponse({"error": "POST request required."}, status=405)
 
-#         if product_form.is_valid():
-#             product_form.save()
+	# Check sender data
+	try:
+		data = json.loads(request.body)
+	except json.JSONDecodeError as e:
+		logger.error(f"Error in contact form submission: {str(e)}")
+		return JsonResponse({"error": "Invalid JSON in request.body."}, status=400)
 
-#             for img in images:
-#                 ProductImage.objects.create(item=product_form, image=img)
+	form = ContactForm(data)
 
-#             messages.success(request, "Yeew, check it out on the home page!")
-#             return redirect("store:index")
+	# Validate contact form
+	if form.is_valid():
+		# process form data
+		cleaned_data = form.cleaned_data
+        # Send email or save to database
+		message = f"""
+        New contact form submission:
+        Name: {cleaned_data['fname']} {cleaned_data['lname']}
+        Email: {cleaned_data['email']}
+        Message: {cleaned_data['message']}
+        """
+		send_mail('New Contact Form Submission', message, cleaned_data['email'], ['info@zubies.co'], fail_silently=False)
+		return JsonResponse({"message": "Thankyou for contacting us."}, status=201)
+	else:
+		return JsonResponse({"error": form.errors}, status=400)
 
-#         else:
-#             for field in product_form:
-#                 for error in field.errors:
-#                     messages.error(request, f"{field.name}: {error}")
-
-#             print(product_form.errors)
-#             return render(
-#                 request, 'store/createProduct.html', {
-#                     'form': product_form
-#                 })
-
-#     product_form = ProductForm()
-#     return render(request, 'store/createProduct.html', {
-#         'form': product_form,
-#     })
+	# Create contact
+	# contact = Contact(
+	# 	fname=fname,
+	# 	lname=lname,
+	# 	phone_number=phone_number,
+	# 	email=email,
+	# 	message=message,
+	# )
+	# contact.save()

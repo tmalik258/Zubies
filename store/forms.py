@@ -1,4 +1,4 @@
-# from django import forms
+from django import forms
 
 # from .models import Product
 
@@ -19,3 +19,10 @@
 #             'material': forms.Select(attrs={'class': 'form-select'}),
 #             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description'}),
 # 		}
+
+
+class ContactForm(forms.Form):
+	fname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
+	lname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}), required=False)
+	email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
+	message = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message', 'class': 'form-control', 'rows': 4}))

@@ -106,4 +106,49 @@ document.addEventListener('DOMContentLoaded', function() {
 			opacity: 1
 		})
 	})
+
+	// Contact Us
+	$('#contact-us').on('submit', send_message)
+
+	function send_message(e) {
+		e.preventDefault();
+	
+		const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+	
+		fetch(contact_url, {
+			method: 'POST',
+			headers: {
+				'X-CSRFToken': csrf_token,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				fname: e.target.fname.value,
+				lname: e.target.lname.value,
+				email: e.target.email.value,
+				message: e.target.message.value,
+			}),
+		})
+		.then(response => {
+			if (!response.ok) {
+				// Network error
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(result => {
+			if(result.message) {
+				// Handle Success
+				$(".form_message").text(JSON.stringify(result.message));
+			}
+			else if (result.error) {
+				// Handle error
+				$(".form_message").text(JSON.stringify(result.error));
+			}
+		})
+		.catch(error => {
+			console.error('Error: ', error);
+			$(".form_message").text("An error occurred. Please try again later.");
+		});
+	}
 });
+

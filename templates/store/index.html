@@ -78,7 +78,7 @@
 	<div class="container contact">
 		<p>Step into style, fall in love with every step.</p>
 		<h1>Reach Out</h1>
-		<form action="" class="auth_form row">
+		<form method="POST" id="contact-us" class="auth_form row">
 			{% csrf_token %}
 			<div class="col-12 col-md-6">
 				<input type="text" class="form-control" name="fname" placeholder="First Name">
@@ -89,6 +89,7 @@
 			<div class="col-12"><input type="email" class="form-control" name="email" placeholder="Email"></div>
 			<div class="col-12"><textarea name="message" class="form-control" placeholder="Message" rows="4"></textarea></div>
 			<div class="col-12"><button type="submit" class="btn btn-continue">Send</button></div>
+			<p class="form_message"></p>
 		</form>
 		<div class="contact-img-container">
 			<div class="contact-img-section contact-img-left"></div>
@@ -108,11 +109,12 @@
 	<script src="{% static 'js/store/index.js' %}" data-rel-js></script>
 	<script>
 		const textOptions = [
-        { h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/index/carousel/arrival.webp' %}" },
-        { h1: "Seasoned Picks", p: "Perfect for the season.", img: "{% static 'img/index/carousel/seasoned.webp' %}" },
-        { h1: "Most Loved", p: "Fan favorites!", img: "{% static 'img/index/carousel/featured.webp' %}" },
-        { h1: "Upto 50% Sale", p: "Deals you can't miss!", img: "{% static 'img/index/carousel/discount2.webp' %}" },
-    ];
+			{ h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/index/carousel/arrival.webp' %}" },
+			{ h1: "Seasoned Picks", p: "Perfect for the season.", img: "{% static 'img/index/carousel/seasoned.webp' %}" },
+			{ h1: "Most Loved", p: "Fan favorites!", img: "{% static 'img/index/carousel/featured.webp' %}" },
+			{ h1: "Upto 50% Sale", p: "Deals you can't miss!", img: "{% static 'img/index/carousel/discount2.webp' %}" },
+		];
 
+		const contact_url = "{% url 'store:contact-us' %}"
 	</script>
 {% endblock script %}

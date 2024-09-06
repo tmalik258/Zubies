@@ -13,6 +13,8 @@ urlpatterns = [
 	path('featured-products/<slug:featured_slug>/', views.FeaturedCategoryListView.as_view(), name='product-by-featured-categories'),
 	# Product Detail Url
 	path('product/<slug>/', views.ProductDetailView.as_view(), name='product'),
-	# About Us
+	# About Us Url
 	path('about-us/', views.AboutView.as_view(), name='about-us'),
+	# Contact Us API Url
+	path('contact/', views.contact_view, name='contact-us')
 ]
