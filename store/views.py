@@ -41,7 +41,7 @@ class CategoryListView (ListView):
 		if self.request.user.is_authenticated:
 			wishlist_listings = self.request.user.user_wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
-		context['heading'] = self.category.name
+		context['heading'] = self.category.title
 		return context
 
 

@@ -23,12 +23,12 @@
 	// Back to top button
 	$(".back-to-top").fadeOut("slow");
 
-	// Menu Button
 	const menuButton = document.querySelector("#menu-button");
-	const rootElement = document.documentElement;
-	let menuOpen = false;
+    const rootElement = document.documentElement;
+    const menuContainer = document.querySelector("#menu-container");
+    let menuOpen = false;
 
-	menuButton.addEventListener("click", () => {
+    menuButton.addEventListener("click", () => {
 		if (!menuOpen) {
 			if (rootElement.hasAttribute("menu-closed"))
 				rootElement.removeAttribute("menu-closed");
@@ -40,9 +40,66 @@
 				rootElement.removeAttribute("menu-open");
 				rootElement.setAttribute("menu-closed", "");
 				menuOpen = false;
-			}, 200); // Delay matches the longest reverse animation duration (1s)
+				// Reset to main menu when closing
+				resetMenu();
+			}, 200);
 		}
 	});
+
+    function resetMenu() {
+        document.querySelectorAll(".sub-menu").forEach(submenu => {
+            submenu.classList.remove("submenu-open");
+        });
+        document.querySelectorAll(".main-menu > .menu-item").forEach(item => {
+            item.style.display = "";
+        });
+    }
+
+    document.querySelectorAll(".category-link").forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            const categoryId = this.getAttribute("data-category");
+            const submenu = document.querySelector(`#submenu-${categoryId}`);
+            if (submenu) {
+                submenu.classList.add("submenu-open");
+                hideOtherMenuItems(submenu);
+            }
+        });
+    });
+
+    document.querySelectorAll(".back-button").forEach(button => {
+        button.addEventListener("click", function(e) {
+            e.preventDefault();
+            const currentSubmenu = this.closest(".sub-menu");
+            const parentMenuItem = currentSubmenu.closest(".menu-item");
+            const parentSubmenu = parentMenuItem.parentElement.closest(".sub-menu");
+
+            currentSubmenu.classList.remove("submenu-open");
+
+            if (parentSubmenu) {
+                showDirectChildren(parentSubmenu);
+            } else {
+                resetMenu();
+            }
+        });
+    });
+
+    function hideOtherMenuItems(activeSubmenu) {
+        const menuItems = activeSubmenu.closest('.menu-item').parentElement.children;
+        Array.from(menuItems).forEach(item => {
+            if (item !== activeSubmenu.closest('.menu-item')) {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function showDirectChildren(submenu) {
+        const menuItems = submenu.querySelector('ul').children;
+        Array.from(menuItems).forEach(item => {
+            item.style.display = '';
+        });
+        submenu.classList.add("submenu-open");
+    }
 
 	document.querySelectorAll("#menu-container a").forEach((link) => {
 		const text = link.textContent;

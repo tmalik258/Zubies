@@ -1,32 +1,38 @@
+{% load mptt_tags %}
 {% load static %}
 
 <div class="container-fluid position-sticky top-0 z-3 p-0 m-0">
 	<nav class="row navbar align-items-center my-0 px-xl-5">
 		<div class="col-1 header-side-content">
-			<button type="menu" id="menu-button">
+			<button type="button" id="menu-button">
 				<span></span><span></span><span></span>
 			</button>
+
 			<div id="menu-container">
-				<ul class="unstyled">
-					{% for category in categories %}
-					<li>
-						<a
-							href="{{ category.get_absolute_url }}"
-							class="nav-item nav-link"
-							>{{ category.title }}</a
-						>
-							{% for category_image in category.get_images %}
-								<div class="category-img">
-									<img
-										src="{{ category_image.image.url }}"
-										width="400"
-										alt="stiletto 1"
-									/>
+				<ul class="unstyled main-menu">
+					{% recursetree categories %}
+						<li class="menu-item {% if not node.is_leaf_node %}has-submenu{% endif %}">
+							{% if not node.is_leaf_node %}
+								<a href="#" class="category-link" data-category="{{ node.id }}">{{ node.title }}</a>
+								<div id="submenu-{{ node.id }}" class="sub-menu">
+									<a href="#" class="back-button">← Back</a>
+									<ul class="unstyled">
+										{{ children }}
+									</ul>
 								</div>
-							{% endfor %}
-					</li>
-					{% endfor %}
-					<li><a href="">Contact Us</a></li>
+							{% else %}
+								<a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+							{% endif %}
+							{% with images=node.get_images|slice:":3" %}
+								{% for category_image in images %}
+									<div class="category-img">
+										<img src="{{ category_image.image.url }}" alt="{{ node.title }} - Image {{ forloop.counter }}">
+									</div>
+								{% endfor %}
+							{% endwith %}
+						</li>
+					{% endrecursetree %}
+					<li class="menu-item"><a href="/contact">Contact Us</a></li>
 				</ul>
 			</div>
 		</div>

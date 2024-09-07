@@ -10,11 +10,10 @@
 
 {% block style %}
 	<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 {% endblock style %}
 
 {% block body %}
-<div class="container-fluid px-5">
+<div class="container-fluid px-md-5 mt-5 h-100">
 	<h1 class="text-center">
 		{{ heading | title }}
 		{% if subheading %}
@@ -22,7 +21,7 @@
 		{% endif %}
 	</h1>
 	<section class="products">
-		<div class="row place g-4 g-xl-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4 mx-md-5 my-2">
+		<div class="row place row-cols-1 {% if object_list|length > 0 %} row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4 g-4 g-xl-5 {% endif %} mx-md-5 my-2">
 			{% for item in object_list %}
 				<div class="col">
 					<div class="card position-relative p-3">
@@ -58,7 +57,7 @@
 					</div>
 				</div>
 			{% empty %}
-			<h1>Coming Soon</h1>
+			<h1 class="text-center">Coming Soon</h1>
 			{% endfor %}
 		</div>
 								<!-- PAGINATION START -->
@@ -109,9 +108,3 @@
 	</section>
 </div>
 {% endblock body %}
-
-
-{% block script %}
-	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-	<script src="{% static 'js/store/products-swiper.js' %}"></script>
-{% endblock script %}

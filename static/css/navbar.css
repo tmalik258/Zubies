@@ -21,13 +21,13 @@
 }
 /*------------------------			 Fonts End		----------------------*/
 
-
 /*------------------------			 Menu Start		----------------------*/
 
 .header-side-content ul.unstyled {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	height: fit-content;
 }
 
 .header-side-content #menu-container {
@@ -53,6 +53,32 @@
 	visibility: visible;
 }
 
+.header-side-content #menu-container .sub-menu {
+    display: none;
+    color: var(--secondary-color);
+}
+
+.header-side-content #menu-container .sub-menu.submenu-open {
+    display: block;
+}
+
+.header-side-content #menu-container .sub-menu h2 {
+    font-family: "Bodoni Moda SC", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 7em;
+}
+
+.header-side-content #menu-container .back-button {
+    display: inline-block;
+    font-size: 1.5em;
+	width: 100%;
+	height: 100%;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
 .header-side-content #menu-container a {
 	display: inline-block;
 	font-family: "Bodoni Moda SC", serif;
@@ -70,16 +96,24 @@
 	transition-duration: var(--def-transition-duration);
 }
 
-.header-side-content #menu-container ul:hover a {
+.header-side-content #menu-container ul:hover a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
 	--secondary-color: rgb(79, 71, 67);
 }
 
+.header-side-content #menu-container ul a:has(+ .sub-menu.submenu-open) {
+	cursor: default;
+}
+
+.header-side-content #menu-container ul a.back-button:hover {
+	--secondary-color: #f4f3eec2 !important;
+}
+
 .header-side-content #menu-container ul a:hover {
-	--secondary-color: #f4f3ee;
+	--secondary-color: #f4f3ee !important;
 }
 
 .header-side-content #menu-container a .letter {
-	--def-transition-duration: .3s;
+	--def-transition-duration: 0.3s;
 	display: inline-block;
 	opacity: 0;
 	transform: translate3d(0, 2.5rem, 0);
@@ -374,9 +408,9 @@
 	.header-side-content #menu-container li .category-img:nth-of-type(2) {
 		inset: 25% auto 25% 2em;
 	}
-	
+
 	.header-side-content #menu-container li .category-img:nth-of-type(3) {
-		inset: 10% 2em 30% auto ;
+		inset: 10% 2em 30% auto;
 	}
 }
 
@@ -388,7 +422,7 @@
 	}
 
 	.header-side-content #menu-container li .category-img:nth-of-type(3) {
-		inset: 10% 2em 50% auto ;
+		inset: 10% 2em 50% auto;
 	}
 }
 
@@ -398,7 +432,6 @@
 	}
 }
 /*------------------------			 Menu End		----------------------*/
-
 
 /*------------------------			 NavbarNav Start		----------------------*/
 .navbar-nav {
@@ -410,7 +443,7 @@
 
 .navbar-nav .nav-item.nav-link.logo-header {
 	position: relative;
-	left: 3em;
+	left: 3.5em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -513,7 +546,6 @@
 }
 /*------------------------			 NavBar Nav End		----------------------*/
 
-
 /*------------------------			 SideIcons Start		----------------------*/
 nav .side-icons {
 	min-width: fit-content;
@@ -537,7 +569,8 @@ nav .side-icons .dropdown .custom-dropdown-menu {
 	opacity: 0;
 	visibility: hidden;
 	overflow: hidden;
-	transition: max-height var(--def-transition-duration) ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	transition: max-height var(--def-transition-duration) ease-in-out,
+		opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 nav .side-icons .dropdown:hover .custom-dropdown-menu {
