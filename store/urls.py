@@ -8,7 +8,7 @@ urlpatterns = [
 	# Home Url
 	path('', views.HomeView.as_view(), name='index'),
 	# Category Url
-	path('category/<slug:category_slug>/', views.CategoryListView.as_view(), name='products-by-category'),
+	path('category/<uuid:category_id>/', views.CategoryListView.as_view(), name='products-by-category'),
 	# Features Url
 	path('featured-products/<slug:featured_slug>/', views.FeaturedCategoryListView.as_view(), name='product-by-featured-categories'),
 	# Product Detail Url

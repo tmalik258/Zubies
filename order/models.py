@@ -19,6 +19,7 @@ class Order(models.Model):
 	DELIVERY_STATUS_CHOICES = (
 		("D", "Delivered"),
 		("P", "In Process"),
+		("C", "Is Cancelled"),
 	)
 
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

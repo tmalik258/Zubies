@@ -157,11 +157,16 @@ html.lenis body {
 }
 /*------------------------			 ScrollBar End		----------------------*/
 
+
+/*------------------------			 Alert Message Custom Start		----------------------*/
 .alert-custom {
-	position: absolute;
-	width: 100%;
+	position: fixed;
+	width: min(70%, 45em);
+	left: 50%;
+	transform: translateX(-50%);
 	z-index: 100;
 }
+/*------------------------			 Alert Message Custom Start		----------------------*/
 
 .btn.btn-primary {
 	background-color: var(--secondary-bg-color);

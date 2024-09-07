@@ -76,50 +76,53 @@ class Basket():
 		"""
 		Convert the Product object to a dictionary
 		"""
-		if product is None:
-			product_data = {
-				'id': None,
-				'key': key
-			}
-		else:
-			product_data = {
+		try:
+			return {
 				'id': product.id,
 				'title': product.title,
 				'description': product.description,
 				'image': product.images.first().image.url if product.images.exists() else None,
 				'attributes': {key.specification.name: key.value for key in attributes},
-				'get_absolute_url': product.get_absolute_url,
+				'get_absolute_url': product.get_absolute_url(),
 				'key': key
 			}
-		return product_data
+		except AttributeError as e:
+			# Log the error
+			print(f"Error serializing product {getattr(product, 'id', 'None')}: {str(e)}")
+			# Return a minimal dict to avoid breaking the basket
+			return {
+				'id': getattr(product, 'id', None),
+				'title': 'Product unavailable',
+				'key': key
+			}
 
 	def __iter__(self):
 		"""
 		Collect the product_id in the session data to query the database and return products
 		"""
+		dict_keys: dict = self.basket.keys()
+		product_ids: list = [pid.split('-')[0] for pid in dict_keys]
+		products: Product = Product.products.filter(id__in=product_ids)
+		product_dict: dict = {str(product.id): product for product in products}
 
+		basket: dict = self.basket.copy()
 
-		dict_keys = self.basket.keys()
-		product_ids = [pid.split('-')[0] for pid in dict_keys]
-		products = Product.products.filter(id__in=product_ids)
-		product_dict = {str(product.id): product for product in products}
-
-		basket = self.basket.copy()
-
-		keys_to_delete = []
+		keys_to_delete: list = []
 
 		for key in dict_keys:
 			ids = key.split('-')
 			product_id = ids[0]
-			product = product_dict.get(product_id)
-
-			if product is None:
-				keys_to_delete.append(key)
+			product = product_dict.get(product_id, None)
+			print(product)
 
 			attribute_ids = ids[1:]
 			attributes = ProductSpecificationValue.objects.filter(id__in=attribute_ids)
 
 			basket[str(key)]['product'] = self.serialize_product(product, attributes, key)
+
+			if basket[str(key)]['product']['id'] is None:
+				print(basket[str(key)]['product'])
+				keys_to_delete.append(key)
 		
 		for key in keys_to_delete:
 			self.delete(key)

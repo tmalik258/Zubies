@@ -120,7 +120,7 @@ class CustomLoginView(LoginView):
 	def get_success_url(self):
 		# Get the value of the 'next' parameter from the request's GET parameters
 		next_url = self.request.GET.get('next')
-		messages.success(self.request, 'Yayy! You have successfully logged in.')
+		messages.success(self.request, "Welcome back! We knew you couldn't stay away for long!")
 
 		if next_url != None:
 			return next_url
@@ -150,7 +150,7 @@ def register(request):
 				'token': account_activation_token.make_token(user),
 			})
 			user.send_verification_email(subject=subject, message=message)
-			messages.success(request, 'Your account has been created successfully. Please check your mail for account verification')
+			messages.success(request, "Your account is officially alive! Now, go check your email for verification magic.")
 
 	else:
 		registerForm = RegistrationForm()
@@ -169,7 +169,7 @@ def account_activate(request, uid64, token):
 		user.is_active = True
 		user.is_verified = True
 		user.save()
-		messages.success(request, 'Your account has been verified.')
+		messages.success(request, "Your account has been verified! You're all set to start shopping. Enjoy your experience!")
 		login(request, user)
 		return redirect('account:dashboard')
 	else:
@@ -178,5 +178,6 @@ def account_activate(request, uid64, token):
 
 
 def logout_view(request):
-    logout(request)
-    return redirect("store:index")
+	logout(request)
+	messages.info(request, "Logged out! We'll miss you... but not for long, right?")
+	return redirect("store:index")

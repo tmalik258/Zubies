@@ -6,10 +6,8 @@ from store.models import Product
 
 
 def basket_summary(request):
-	basket = Basket(request)
-	return render(request, 'basket/cart.html', {
-		'basket': basket
-	})
+	# request.session.clear()
+	return render(request, 'basket/cart.html')
 
 def basket_update(request):
 	basket = Basket(request)

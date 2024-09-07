@@ -23,6 +23,7 @@ def CheckoutView(request):
 		return redirect("store:index")
 
 	delivery_options = DeliveryOptions.objects.filter(is_active=True)
+	print("Session contents:", dict(request.session))
 
 	if request.POST:
 		if request.user.is_authenticated:

@@ -61,7 +61,6 @@ def Order_placement(request):
 			order=order,
 			quantity=item["qty"],
 		)
-		# print(item['product'].get('key'))
 		key = item['product'].get('key').split('-')[1:]
 		attributes = ProductSpecificationValue.objects.filter(id__in=key)
 		if attributes.exists():

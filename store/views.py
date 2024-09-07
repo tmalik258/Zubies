@@ -24,22 +24,25 @@ class AboutView(TemplateView):
 
 
 class CategoryListView (ListView):
-    model = Product
-    paginate_by = 12
-    template_name = 'store/products.html'
+	model = Product
+	paginate_by = 12
+	template_name = 'store/products.html'
 
-    def get_queryset(self, **kwargs):
-        category = Category.objects.get(slug=self.kwargs['category_slug'])
-        return Product.products.filter(category__in=category.get_descendants(include_self=True))
+	def setup(self, request, *args, **kwargs):
+		super().setup(request, *args, **kwargs)
+		self.category = Category.objects.get(category_id=self.kwargs['category_id'])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        wishlist_listings = []
-        if self.request.user.is_authenticated:
-            wishlist_listings = self.request.user.user_wishlist.all()
-        context['wishlist_listings'] = wishlist_listings
-        context['heading'] = self.kwargs['category_slug']
-        return context
+	def get_queryset(self, **kwargs):
+		return Product.products.filter(category__in=self.category.get_descendants(include_self=True))
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		wishlist_listings = []
+		if self.request.user.is_authenticated:
+			wishlist_listings = self.request.user.user_wishlist.all()
+		context['wishlist_listings'] = wishlist_listings
+		context['heading'] = self.category.name
+		return context
 
 
 class FeaturedCategoryListView (ListView):

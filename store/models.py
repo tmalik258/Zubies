@@ -1,14 +1,15 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from django.core.files.base import ContentFile
 from django.utils.safestring import mark_safe
-from django.utils.crypto import get_random_string
-from django.utils import timezone
 
 from mptt.models import MPTTModel, TreeForeignKey
+
+from abstract.models import AbstractMediaModel
 
 # Image Resize and Upload
 from PIL import Image as PillowImage
@@ -26,35 +27,44 @@ class Category (MPTTModel):
 	"""
 	Category table implimented with MPTT
 	"""
-	name = models.CharField(
+	category_id = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True, editable=False)
+	title = models.CharField(
 		verbose_name=_("Category Name"),
 		help_text=_("Required and unique"),
 		max_length=124,
-		unique=True
 	)
-	# is_featured = models.BooleanField(default=False)
-	slug = models.SlugField(verbose_name=_("Category Safe URL"), max_length=255, unique=True, editable=False)
+	is_active = models.BooleanField(default=True)
 	parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
 	class MPTTMeta:
-		order_insertion_by = ["name"]
+		order_insertion_by = ["title"]
 
 	class Meta:
 		verbose_name = _("Category")
 		verbose_name_plural = _("Categories")
 
 	def __str__(self):
-		return self.name
+		return self.title
 
 	def get_absolute_url(self):
 		return reverse('store:products-by-category', kwargs={
-			'category_slug': self.slug
+			'category_id': self.category_id
 		})
-	
-	def save (self, *args, **kwargs):
-		value = self.name.replace(" ", "-")
-		self.slug = slugify(value, allow_unicode=True)
-		super().save(*args, **kwargs)
+
+	def get_images(self):
+		return CategoryMedia.objects.filter(content_type__model='category', object_id=self.id)
+
+
+class CategoryMedia(AbstractMediaModel):
+	"""
+	Category Images
+	"""
+
+	class Meta:
+		verbose_name = _("Category Image")
+		verbose_name_plural = _("Category Images")
+
+
 
 class FeaturedCategory (models.Model):
 	"""
@@ -148,7 +158,7 @@ class Product (models.Model):
 	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
 	featured_category = models.ForeignKey(FeaturedCategory, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
 	material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
-	weight = models.IntegerField(default=0)
+	weight = models.IntegerField(default=0, help_text=_('kg'))
 	stock = models.IntegerField(default=0)
 	in_stock = models.BooleanField(default=True)
 	is_active = models.BooleanField(verbose_name=_("Product Visibility"), help_text=_("Change Product Visibility"), default=True)
@@ -173,7 +183,7 @@ class Product (models.Model):
 		})
 	
 	def image_tag(self):
-		f_image = self.images.first()
+		f_image = ProductMedia.objects.filter(content_type__model='product', object_id=self.id).first()
 		if f_image:
 			return mark_safe('<img src="%s" style="width: 45px; height:45px;" />' % f_image.image.url)
 		else:
@@ -189,45 +199,11 @@ class Product (models.Model):
 		super().save(*args, **kwargs)
 
 
-class ProductImage (models.Model):
-	def user_directory_path(instance, filename):
-		return f'product_media/item_{instance.product.title}/{filename}'
-
-
-	product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-	image = models.ImageField(verbose_name=_("image"), upload_to=user_directory_path)
-	alt_text = models.CharField(verbose_name=_("Alternative text"), max_length=255, help_text=_("Description of the image for SEO purposes"), default='product image')
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
+class ProductMedia (AbstractMediaModel):
+	"""
+    Product Images
+    """
 
 	class Meta:
 		verbose_name = _("Product Image")
 		verbose_name_plural = _("Product Images")
-
-	def __str__(self):
-		return f"Image for {self.product.title}"
-
-	def image_tag(self):
-		return mark_safe(f'<img src="{self.image.url}" style="width: 45px; height:45px;" />') if self.image else 'No image found'
-	image_tag.short_description = 'Image'
-
-	def save(self, *args, **kwargs):
-		img = PillowImage.open(self.image)
-		# Resize image
-		output_size = (800, 800)
-		img.thumbnail(output_size)
-
-		# Save the resized image to a BytesIO buffer
-		output_buffer = BytesIO()
-		img.save(output_buffer, format='WebP')
-		output_buffer.seek(0)
-
-		# Generate a unique name for the image
-		random_string = get_random_string(length=8)
-		timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-		filename = f'{random_string}_{timestamp}.webp'
-
-		# Save the buffer content to the image field with the unique filename
-		self.image.save(filename, ContentFile(output_buffer.read()), save=False)
-
-		super().save(*args, **kwargs)

@@ -8,119 +8,24 @@
 			</button>
 			<div id="menu-container">
 				<ul class="unstyled">
+					{% for category in categories %}
 					<li>
 						<a
-							href="{% url 'store:products-by-category' category_slug='stilettos' %}"
+							href="{{ category.get_absolute_url }}"
 							class="nav-item nav-link"
-							>Stilettos</a
+							>{{ category.title }}</a
 						>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/stilettos/img-1.webp' %}"
-								width="400"
-								alt="stiletto 1"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/stilettos/img-2.webp' %}"
-								width="400"
-								alt="stiletto 2"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/stilettos/img-3.webp' %}"
-								width="400"
-								alt="stiletto 3"
-							/>
-						</div>
+							{% for category_image in category.get_images %}
+								<div class="category-img">
+									<img
+										src="{{ category_image.image.url }}"
+										width="400"
+										alt="stiletto 1"
+									/>
+								</div>
+							{% endfor %}
 					</li>
-					<li>
-						<a
-							href="{% url 'store:products-by-category' category_slug='shoes' %}"
-							class="nav-item nav-link"
-							>Footwear</a
-						>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/shoes/img-1.webp' %}"
-								width="400"
-								alt="shoes 1"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/shoes/img-2.webp' %}"
-								width="400"
-								alt="shoes 2"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/shoes/img-3.webp' %}"
-								width="400"
-								alt="shoes 3"
-							/>
-						</div>
-					</li>
-					<li>
-						<a
-							href="{% url 'store:products-by-category' category_slug='men' %}"
-							class="nav-item nav-link"
-							>Men</a
-						>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/jackets/img-1.webp' %}"
-								width="400"
-								alt="jacket 1"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/jackets/img-2.webp' %}"
-								width="400"
-								alt="jacket 2"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/jackets/img-3.webp' %}"
-								width="400"
-								alt="jacket 3"
-							/>
-						</div>
-					</li>
-
-					<li>
-						<a
-							href="{% url 'store:products-by-category' category_slug='women' %}"
-							class="nav-item nav-link"
-							>Women</a
-						>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/bags/img-1.webp' %}"
-								width="400"
-								alt="bags 1"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/bags/img-2.webp' %}"
-								width="400"
-								alt="bags 2"
-							/>
-						</div>
-						<div class="category-img">
-							<img
-								src="{% static 'img/index/categories/bags/img-3.webp' %}"
-								width="400"
-								alt="bags 3"
-							/>
-						</div>
-					</li>
+					{% endfor %}
 					<li><a href="">Contact Us</a></li>
 				</ul>
 			</div>

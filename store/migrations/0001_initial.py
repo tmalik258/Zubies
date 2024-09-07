@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
             name='ProductImages',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to=store.models.ProductImage.user_directory_path, verbose_name='image')),
+                ('image', models.ImageField(upload_to=store.models.ProductMedia.directory_path, verbose_name='image')),
                 ('alt_text', models.CharField(help_text="In case image is not displayed due to slow internet connection, what should be displayed instead of this image as text. Text should describe what kind of image has to be displayed. It's important for SEO.", max_length=255, verbose_name='Alternative text of image')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

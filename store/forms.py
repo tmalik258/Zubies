@@ -1,24 +1,23 @@
 from django import forms
 
-# from .models import Product
+# Custom Multile File Input Class
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
 
-# class ProductForm (forms.ModelForm):
-# 	class Meta:
-# 		model = Product
-# 		fields = ('__all__')
+# Custom Multile File Field Class
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
 
-# 		exclude = ('time_created', 'slug', 'creator', 'is_active', 'in_stock', 'updated')
-
-# 		widgets = {
-# 			'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
-# 			'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Price', 'min': 0}),
-# 			'discount_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Discount Price', 'min': 0}),
-#             'category': forms.Select(attrs={'class': 'form-select'}),
-#             'subcategory': forms.Select(attrs={'class': 'form-select'}),
-#             'material': forms.Select(attrs={'class': 'form-select'}),
-#             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description'}),
-# 		}
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
 
 
 class ContactForm(forms.Form):

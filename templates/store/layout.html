@@ -56,7 +56,7 @@
                 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }} {% endif %} alert-dismissible fade show alert-custom" role="alert">
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close ms-3" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
         {% endif %}
