@@ -7,9 +7,9 @@ django-facebook-pixel-code==0.0.2
 django-js-asset==2.2.0
 django-mptt==0.16.0
 django-mptt-admin==2.6.1
+mysql-connector
 pillow==10.3.0
 psycopg2==2.9.9
-psycopg2-binary==2.9.9
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 rcssmin==1.1.1
