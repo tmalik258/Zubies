@@ -1,6 +1,6 @@
 from .base import *
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.zubies.co', '67.223.119.66']
 
 DATABASES = {
 	# Postgresql
