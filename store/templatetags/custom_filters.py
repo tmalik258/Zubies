@@ -16,6 +16,6 @@ def group_attributes(attributes):
             attribute_dict[attribute.specification.name] = [a_v]
 
     for key, values in attribute_dict.items():
-        result.append(f'{key} <br /> <div class="d-flex gap-2"> {" ".join(values)} </div>')
+        result.append(f'{key} <br /> <div class="d-flex gap-2">{" ".join(values)}</div>')
 
     return '<br/> <br/>'.join(result)
