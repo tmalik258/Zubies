@@ -31,16 +31,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function animateImage(element, src, alt) {
         element.classList.remove('visible');
         
-        setTimeout(() => {
-            element.innerHTML = '';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = alt;
-            img.decoding = 'async';
-            img.loading = 'eager';
-            element.appendChild(img);
-            element.classList.add('visible');
-        }, 500);
+        const img = new Image();
+        img.src = src;
+        img.alt = alt;
+        img.decoding = 'async';
+        img.loading = 'eager';
+
+        img.onload = () => {
+            setTimeout(() => {
+                element.innerHTML = '';
+                element.appendChild(img);
+                element.classList.add('visible');
+            }, 500);
+        };
+
+        img.onerror = () => {
+            console.error(`Failed to load image: ${src}`);
+            // Optionally, you can set a placeholder image here
+        };
     }
 
     function changeText() {
@@ -54,11 +62,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to start content animation
     function startContentAnimation() {
-        // Initial animation
-        changeText();
-
-        // Change text every 5 seconds
-        setInterval(changeText, 5000);
+        // Ensure all initial images are loaded before starting the animation
+        Promise.all(textOptions.map(option => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = option.img;
+                img.onload = resolve;
+                img.onerror = reject;
+            });
+        })).then(() => {
+            // Initial animation
+            changeText();
+            // Change text every 5 seconds
+            setInterval(changeText, 5000);
+        }).catch(error => {
+            console.error('Failed to load all images:', error);
+        });
     }
 
     // Hide loader and start content animation
