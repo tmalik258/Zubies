@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = bool(os.environ.get("DEBUG", False))
-# DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
