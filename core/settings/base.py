@@ -18,6 +18,7 @@ DEBUG_PROPAGATE_EXCEPTIONS = True
 # Application definition
 
 INSTALLED_APPS = [
+	'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -122,14 +123,12 @@ PASSWORD_RESET_TIMEOUT_DAYS = 2
 # Email Backend
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-# SMTP Configuration for Gmail
-EMAIL_HOST = "smtp.gmail.com"  # or the SMTP server provided by your email service
-EMAIL_PORT = 587  # or the appropriate port for your email service
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # your Gmail or email service username
-EMAIL_HOST_PASSWORD = os.getenv(
-    "EMAIL_HOST_PASSWORD"
-)  # your Gmail or email service password
-EMAIL_USE_TLS = True  # or False if your email service does not support TLS/SSL
+# SMTP Configuration
+EMAIL_HOST: str = os.getenv('EMAIL_HOST') # or the SMTP server provided by your email service
+EMAIL_PORT: int = int(os.getenv('EMAIL_PORT', 587))  # or the appropriate port for your email service
+EMAIL_HOST_USER: str = os.getenv('EMAIL_HOST_USER')  # your Gmail or email service username
+EMAIL_HOST_PASSWORD: str = os.getenv('EMAIL_HOST_PASSWORD')  # your Gmail or email service password
+EMAIL_USE_TLS: bool = True  # or False if your email service does not support TLS/SSL
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
@@ -141,3 +140,43 @@ DELIVERY_CHARGES_SESSION_ID = 'delivery_charges'
 
 # Facebook ID
 # FACEBOOK_PIXEL_CODE_ID = os.getenv("FACEBOOK_PIXEL_CODE_ID")
+
+JAZZMIN_SETTINGS = {
+	# title of the window (Will default to current_admin_site.site_title if absent or None)
+	'site_title': 'Zubies Admin',
+
+	# Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+	'site_header': 'Zubies Official',
+
+	# Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+	'site_brand': 'Zubies Official',
+
+	# Logo to use for your site, must be present in static files, used for brand on top left
+	'site_logo': 'img/favicon.png',
+
+	# Welcome text on the login screen
+    "welcome_sign": "Welcome to the Zubies Admin Panel",
+
+	# Copyright on the footer
+	'copyright': 'zubies.co',
+
+	# Links to put along the top menu
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "View Site", "url": "store:index"},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "store"},
+    ],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "sketchy",
+}
