@@ -18,7 +18,7 @@ DEBUG_PROPAGATE_EXCEPTIONS = True
 # Application definition
 
 INSTALLED_APPS = [
-	'jazzmin',
+	'jazzmin', # external package
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "more",
     "order",
     "store",
+	'promotion',
 ]
 
 MIDDLEWARE = [
