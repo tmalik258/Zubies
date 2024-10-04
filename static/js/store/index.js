@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 700);
     }
 
-    function animateImage(element, src, alt) {
+    function animateImage(element, item) {
+		const { img:src, h1:alt, href } = item;
         element.classList.remove('visible');
         
         const img = new Image();
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 element.innerHTML = '';
                 element.appendChild(img);
+				element.setAttribute('href', href)
                 element.classList.add('visible');
             }, 500);
         };
@@ -52,10 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function changeText() {
-        const newText = textOptions[currentIndex];
-        animateText(h1Element, newText.h1);
-        animateText(pElement, newText.p);
-        animateImage(imgElement, newText.img, newText.h1);
+        const item = textOptions[currentIndex];
+        animateText(h1Element, item.h1);
+        animateText(pElement, item.p);
+        animateImage(imgElement, item);
 
         currentIndex = (currentIndex + 1) % textOptions.length;
     }

@@ -25,7 +25,6 @@
 
 	const menuButton = document.querySelector("#menu-button");
     const rootElement = document.documentElement;
-    const menuContainer = document.querySelector("#menu-container");
     let menuOpen = false;
 
     menuButton.addEventListener("click", () => {
@@ -127,6 +126,17 @@
 				.join("");
 		}
 	});
+
+	// Add click event listener to all contact-us links
+    document.querySelectorAll('a[href*="#contact-section"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+			rootElement.removeAttribute("menu-open");
+			rootElement.setAttribute("menu-closed", "");
+			menuOpen = false;
+			// Reset to main menu when closing
+			resetMenu();
+        });
+    });
 })(jQuery);
 
 window.addEventListener("load", () => {
@@ -152,6 +162,10 @@ window.addEventListener("load", () => {
 		if (checkAnimationsComplete()) {
 			loadingElement.classList.add("hide");
 			$("body").css("overflow", "initial");
+			// Check if URL contains a hash
+			if (window.location.hash === '#contact-section') {
+				scrollToContact();
+			}
 		} else {
 			requestAnimationFrame(hideLoader);
 		}
@@ -160,6 +174,17 @@ window.addEventListener("load", () => {
 	// Start checking for animation completion
 	hideLoader();
 });
+
+function scrollToContact() {
+	const contactSection = document.querySelector('#contact-us');
+	if (contactSection) {
+		setTimeout(() => {
+			contactSection.scrollIntoView({
+				behavior: 'smooth'
+			});
+		}, 100); // Small delay to ensure DOM is ready
+	}
+}
 
 // SHOW SCROLL UP
 window.addEventListener("scroll", scrollUp);

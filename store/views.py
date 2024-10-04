@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_protect
 from store.decorators import rate_limit
 from store.forms import ContactForm
 
-from .models import Product, Category
+from .models import Product, Category, FeaturedCategory
 
 
 logger = logging.getLogger(__name__)
@@ -50,9 +50,12 @@ class FeaturedCategoryListView (ListView):
 	paginate_by = 12
 	template_name = 'store/products.html'
 
+	def setup(self, request, *args, **kwargs):
+		super().setup(request, *args, **kwargs)
+		self.featured_category: FeaturedCategory = FeaturedCategory.objects.get(slug=self.kwargs['featured_slug'])
+
 	def get_queryset(self, **kwargs):
-		qs = Product.products.all()
-		return qs.filter(featured_category__slug=self.kwargs['featured_slug'])
+		return Product.products.filter(featured_category=self.featured_category)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -60,7 +63,7 @@ class FeaturedCategoryListView (ListView):
 		if self.request.user.is_authenticated:
 			wishlist_listings = self.request.user.user_wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
-		context['heading'] = self.kwargs['category_slug']
+		context['heading'] = self.featured_category.name
 		return context
 
 

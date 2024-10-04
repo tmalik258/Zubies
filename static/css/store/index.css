@@ -50,6 +50,7 @@ main {
 }
 
 .carousel .carousel-image {
+	display: block;
 	clip-path: inset(0 100% 0 100%);
 	transform: translate3d(10em, 0, 0);
 	opacity: 0;
