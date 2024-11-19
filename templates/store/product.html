@@ -17,10 +17,10 @@
 			<!------------ Image -------------->
 			<div class="col-12 col-md-8">
 				<div class="product-images-grid">
-					{% if object.images.first.image %}
-						{% for image in object.images.all %}
+					{% if object.get_images %}
+						{% for object_img in object.get_images %}
 							<div class="product-img-item">
-								<img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" decoding="async">
+								<img src="{{ object_img.image.url }}" alt="{{ object_img.alt_text }}" loading="lazy" decoding="async">
 							</div>
 						{% endfor %}
 					{% else %}
@@ -35,10 +35,10 @@
 					<h2 class="card-title">{{ object.title | title }} </h2>
 					<div>
 						{% if object.discount_price %}
-						Rs. <del>{{ object.regular_price }}</del>
-						{{ object.discount_price }}
+						Rs. <del>{{ object.regular_price|floatformat }}</del>
+						{{ object.discount_price|floatformat }}
 						{% else %}
-						Rs. {{ object.regular_price }}
+						Rs. {{ object.regular_price|floatformat }}
 						{% endif %}
 					</div>
 					{% if object.specification.first %}

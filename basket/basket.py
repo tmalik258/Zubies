@@ -77,24 +77,39 @@ class Basket():
 		Convert the Product object to a dictionary
 		"""
 		try:
+			# explicitly checking if image exist then return its url else return None
+			image = product.get_images().first()
+			image_url = image.image.url if image else None
+			
+			# Use a dictionary comprehension to format attributes cleanly
+			attributes_dict = {attribute.specification.name: attribute.value for attribute in attributes}
+			
 			return {
 				'id': product.id,
 				'title': product.title,
 				'description': product.description,
-				'image': product.images.first().image.url if product.images.exists() else None,
-				'attributes': {key.specification.name: key.value for key in attributes},
+				'image': image_url,
+				'attributes': attributes_dict,
 				'get_absolute_url': product.get_absolute_url(),
 				'key': key
 			}
 		except AttributeError as e:
-			# Log the error
-			print(f"Error serializing product {getattr(product, 'id', 'None')}: {str(e)}")
-			# Return a minimal dict to avoid breaking the basket
+			# Improved error handling with logging and default values
+			print(f"Error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
 			return {
 				'id': getattr(product, 'id', None),
 				'title': 'Product unavailable',
 				'key': key
 			}
+		except Exception as e:
+			# Catch other potential errors and provide fallback handling
+			print(f"Unexpected error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
+			return {
+				'id': getattr(product, 'id', None),
+				'title': 'Product unavailable',
+				'key': key
+			}
+
 
 	def __iter__(self):
 		"""
@@ -113,7 +128,6 @@ class Basket():
 			ids = key.split('-')
 			product_id = ids[0]
 			product = product_dict.get(product_id, None)
-			print(product)
 
 			attribute_ids = ids[1:]
 			attributes = ProductSpecificationValue.objects.filter(id__in=attribute_ids)
@@ -121,7 +135,6 @@ class Basket():
 			basket[str(key)]['product'] = self.serialize_product(product, attributes, key)
 
 			if basket[str(key)]['product']['id'] is None:
-				print(basket[str(key)]['product'])
 				keys_to_delete.append(key)
 		
 		for key in keys_to_delete:

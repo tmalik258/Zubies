@@ -197,6 +197,9 @@ class Product (models.Model):
 		self.in_stock = self.stock > 0
 
 		super().save(*args, **kwargs)
+	
+	def get_images(self):
+		return ProductMedia.objects.filter(content_type__model='product', object_id=self.id)
 
 
 class ProductMedia (AbstractMediaModel):

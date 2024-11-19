@@ -28,8 +28,8 @@
 						<a href="{{ item.get_absolute_url }}" class="h-100 w-100">
 							<div class="d-flex flex-column justify-content-between h-100">
 								<div class="product-img-container">
-									{% if item.images.first.image %}
-										{% with image=item.images.first.image %}
+									{% if item.get_images %}
+										{% with image=item.get_images.first.image %}
 												<img src="{{ image.url }}" width="370" alt="{{ image.alt_text }}" >
 										{% endwith %}
 									{% else %}
@@ -39,9 +39,9 @@
 								<div class="card-body">
 									<h3 class="card-title h5">{{ item.title | title }}</h3>
 									{% if item.discount_price %}
-										<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}</span>
+										<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
 									{% else %}
-										Rs. {{ item.regular_price }}
+										Rs. {{ item.regular_price|floatformat }}
 									{% endif %}
 									<!-- <a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute text-success bottom-0 end-0 translate-middle">
 										{% if item in wishlist_listings %}
@@ -51,7 +51,6 @@
 										{% endif %}
 									</a> -->
 								</div>
-							<!-- <div class="position-absolute"></div> -->
 							</div>
 						</a>
 					</div>
