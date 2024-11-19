@@ -9,7 +9,7 @@ CSRF_TRUSTED_ORIGINS = ['https://zubies.co', 'https://www.zubies.co']
 
 ## Secure-Only Session Cookie
 SESSION_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 DATABASES = {
 	'default': {
