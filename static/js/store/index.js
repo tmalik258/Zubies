@@ -17,15 +17,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     const span = document.createElement('span');
                     span.textContent = letter;
                     span.classList.add('letter');
-                    span.style.transitionDelay = `${index * 50}ms`;
+                    span.style.transitionDelay = `${index * 70}ms`;
                     element.appendChild(span);
                 });
                 element.innerHTML += "&nbsp;";
             }
-        }, 500);
+        }, 700);
         setTimeout(() => {
             element.classList.add('visible');
-        }, 700);
+        }, 900);
     }
 
     function animateImage(element, item) {
@@ -42,7 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 element.innerHTML = '';
                 element.appendChild(img);
-				element.setAttribute('href', href)
+				if (href)
+					element.setAttribute('href', href)
+				else
+					element.setAttribute('disabled')
                 element.classList.add('visible');
             }, 500);
         };

@@ -12,7 +12,7 @@ from .forms import MultipleFileField
 from .models import (
     Category,
     CategoryMedia,
-    FeaturedCategory,
+    Collection,
     Material,
     Product,
     ProductSpecification,
@@ -22,8 +22,8 @@ from .models import (
 
 
 # Featured Category Model
-@admin.register(FeaturedCategory)
-class FeaturedCategoryAdmin(admin.ModelAdmin):
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
     list_display = ["name", "slug"]
 
 

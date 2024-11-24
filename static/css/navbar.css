@@ -443,7 +443,7 @@
 
 .navbar-nav .nav-item.nav-link.logo-header {
 	position: relative;
-	left: 3.5em;
+	left: 3em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -529,15 +529,33 @@
 	color: #000;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1600px) {
+	.navbar-nav .nav-item.nav-link.logo-header {
+		left: 2.8em;
+	}
+}
+
+@media screen and (max-width: 1400px) {
+	.navbar-nav .nav-item.nav-link.logo-header {
+		left: 2.2em;
+	}
+}
+
+@media screen and (max-width: 1200px) {
 	.navbar-nav .nav-item.nav-link.logo-header {
 		left: 2em;
 	}
 }
 
+@media screen and (max-width: 768px) {
+	.navbar-nav .nav-item.nav-link.logo-header {
+		left: 1.8em;
+	}
+}
+
 @media screen and (max-width: 600px) {
 	.navbar-nav .nav-item.nav-link.logo-header {
-		left: 1em;
+		left: 1.6em;
 	}
 
 	.navbar-nav .nav-item.nav-link.logo-header .logo-header-text {
@@ -554,6 +572,16 @@ nav .side-icons {
 
 nav .side-icons .dropdown {
 	position: relative;
+}
+
+nav .side-icons .dropdown span svg {
+	transition: .15s ease-in-out;
+	transition-property: width, height;
+}
+
+nav .side-icons .dropdown span svg:hover {
+	width: 28px;
+	height: 28px;
 }
 
 nav .side-icons .dropdown .custom-dropdown-menu {
@@ -613,5 +641,12 @@ nav .side-icons :is(a, span):hover :not(ul a) {
 :root[menu-open] nav .side-icons :is(a, span) :not(ul a) {
 	color: var(--secondary-color);
 }
+
+nav .side-icons a:hover svg {
+	transition: .15s ease-in-out;
+	transition-property: width, height;
+	width: 23px;
+	height: 23px;
+} 
 
 /*------------------------			 SideIcons End		----------------------*/

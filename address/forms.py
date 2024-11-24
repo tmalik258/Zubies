@@ -78,7 +78,7 @@ class BillingForm(forms.ModelForm):
 			attrs={
 				"checked": "checked",
 			}
-		),
+		), label="Payment Method"
 	)
 
 	class Meta:

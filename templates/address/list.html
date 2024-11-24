@@ -8,21 +8,16 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mb-3">
+<div class="container mt-5 mb-3">
 	<div class="hstack gap-3">
-		<!-- <a href="{% url 'store:index' %}" class="link-body-emphasis">
-				<img src="{% static 'store/imgs/icon/sanwal2.webp' %}" alt="Logo" width="50" height="45">
-			</a> -->
-		<!-- <div class="col"> -->
 		<h1 class="h5 mb-0">Your Addresses</h1>
 		<div class="vr"></div>
 		<div class="text-muted">
 			Manage your addresses and delivery preferences
 		</div>
-		<!-- </div> -->
 	</div>
 	<hr />
-	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
 		<div class="col add-address {% if addresses|length == 0 %}mx-auto{% endif %}">
 			<div class="card mb-3 h-100 rounded-4 shadow">
 				<a
@@ -94,5 +89,8 @@
 		</div>
 		{% endfor %}
 	</div>
+	{% if checkout %}
+		<a href="{% url 'checkout:checkout' %}" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 w-fit-content ms-auto px-5 mt-5"><ion-icon name="return-down-back-outline"></ion-icon>Back to Checkout</a>
+	{% endif %}
 </div>
 {% endblock %}

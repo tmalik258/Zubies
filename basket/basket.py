@@ -31,6 +31,7 @@ class Basket():
 		if attributes:
 			for id in attributes:
 				product_id += '-' + id
+				print(id)
 
 		if product.discount_price:
 			discount_price = float(product.discount_price)

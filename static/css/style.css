@@ -30,25 +30,27 @@ body {
 }
 
 /*------------------------			 Lenis Scroll CSS Setup Start		----------------------*/
-html.lenis,
-html.lenis body {
-	height: auto;
-}
-
-.lenis.lenis-smooth {
-	scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-	overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-	overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-	pointer-events: none;
+@media screen and (width > 768px) {
+	html.lenis,
+	html.lenis body {
+		height: auto;
+	}
+	
+	.lenis.lenis-smooth {
+		scroll-behavior: auto !important;
+	}
+	
+	.lenis.lenis-smooth [data-lenis-prevent] {
+		overscroll-behavior: contain;
+	}
+	
+	.lenis.lenis-stopped {
+		overflow: hidden;
+	}
+	
+	.lenis.lenis-smooth iframe {
+		pointer-events: none;
+	}
 }
 /*------------------------			 Lenis Scroll CSS Setup End		----------------------*/
 
@@ -168,18 +170,102 @@ html.lenis body {
 }
 /*------------------------			 Alert Message Custom Start		----------------------*/
 
-.btn.btn-primary {
-	background-color: var(--secondary-bg-color);
-	color: var(--secondary-color);
+
+/*------------------------			 Button Primary Start		----------------------*/
+.btn.btn-primary, .btn.btn-primary:active {
+	position: relative;
 	border: 1px solid var(--secondary-bg-color);
+	border-radius: 0;
+	color: var(--secondary-color);
+	background: none;
+	padding: .5em;
+	font-size: 1.3em;
+	transition-timing-function: ease-in-out;
+	transition-duration: .7s;
+	transition-property: color;
+	overflow: hidden;
+	z-index: 1;
 }
 
 .btn.btn-primary:hover {
-	background-color: var(--primary-bg-color);
 	color: var(--primary-color);
 }
+
+.btn.btn-primary::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: var(--secondary-bg-color);
+	clip-path: inset(0 0 0 0);
+	transition: clip-path 1s;
+	transition-timing-function: cubic-bezier( 0.83, -0.02, 0.22, 0.86 );
+	z-index: -1;
+}
+
+.btn.btn-primary:hover::after {
+	clip-path: inset(0 100% 0 100%);
+}
+/*------------------------			 Button Primary End		----------------------*/
+
+
+/*------------------------			 Button Secondary Start		----------------------*/
+.btn.btn-secondary {
+	position: relative;
+	border: 1px solid var(--secondary-bg-color);
+	border-radius: 0;
+	color: var(--primary-color);
+	background: none;
+	padding: .5em;
+	font-size: 1.3em;
+	transition-timing-function: ease-in-out;
+	transition-duration: 1s;
+	transition-property: color;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.btn.btn-secondary::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: var(--secondary-bg-color);
+	clip-path: inset(0 100% 0 100%);
+	transition: clip-path 1s;
+	transition-timing-function: cubic-bezier( 0.83, -0.02, 0.22, 0.86 );
+	z-index: -1;
+}
+
+.btn.btn-secondary:hover::after {
+	clip-path: inset(0 0 0 0);
+}
+
+.btn.btn-secondary:hover {
+	color: var(--secondary-color);
+}
+/*------------------------			 Button Secondary End		----------------------*/
+
 
 /*      Custom Classes      */
 .min-h-96 {
 	min-height: 35em;
 }
+
+.w-max-content {
+	width: max-content;
+}
+
+.w-fit-content {
+	width: fit-content;
+}
+
+/*------------------------			 Anchor Tag Start		----------------------*/
+a[disabled], a[disabled]:hover {
+	pointer-events: none;
+}
+/*------------------------			 Anchor Tag End		----------------------*/

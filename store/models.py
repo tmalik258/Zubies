@@ -66,23 +66,23 @@ class CategoryMedia(AbstractMediaModel):
 
 
 
-class FeaturedCategory (models.Model):
+class Collection (models.Model):
 	"""
-	Featured Categories for products like seasoned, new articles, best-selling
+	Collections like seasoned, new articles, best-selling
 	"""
-	name = models.CharField(verbose_name=_("Featured Category Name"), help_text=_("Required"), max_length=255)
-	slug = models.SlugField(verbose_name=_("Featured Category Safe URL"), max_length=255, unique=True, editable=False)
+	name = models.CharField(verbose_name=_("Collection Name"), help_text=_("Required"), max_length=255)
+	slug = models.SlugField(verbose_name=_("Collection Safe URL"), max_length=255, unique=True, editable=False)
 
 	class Meta:
-		verbose_name = _("Featured Category")
-		verbose_name_plural = _("Featured Categories")
+		verbose_name = _("Collection")
+		verbose_name_plural = _("Collections")
 
 	def __str__(self):
 		return self.name
 	
 	def get_absolute_url(self):
-		return reverse('store:product-by-featured-categories', kwargs={
-			'featured_slug': self.slug
+		return reverse('store:product-by-collection', kwargs={
+			'collection_slug': self.slug
 		})
 
 	def save (self, *args, **kwargs):
@@ -156,7 +156,7 @@ class Product (models.Model):
 	description = models.TextField(help_text=_("Required"))
 	sku = models.CharField(default='123', max_length=124)
 	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
-	featured_category = models.ForeignKey(FeaturedCategory, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
+	collection = models.ManyToManyField(Collection, related_name="posts")
 	material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
 	weight = models.IntegerField(default=0, help_text=_('kg'))
 	stock = models.IntegerField(default=0)

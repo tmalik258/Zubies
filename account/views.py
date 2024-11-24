@@ -113,7 +113,7 @@ class CustomLoginView(LoginView):
 				# Redirect the user to a page indicating that the verification email has been resent
 				return redirect('account:login')
 		except:
-			pass
+			return HttpResponse('An error occurred.')
 		
 		return super().form_invalid(form)
 

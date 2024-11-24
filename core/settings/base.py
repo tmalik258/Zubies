@@ -8,11 +8,15 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
+def get_bool_from_env(key, default=False):
+    value = os.getenv(key, str(default))
+    return value.lower() in ('true', 't', '1', 'yes', 'y', 'on')
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = bool(os.environ.get("DEBUG", False))
+DEBUG = get_bool_from_env("DEBUG_MODE", False)
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
@@ -140,3 +144,5 @@ DELIVERY_CHARGES_SESSION_ID = 'delivery_charges'
 
 # Facebook ID
 # FACEBOOK_PIXEL_CODE_ID = os.getenv("FACEBOOK_PIXEL_CODE_ID")
+
+COUNTRIES_ONLY = ["PK"]

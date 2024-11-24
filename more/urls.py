@@ -6,5 +6,5 @@ app_name = 'more'
 
 urlpatterns = [
 	# Subscription
-	path('subscribe/', views.SubscribeView, name="subscribe"),
+	path('subscribe/', views.subscribe_view, name="subscribe"),
 ]

@@ -6,8 +6,7 @@
 {% block title %}{{ object.title | title }}{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
-<link rel="stylesheet" href="{% static 'css/store/basket.css' %}">
+	<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -32,19 +31,19 @@
 			<!-------- Product Body ---------->
 			<div class="col-sm-12 col-md-4">
 				<div class="card-body d-flex flex-column gap-3">
-					<h2 class="card-title">{{ object.title | title }} </h2>
+					<h1 class="card-title">{{ object.title | title }} </h1>
 					<div>
 						{% if object.discount_price %}
-						Rs. <del>{{ object.regular_price|floatformat }}</del>
-						{{ object.discount_price|floatformat }}
+							Rs. <del>{{ object.regular_price|floatformat }}</del>
+							{{ object.discount_price|floatformat }}
 						{% else %}
-						Rs. {{ object.regular_price|floatformat }}
+							Rs. {{ object.regular_price|floatformat }}
 						{% endif %}
 					</div>
 					{% if object.specification.first %}
-					<div>
-						{{ object.specification.all|group_attributes|safe }}
-					</div>
+						<div class="mb-3 d-flex flex-column gap-2">
+							{{ object.specification.all|group_attributes|safe }}
+						</div>
 					{% endif %}
 					<div class="card-text">
 						<button type="button" class="min-btn btn p-0">
@@ -55,8 +54,8 @@
 							<ion-icon name="add-outline"></ion-icon>
 						</button>
 					</div>
-					<button class="col-12 btn btn-primary"
-						type="button" id="add-to-basket" data-index="{{  product.id }}">Throw to Basket</button>
+					<button class="col-12 btn btn-primary fs-5 d-flex align-items-center justify-content-center gap-2"
+						type="button" id="add-to-basket" data-index="{{  product.id }}"><ion-icon name="bag-add-outline"></ion-icon>Throw to Basket</button>
 					<p class="col card-text mt-3">{{ object.description | linebreaksbr }}</p>
 				</div>
 			</div>
@@ -66,9 +65,6 @@
 {% endblock %}
 
 {% block script %}
-	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
 	<script>
 		// Quantity Change
 		$('.plus-btn').on('click', function (e) {
@@ -88,11 +84,7 @@
 
 			var attribute_ids = []
 			$('input[type="radio"]:checked').each(function (index, element) {
-				// element == this
-				attribute_ids += $(element).val();
-
-				console.log(element.name)
-				console.log($(element).val());
+				attribute_ids.push($(element).val())
 			});
 
 			var csrfToken = "{{ csrf_token }}";
@@ -102,17 +94,18 @@
 				data: {
 					productId: $('#add-to-basket').data('index'),
 					product_qty: parseInt($('.quantity').text()),
-					attribute_id: attribute_ids,
+					attribute_ids: JSON.stringify(attribute_ids),
 					csrfmiddlewaretoken: csrfToken,
 					action: 'add'
 				},
 				success: function (response) {
 					$('.quantity').text(1);
-					$('.basket-qty').text(response.qty);
+					$('#basket-qty').text(response.qty);
 					$('#add-to-basket').html('Throw to Basket').prop('disabled', false);
 				},
 				error: function (xhr, errmessage, err) {
 					$('#add-to-basket').html('Error: Try Again');
+					console.error('Error:', err);
 				}
 			});
 		})

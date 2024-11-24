@@ -1,7 +1,7 @@
 import logging
 import json
 
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.core.mail import send_mail
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.decorators.csrf import csrf_protect
@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_protect
 from store.decorators import rate_limit
 from store.forms import ContactForm
 
-from .models import Product, Category, FeaturedCategory
+from .models import Product, Category, Collection
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +23,34 @@ class AboutView(TemplateView):
     template_name = 'store/about_us.html'
 
 
+class CatalogView(ListView):
+	model = Product
+	paginate_by = 12
+	template_name = 'store/products.html'
+
+	def get_queryset(self, **kwargs):
+		category_title = self.kwargs['category_title']
+
+		if not category_title:
+			return Product.products.all()
+
+		try:
+			category = Category.objects.get(title__iexact=category_title.replace("-", " ").title())
+			return Product.products.filter(category__in=category.get_descendants(include_self=True))
+		except Category.DoesNotExist:
+			raise Http404('Category doesn\'t exists.')
+
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		wishlist_listings = []
+		if self.request.user.is_authenticated:
+			wishlist_listings = self.request.user.user_wishlist.all()
+		context['wishlist_listings'] = wishlist_listings
+		context['heading'] = self.kwargs['category_title'].replace("-", " ").title() if self.kwargs['category_title'] else 'Catalog'
+		return context
+
+
 class CategoryListView (ListView):
 	model = Product
 	paginate_by = 12
@@ -30,7 +58,10 @@ class CategoryListView (ListView):
 
 	def setup(self, request, *args, **kwargs):
 		super().setup(request, *args, **kwargs)
-		self.category = Category.objects.get(category_id=self.kwargs['category_id'])
+		try:
+			self.category: Category = Category.objects.get(category_id=self.kwargs['category_id'])
+		except Category.DoesNotExist:
+			raise Http404("Category does not exist")
 
 	def get_queryset(self, **kwargs):
 		return Product.products.filter(category__in=self.category.get_descendants(include_self=True))
@@ -41,21 +72,24 @@ class CategoryListView (ListView):
 		if self.request.user.is_authenticated:
 			wishlist_listings = self.request.user.user_wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
-		context['heading'] = self.category.title
+		context['heading'] = self.category.title if self.category else False
 		return context
 
 
-class FeaturedCategoryListView (ListView):
+class CollectionListView (ListView):
 	model = Product
 	paginate_by = 12
 	template_name = 'store/products.html'
 
 	def setup(self, request, *args, **kwargs):
 		super().setup(request, *args, **kwargs)
-		self.featured_category: FeaturedCategory = FeaturedCategory.objects.get(slug=self.kwargs['featured_slug'])
+		try:
+			self.collection: Collection = Collection.objects.get(slug=self.kwargs['collection_slug'])
+		except Collection.DoesNotExist:
+			raise Http404("Category does not exist")
 
 	def get_queryset(self, **kwargs):
-		return Product.products.filter(featured_category=self.featured_category)
+		return Product.products.filter(collection=self.collection)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -63,7 +97,24 @@ class FeaturedCategoryListView (ListView):
 		if self.request.user.is_authenticated:
 			wishlist_listings = self.request.user.user_wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
-		context['heading'] = self.featured_category.name
+		context['heading'] = self.collection.name if self.collection else False
+		return context
+
+
+class DiscountListView (ListView):
+	model = Product
+	paginate_by = 12
+	template_name = 'store/products.html'
+	queryset =  Product.products.filter(discount_price__isnull=False).exclude(discount_price=0)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		wishlist_listings = []
+		if self.request.user.is_authenticated:
+			wishlist_listings = self.request.user.user_wishlist.all()
+		context['wishlist_listings'] = wishlist_listings
+		context['heading'] = False
+		context['discount'] = True
 		return context
 
 
@@ -88,7 +139,6 @@ class ProductDetailView (DetailView):
 @rate_limit(limit=5, period=60)
 @csrf_protect
 def contact_view(request):
-	# Composing a new message must be via POST
 	if request.method != "POST":
 		return JsonResponse({"error": "POST request required."}, status=405)
 
@@ -105,14 +155,14 @@ def contact_view(request):
 	if form.is_valid():
 		# process form data
 		cleaned_data = form.cleaned_data
-        # Send email or save to database
+        # Send email
 		message = f"""
         New contact form submission:
         Name: {cleaned_data['fname']} {cleaned_data['lname']}
         Email: {cleaned_data['email']}
         Message: {cleaned_data['message']}
         """
-		# send_mail('New Contact Form Submission', message, cleaned_data['email'], ['info@zubies.co'], fail_silently=False)
+		send_mail('New Contact Form Submission', message, cleaned_data['email'], ['info@zubies.co'], fail_silently=False)
 		return JsonResponse({"message": "Thankyou for contacting us."}, status=201)
 	else:
 		return JsonResponse({"error": form.errors}, status=400)

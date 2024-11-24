@@ -15,7 +15,9 @@
 {% block body %}
 <div class="container-fluid px-md-5 mt-5 h-100">
 	<h1 class="text-center">
-		{{ heading | title }}
+		{% if heading %}
+			{{ heading | title }}
+		{% endif %}
 		{% if subheading %}
 			- {{ subheading | title }}
 		{% endif %}
@@ -37,7 +39,7 @@
 									{% endif %}
 								</div>
 								<div class="card-body">
-									<h3 class="card-title h5">{{ item.title | title }}</h3>
+									<h2 class="card-title h5">{{ item.title | title }}</h2>
 									{% if item.discount_price %}
 										<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
 									{% else %}
@@ -56,7 +58,14 @@
 					</div>
 				</div>
 			{% empty %}
-			<h1 class="text-center">Coming Soon</h1>
+				{% if discount %}
+					<h2 class="text-center my-4">No Discount Available</h2>
+				{% elif heading %}
+					<h2 class="text-center mb-4">Coming Soon</h2>
+				{% else %}
+					<h2 class="text-center mt-5 mb-4">404 Not Found</h2>
+				{% endif %}
+				<a href="{% url 'store:index' %}" class="btn btn-primary w-fit-content px-5 mx-auto">Back to Home</a>
 			{% endfor %}
 		</div>
 								<!-- PAGINATION START -->
