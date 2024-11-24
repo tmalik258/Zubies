@@ -27,41 +27,49 @@
 			{% for item in object_list %}
 				<div class="col">
 					<div class="card position-relative p-3">
-						<a href="{{ item.get_absolute_url }}" class="h-100 w-100">
-							<div class="d-flex flex-column justify-content-between h-100">
-								<div class="product-img-container">
-									{% if item.get_images %}
-										{% with image=item.get_images.first.image %}
-												<img src="{{ image.url }}" width="370" alt="{{ image.alt_text }}" >
-										{% endwith %}
-									{% else %}
-										No Image
-									{% endif %}
-								</div>
-								<div class="card-body">
-									<h2 class="card-title h5">{{ item.title | title }}</h2>
-									{% if item.discount_price %}
-										<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
-									{% else %}
-										Rs. {{ item.regular_price|floatformat }}
-									{% endif %}
-									<!-- <a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute text-success bottom-0 end-0 translate-middle">
-										{% if item in wishlist_listings %}
-											<ion-icon name="heart"></ion-icon>
-										{% else %}
-											<ion-icon name="heart-outline"></ion-icon>
-										{% endif %}
-									</a> -->
-								</div>
+						<div class="h-100 w-100 position-relative">
+							<div class="product-img-container">
+								{% if item.get_images %}
+									{% with image=item.get_images.0.image %}
+										<img src="{{ image.url }}" width="370" alt="{{ image.alt_text }}" >
+									{% endwith %}
+								{% else %}
+									No Image
+								{% endif %}
 							</div>
-						</a>
+							<a href="{{ item.get_absolute_url }}" class="card-body d-none d-md-grid">
+								<h2 class="card-title h5">{{ item.title | title }}</h2>
+								{% if item.discount_price %}
+									<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
+								{% else %}
+									Rs. {{ item.regular_price|floatformat }}
+								{% endif %}
+							</a>
+							<div class="card-body d-grid d-md-none">
+								<h2 class="card-title h5">{{ item.title | title }}</h2>
+								{% if item.discount_price %}
+									<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
+								{% else %}
+									Rs. {{ item.regular_price|floatformat }}
+								{% endif %}
+
+								<a href="{{ item.get_absolute_url }}" class="btn btn-secondary explore-btn w-fit-content fs-5 px-5 mt-3 mx-auto fw-semibold">Explore</a>
+							</div>
+							<!-- <a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute text-success bottom-0 end-0 translate-middle">
+								{% if item in wishlist_listings %}
+									<ion-icon name="heart"></ion-icon>
+								{% else %}
+									<ion-icon name="heart-outline"></ion-icon>
+								{% endif %}
+							</a> -->
+						</div>
 					</div>
 				</div>
 			{% empty %}
 				{% if discount %}
 					<h2 class="text-center my-4">No Discount Available</h2>
 				{% elif heading %}
-					<h2 class="text-center mb-4">Coming Soon</h2>
+					<h2 class="text-center mb-5">Coming Soon</h2>
 				{% else %}
 					<h2 class="text-center mt-5 mb-4">404 Not Found</h2>
 				{% endif %}

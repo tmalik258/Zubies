@@ -53,5 +53,5 @@ urlpatterns = [
 	path('profile/delete_confirm/', TemplateView.as_view(template_name='account/user/delete_confirm.html'), name='delete_confirm'),
 	# wishlist
 	path('wishlist/', views.WishlistView.as_view(), name="wishlist"),
-	path('wishlist/add_to_wishlist/<slug:slug>/', views.Add_to_wishlist_view, name="add-to-wishlist"),
+	path('wishlist/add/<slug:product_slug>/', views.add_to_wishlist_view, name="add-to-wishlist"),
 ]

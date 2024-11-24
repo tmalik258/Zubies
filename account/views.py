@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import (render, redirect)
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -26,30 +26,42 @@ class WishlistView(LoginRequiredMixin, ListView):
 	paginate_by = 12
 
 	def get_queryset(self, *kwargs):
-		return Product.products.filter(user_wishlist=self.request.user)
+		return Product.products.filter(wishlist=self.request.user)
 	
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		wishlist_listings = []
 		if self.request.user.is_authenticated:
-			wishlist_listings = self.request.user.user_wishlist.all()
+			wishlist_listings = self.request.user.wishlist.all()
 		context['wishlist_listings'] = wishlist_listings
 		return context
 
 
 @login_required
-def Add_to_wishlist_view(request, slug):
-	try:
-		product = Product.products.get(slug=slug)
-		if product.user_wishlist.filter(id=request.user.id).exists():
-			product.user_wishlist.remove(request.user)
-		else:
-			product.user_wishlist.add(request.user)
-			
-	except ObjectDoesNotExist:
-		messages.error(request, 'Product doesn\'t exist.')
-	
-	return redirect(request.META['HTTP_REFERER'])
+def add_to_wishlist_view(request, product_slug):
+    if request.method == 'POST':
+        try:
+            product = Product.products.get(slug=product_slug)
+            if product.is_in_wishlist(request.user):
+                product.wishlist.remove(request.user)
+                in_wishlist = False
+            else:
+                product.wishlist.add(request.user)
+                in_wishlist = True
+                
+            return JsonResponse({
+                'status': 'success',
+                'in_wishlist': in_wishlist
+            })
+                
+        except ObjectDoesNotExist:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Product doesn\'t exist.'
+            }, status=404)
+    
+    # Fallback for non-AJAX requests
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
 def dashboard(request):

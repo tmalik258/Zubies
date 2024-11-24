@@ -40,6 +40,26 @@ h2 {
 	border: none;
 }
 
+.products .row .card .product-img-container {
+	display: grid;
+	place-items: center;
+	min-height: 15em;
+	height: 100%;
+	border-radius: 0.8em;
+	overflow: hidden;
+}
+
+.products .row .card .product-img-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: var(--def-transition-duration) ease-in-out scale;
+}
+
+.products .row .card > div:hover .product-img-container img {
+	scale: 1.25;
+}
+
 .products .row .card .card-body {
 	--secondary-bg-color--transparent: rgba(0, 0, 0, 0.5);
 	--def-transition-duration: 0.33s;
@@ -52,16 +72,16 @@ h2 {
 	transform: translate3d(-50%, -50%, 0);
 	color: var(--secondary-color);
 	background-color: var(--secondary-bg-color--transparent);
-	width: 91.5%;
-	height: 93%;
-	border-radius: 0.5em;
+	width: 100%;
+	height: 100%;
+	border-radius: 0.8em;
 	visibility: hidden;
 	opacity: 0;
 	transition: var(--def-transition-duration) ease-in-out;
 	transition-property: visibility, opacity;
 }
 
-.products .row .card a:hover .card-body {
+.products .row .card > div:hover .card-body {
 	opacity: 1;
 	visibility: visible;
 }
@@ -80,23 +100,13 @@ h2 {
 	font-size: 1.4rem;
 }
 
-.products .row .card .product-img-container {
-	display: grid;
-	place-items: center;
-	min-height: 15em;
-	border-radius: 0.8em;
-	overflow: hidden;
+.products .row .card .card-body .explore-btn {
+	--secondary-bg-color: var(--primary-bg-color);
+	color: var(--secondary-color);
 }
 
-.products .row .card .product-img-container img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	transition: var(--def-transition-duration) ease-in-out scale;
-}
-
-.products .row .card a:hover .product-img-container img {
-	scale: 1.25;
+.products .row .card .card-body .explore-btn:hover {
+	color: var(--primary-color);
 }
 /*------------ Products End -----------*/
 
@@ -130,6 +140,12 @@ h2 {
 .product .card .card-body button.plus-btn.btn:hover,
 .product .card .card-body button.min-btn.btn:hover {
 	color: rgb(126, 87, 16);
+}
+
+@media screen and (width < 600px) {
+	.product .card h1 {
+		font-size: 1.5em;
+	}
 }
 /*------------ Product End -----------*/
 

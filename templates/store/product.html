@@ -3,7 +3,7 @@
 {% load custom_filters %}
 
 
-{% block title %}{{ object.title | title }}{% endblock %}
+{% block title %}{{ product.title | title }}{% endblock %}
 
 {% block style %}
 	<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
@@ -11,15 +11,15 @@
 
 {% block body %}
 <article class="product">
-	<div class="card col-10 my-4 mt-5">
+	<div class="card col-11 col-md-10 order-md-last order-lg-first my-4 mt-5">
 		<div class="row g-4">
 			<!------------ Image -------------->
-			<div class="col-12 col-md-8">
+			<div class="col-12 col-lg-8">
 				<div class="product-images-grid">
-					{% if object.get_images %}
-						{% for object_img in object.get_images %}
+					{% if product.get_images %}
+						{% for product_img in product.get_images %}
 							<div class="product-img-item">
-								<img src="{{ object_img.image.url }}" alt="{{ object_img.alt_text }}" loading="lazy" decoding="async">
+								<img src="{{ product_img.image.url }}" alt="{{ product_img.alt_text }}" loading="lazy" decoding="async">
 							</div>
 						{% endfor %}
 					{% else %}
@@ -29,20 +29,20 @@
 			</div>
 
 			<!-------- Product Body ---------->
-			<div class="col-sm-12 col-md-4">
+			<div class="col-12 col-lg-4 order-md-first order-lg-last">
 				<div class="card-body d-flex flex-column gap-3">
-					<h1 class="card-title">{{ object.title | title }} </h1>
+					<h1 class="card-title">{{ product.title | title }} </h1>
 					<div>
-						{% if object.discount_price %}
-							Rs. <del>{{ object.regular_price|floatformat }}</del>
-							{{ object.discount_price|floatformat }}
+						{% if product.discount_price %}
+							Rs. <del>{{ product.regular_price|floatformat }}</del>
+							{{ product.discount_price|floatformat }}
 						{% else %}
-							Rs. {{ object.regular_price|floatformat }}
+							Rs. {{ product.regular_price|floatformat }}
 						{% endif %}
 					</div>
-					{% if object.specification.first %}
+					{% if product.specification.first %}
 						<div class="mb-3 d-flex flex-column gap-2">
-							{{ object.specification.all|group_attributes|safe }}
+							{{ product.specification.all|group_attributes|safe }}
 						</div>
 					{% endif %}
 					<div class="card-text">
@@ -54,9 +54,21 @@
 							<ion-icon name="add-outline"></ion-icon>
 						</button>
 					</div>
-					<button class="col-12 btn btn-primary fs-5 d-flex align-items-center justify-content-center gap-2"
-						type="button" id="add-to-basket" data-index="{{  product.id }}"><ion-icon name="bag-add-outline"></ion-icon>Throw to Basket</button>
-					<p class="col card-text mt-3">{{ object.description | linebreaksbr }}</p>
+					<div class="col-12 d-flex flex-lg-column flex-xl-row gap-2">
+						<button class="btn btn-primary fs-5 d-flex align-items-center justify-content-center gap-2 flex-grow-1"
+							type="button" id="add-to-basket" data-index="{{  product.id }}"><ion-icon name="bag-add-outline"></ion-icon>Throw to Basket</button>
+						<button
+						data-csrf="{{ csrf_token }}" id="wishlist-btn" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2">
+							{% if product.is_wishlisted %}
+								<ion-icon name="heart"></ion-icon>
+								<span class="d-none d-lg-inline d-xl-none fs-5">Unwish</span>
+							{% else %}
+								<ion-icon name="heart-outline"></ion-icon>
+								<span class="d-none d-lg-inline d-xl-none fs-5">Favourite</span>
+							{% endif %}
+						</button>
+					</div>
+					<p class="col card-text mt-3">{{ product.description | linebreaksbr }}</p>
 				</div>
 			</div>
 		</div>
@@ -101,7 +113,7 @@
 				success: function (response) {
 					$('.quantity').text(1);
 					$('#basket-qty').text(response.qty);
-					$('#add-to-basket').html('Throw to Basket').prop('disabled', false);
+					$('#add-to-basket').html('<ion-icon name="bag-add-outline"></ion-icon>Throw to Basket').prop('disabled', false);
 				},
 				error: function (xhr, errmessage, err) {
 					$('#add-to-basket').html('Error: Try Again');
@@ -109,5 +121,34 @@
 				}
 			});
 		})
+		// wishlist
+		$('#wishlist-btn').click(function(e) {
+			e.preventDefault();
+			const button = $(this);
+			const csrf = button.data('csrf');
+			button.html('<span class="spinner-border" style="width: 1em; height: 1em" role="status" aria-hidden="true"></span><span class="d-none d-lg-inline d-xl-none fs-5">Loading ...</span>');
+			button.prop('disabled', true);
+	
+			$.ajax({
+				url: `{% url 'account:add-to-wishlist' product_slug=product.slug %}`,
+				method: 'POST',
+				headers: {
+					'X-CSRFToken': csrf
+				},
+				success: function(response) {
+					if (response.status === 'success') {
+						button.prop('disabled', false);
+						if (response.in_wishlist)
+							button.html('<ion-icon name="heart"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Unwish</span>')
+						else
+							button.html('<ion-icon name="heart-outline"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Favourite</span>')
+
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error('Error updating wishlist:', error);
+				}
+			});
+		});
 	</script>
 {% endblock %}
