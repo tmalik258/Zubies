@@ -1,6 +1,6 @@
 from .base import *
 
-from .dev import *
-# if DEBUG:
-# else:
-#     from .prod import *
+if DEBUG:
+    from .dev import *
+else:
+    from .prod import *
