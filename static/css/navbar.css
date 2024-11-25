@@ -97,14 +97,6 @@
 	transition: color ease-in-out;
 	transition-duration: var(--def-transition-duration);
 }
-/* 
-.header-side-content #menu-container ul li a:has(+ .sub-menu.submenu-open):not(.back-button) .category-link-icon {
-	content: '-';
-}
-
-.header-side-content #menu-container ul li a:has(+ .sub-menu:not(.submenu-open)):not(.back-button) .category-link-icon {
-	content: '+';
-} */
 
 .header-side-content #menu-container ul:has(li:hover) a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
 	--secondary-color: rgb(79, 71, 67);

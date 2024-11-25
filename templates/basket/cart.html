@@ -29,9 +29,9 @@
 								<div class="col-3 col-md-2 col-lg-1 order-md-first m-auto" >
 									<div style="width: 80px; height: 80px;">
 										{% if product.image %}
-										<img src="{{ product.image }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
+											<img src="{{ product.image }}" alt="{{ product.title }} image" style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" class="img-fluid">
 										{% else %}
-										<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No image available">
+											<img src="{% static 'img\favicon.png' %}" class="card-img-top" alt="No image available">
 										{% endif %}
 									</div>
 								</div>

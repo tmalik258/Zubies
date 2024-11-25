@@ -79,7 +79,7 @@ class Basket():
 		"""
 		try:
 			# explicitly checking if image exist then return its url else return None
-			image = product.get_images().first()
+			image = product.get_images()[0]
 			image_url = image.image.url if image else None
 			
 			# Use a dictionary comprehension to format attributes cleanly
