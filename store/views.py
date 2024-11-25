@@ -33,25 +33,29 @@ class CatalogView(ListView):
 		category_title = self.kwargs.get('category_title')
 
 		if not category_title:
-			return Product.products.all().annotate(
-				is_wishlisted=Exists(
-					Product.objects.filter(
-						id=OuterRef('id'),
-						wishlist=self.request.user
+			if self.request.user.is_authenticated:
+				return Product.products.all().annotate(
+					is_wishlisted=Exists(
+						Product.objects.filter(
+							id=OuterRef('id'),
+							wishlist=self.request.user
+						)
 					)
 				)
-			)
+			return Product.products.all()
 
 		try:
 			category = Category.objects.get(title__iexact=category_title.replace("-", " ").title())
-			return Product.products.filter(category__in=category.get_descendants(include_self=True)).annotate(
-				is_wishlisted=Exists(
-					Product.objects.filter(
-						id=OuterRef('id'),
-						wishlist=self.request.user
+			if self.request.user.is_authenticated:
+				return Product.products.filter(category__in=category.get_descendants(include_self=True)).annotate(
+					is_wishlisted=Exists(
+						Product.objects.filter(
+							id=OuterRef('id'),
+							wishlist=self.request.user
+						)
 					)
 				)
-			)
+			return Product.products.filter(category__in=category.get_descendants(include_self=True))
 		except Category.DoesNotExist:
 			raise Http404('Category doesn\'t exists.')
 
@@ -75,14 +79,16 @@ class CategoryListView (ListView):
 			raise Http404("Category does not exist")
 
 	def get_queryset(self, **kwargs):
-		return Product.products.filter(category__in=self.category.get_descendants(include_self=True)).annotate(
-				is_wishlisted=Exists(
-					Product.objects.filter(
-						id=OuterRef('id'),
-						wishlist=self.request.user
+		if self.request.user.is_authenticated:
+			return Product.products.filter(category__in=self.category.get_descendants(include_self=True)).annotate(
+					is_wishlisted=Exists(
+						Product.objects.filter(
+							id=OuterRef('id'),
+							wishlist=self.request.user
+						)
 					)
 				)
-			)
+		return Product.products.filter(category__in=self.category.get_descendants(include_self=True))
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -103,14 +109,16 @@ class CollectionListView (ListView):
 			raise Http404("Category does not exist")
 
 	def get_queryset(self, **kwargs):
-		return Product.products.filter(collection=self.collection).annotate(
-				is_wishlisted=Exists(
-					Product.objects.filter(
-						id=OuterRef('id'),
-						wishlist=self.request.user
+		if self.request.user.is_authenticated:
+			return Product.products.filter(collection=self.collection).annotate(
+					is_wishlisted=Exists(
+						Product.objects.filter(
+							id=OuterRef('id'),
+							wishlist=self.request.user
+						)
 					)
 				)
-			)
+		return Product.products.filter(collection=self.collection)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -127,7 +135,6 @@ class DiscountListView (ListView):
 		queryset = Product.products.filter(discount_price__isnull=False).exclude(discount_price=0)
 		
 		if self.request.user.is_authenticated:
-			# Annotate products with wishlist status using a subquery
 			queryset = queryset.annotate(
 				is_wishlisted=Exists(
 					Product.objects.filter(
@@ -153,7 +160,6 @@ class ProductDetailView (DetailView):
 		queryset = super().get_queryset()
 		
 		if self.request.user.is_authenticated:
-			# Annotate products with wishlist status using a subquery
 			queryset = queryset.annotate(
 				is_wishlisted=Exists(
 					Product.objects.filter(

@@ -37,31 +37,36 @@ class WishlistView(LoginRequiredMixin, ListView):
 		return context
 
 
-@login_required
 def add_to_wishlist_view(request, product_slug):
-    if request.method == 'POST':
-        try:
-            product = Product.products.get(slug=product_slug)
-            if product.is_in_wishlist(request.user):
-                product.wishlist.remove(request.user)
-                in_wishlist = False
-            else:
-                product.wishlist.add(request.user)
-                in_wishlist = True
-                
-            return JsonResponse({
-                'status': 'success',
-                'in_wishlist': in_wishlist
-            })
-                
-        except ObjectDoesNotExist:
-            return JsonResponse({
-                'status': 'error',
-                'message': 'Product doesn\'t exist.'
-            }, status=404)
-    
-    # Fallback for non-AJAX requests
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+	if not request.user.is_authenticated:
+		return JsonResponse({
+			'status': 'error',
+			'message': 'Authentication required'
+		}, status=401)
+
+	if request.method == 'POST':
+		try:
+			product = Product.products.get(slug=product_slug)
+			if product.is_in_wishlist(request.user):
+				product.wishlist.remove(request.user)
+				in_wishlist = False
+			else:
+				product.wishlist.add(request.user)
+				in_wishlist = True
+				
+			return JsonResponse({
+				'status': 'success',
+				'in_wishlist': in_wishlist
+			})
+				
+		except ObjectDoesNotExist:
+			return JsonResponse({
+				'status': 'error',
+				'message': 'Product doesn\'t exist.'
+			}, status=404)
+
+	# Fallback for non-AJAX requests
+	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
 def dashboard(request):

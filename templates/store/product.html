@@ -126,6 +126,8 @@
 			e.preventDefault();
 			const button = $(this);
 			const csrf = button.data('csrf');
+			const button_html = button.html();
+
 			button.html('<span class="spinner-border" style="width: 1em; height: 1em" role="status" aria-hidden="true"></span><span class="d-none d-lg-inline d-xl-none fs-5">Loading ...</span>');
 			button.prop('disabled', true);
 	
@@ -146,7 +148,15 @@
 					}
 				},
 				error: function(xhr, status, error) {
-					console.error('Error updating wishlist:', error);
+					if (xhr.status === 302 || xhr.status === 401 || xhr.status === 403) {
+						// Redirect to login page
+						window.location.href = `/account/login/?next=${window.location.pathname}`;
+					} else {
+						console.error('Error updating wishlist:', error);
+						// Reset button state
+						button.prop('disabled', false);
+						button.html(button_html);
+					}
 				}
 			});
 		});
