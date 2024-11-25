@@ -80,7 +80,9 @@
 }
 
 .header-side-content #menu-container a {
-	display: inline-block;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
 	font-family: "Bodoni Moda SC", serif;
 	font-optical-sizing: auto;
 	font-weight: 500;
@@ -95,13 +97,17 @@
 	transition: color ease-in-out;
 	transition-duration: var(--def-transition-duration);
 }
-
-.header-side-content #menu-container ul:hover a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
-	--secondary-color: rgb(79, 71, 67);
+/* 
+.header-side-content #menu-container ul li a:has(+ .sub-menu.submenu-open):not(.back-button) .category-link-icon {
+	content: '-';
 }
 
-.header-side-content #menu-container ul a:has(+ .sub-menu.submenu-open) {
-	cursor: default;
+.header-side-content #menu-container ul li a:has(+ .sub-menu:not(.submenu-open)):not(.back-button) .category-link-icon {
+	content: '+';
+} */
+
+.header-side-content #menu-container ul:has(li:hover) a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
+	--secondary-color: rgb(79, 71, 67);
 }
 
 .header-side-content #menu-container ul a.back-button:hover {

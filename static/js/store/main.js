@@ -48,6 +48,7 @@
     function resetMenu() {
         document.querySelectorAll(".sub-menu").forEach(submenu => {
             submenu.classList.remove("submenu-open");
+			submenu.parentElement.querySelector('.category-link .letter:last-child').textContent = '+'
         });
         document.querySelectorAll(".main-menu > .menu-item").forEach(item => {
             item.style.display = "";
@@ -56,13 +57,19 @@
 
     document.querySelectorAll(".category-link").forEach(link => {
         link.addEventListener("click", function(e) {
-            e.preventDefault();
-            const categoryId = this.getAttribute("data-category");
+			const categoryId = this.getAttribute("data-category");
             const submenu = document.querySelector(`#submenu-${categoryId}`);
-            if (submenu) {
-                submenu.classList.add("submenu-open");
+			
+			if (!(submenu.classList.contains("submenu-open"))) {
+				e.preventDefault();
+			}
+
+			if (submenu) {
+				submenu.classList.add("submenu-open");
                 hideOtherMenuItems(submenu);
             }
+
+			this.querySelector('.letter:last-child').textContent = '';
         });
     });
 
@@ -102,6 +109,7 @@
 
 	document.querySelectorAll("#menu-container a").forEach((link) => {
 		const text = link.textContent;
+
 		if (text.includes(" ")) {
 			const words = text.split(" ");
 			let html = "";

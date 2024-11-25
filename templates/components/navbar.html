@@ -11,9 +11,9 @@
 			<div id="menu-container">
 				<ul class="unstyled main-menu">
 					{% recursetree categories %}
-						<li class="menu-item {% if not node.is_leaf_node %}has-submenu{% endif %}">
+						<li class="menu-item w-fit-content mx-auto {% if not node.is_leaf_node %}has-submenu{% endif %}">
 							{% if not node.is_leaf_node %}
-								<a href="#" class="category-link" data-category="{{ node.id }}">{{ node.title }}</a>
+								<a href="{{ node.get_absolute_url }}" class="category-link" data-category="{{ node.id }}">{{ node.title }}<span id="category-link-icon">+</span> </a>
 								<div id="submenu-{{ node.id }}" class="sub-menu">
 									<a href="#" class="back-button">← Back</a>
 									<ul class="unstyled">
