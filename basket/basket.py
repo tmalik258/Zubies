@@ -31,7 +31,6 @@ class Basket():
 		if attributes:
 			for id in attributes:
 				product_id += '-' + id
-				print(id)
 
 		if product.discount_price:
 			discount_price = float(product.discount_price)
@@ -96,7 +95,7 @@ class Basket():
 			}
 		except AttributeError as e:
 			# Improved error handling with logging and default values
-			print(f"Error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
+			# print(f"Error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
 			return {
 				'id': getattr(product, 'id', None),
 				'title': 'Product unavailable',
@@ -104,7 +103,7 @@ class Basket():
 			}
 		except Exception as e:
 			# Catch other potential errors and provide fallback handling
-			print(f"Unexpected error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
+			# print(f"Unexpected error serializing product ID {getattr(product, 'id', 'None')}: {str(e)}")
 			return {
 				'id': getattr(product, 'id', None),
 				'title': 'Product unavailable',

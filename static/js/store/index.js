@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (href)
 					element.setAttribute('href', href)
 				else
-					element.setAttribute('disabled')
+					element.setAttribute('disabled', 'true')
                 element.classList.add('visible');
             }, 500);
         };
@@ -131,14 +131,56 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 	})
 
-	// Contact Us
-	$('#contact-us').on('submit', send_message)
 
+	// Subscribe
+	$('#form-subscribe').on('submit', function (e) {
+		e.preventDefault();
+
+		const submitButton = $(this).find('button[type="submit"]');
+		const form = $(this);
+
+		submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+		submitButton.prop('disabled', true);
+
+		$.ajax({
+			type: "POST",
+			url: subscribe_url,
+			data: {
+				email: e.target.email.value,
+				csrfmiddlewaretoken: e.target.csrfmiddlewaretoken.value,
+				action: 'subscribe'
+			},
+			success: function (response) {
+				$('#form-subscribe').html(`<h2>${response.message}</h2>`);
+				$('#error-message').remove();
+			},
+			error: function (xhr, errmessage, err) {
+				submitButton.html('Subscribe');
+				submitButton.prop('disabled', false);
+
+				let errorMessage = 'An error occurred. Please try again.';
+				if (xhr.responseJSON && xhr.responseJSON.message) {
+					errorMessage = xhr.responseJSON.message;
+				}
+				$('#form-subscribe').after(`<h2 id="error-message">${errorMessage}</h2>`);
+				console.error('Error:', err);
+			}
+		});
+	})
+
+
+	// Contact Us
+	$('#contact-us').on('submit', send_message);
+	
 	function send_message(e) {
 		e.preventDefault();
-	
+		
 		const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
-	
+		const contact_btn = $(this).find('button[type="submit"]');
+
+		contact_btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
+		contact_btn.prop('disabled', true);
+
 		fetch(contact_url, {
 			method: 'POST',
 			headers: {
@@ -161,7 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.then(result => {
 			if(result.message) {
-				// Handle Success
 				$(".form_message").text(JSON.stringify(result.message));
 				// Reset form fields
 				$("#contact-us")[0].reset();
@@ -169,11 +210,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			else if (result.error) {
 				// Handle error
 				$(".form_message").text(JSON.stringify(result.error));
+				contact_btn.html('Send')
+				contact_btn.prop('disabled', false);
 			}
+			contact_btn.html('Send')
+			contact_btn.prop('disabled', false);
 		})
 		.catch(error => {
 			console.error('Error: ', error);
 			$(".form_message").text("An error occurred. Please try again later.");
+			contact_btn.html('Send')
+			contact_btn.prop('disabled', false);
 		});
 	}
 });

@@ -117,41 +117,6 @@
 		];
 
 		const contact_url = "{% url 'store:contact-us' %}";
-
-		// Subscribe
-		$('#form-subscribe').on('submit', function (e) {
-			e.preventDefault();
-
-			const submitButton = $(this).find('button[type="submit"]');
-			const form = $(this);
-
-			submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
-			submitButton.prop('disabled', true);
-
-			$.ajax({
-				type: "POST",
-				url: "{% url 'more:subscribe' %}",
-				data: {
-					email: e.target.email.value,
-					csrfmiddlewaretoken: e.target.csrfmiddlewaretoken.value,
-					action: 'subscribe'
-				},
-				success: function (response) {
-					$('#form-subscribe').html(`<h2>${response.message}</h2>`);
-					$('#error-message').remove();
-				},
-				error: function (xhr, errmessage, err) {
-					submitButton.html('Subscribe');
-					submitButton.prop('disabled', false);
-
-					let errorMessage = 'An error occurred. Please try again.';
-					if (xhr.responseJSON && xhr.responseJSON.message) {
-						errorMessage = xhr.responseJSON.message;
-					}
-					$('#form-subscribe').after(`<h2 id="error-message">${errorMessage}</h2>`);
-					console.error('Error:', err);
-				}
-			});
-		})
+		const subscribe_url = "{% url 'more::subscribe' %}";
 	</script>
 {% endblock script %}

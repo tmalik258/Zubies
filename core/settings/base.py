@@ -17,7 +17,7 @@ def get_bool_from_env(key, default=False):
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = get_bool_from_env("DEBUG_MODE", False)
-# DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
