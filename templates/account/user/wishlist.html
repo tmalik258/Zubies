@@ -1,65 +1,71 @@
 {% extends 'store/layout.html' %}
 {% load static %}
 
+{% block style %}
+	<link rel="stylesheet" href="{% static 'css/store/products.css' %}">
+	<style>
+		.wishlist-heading {
+			font-family: inherit;
+			letter-spacing: initial;
+		}
+	</style>
+{% endblock style %}
+
 {% block body %}
-<div class="container py-4" style="max-width: 1050px;">
+<div class="container h-100" style="max-width: 1050px;">
 	<div class="hstack gap-3">
-		<!-- <a href="{% url 'store:index' %}" class="link-body-emphasis text-decoration-none">
-			<img src="{% static 'store/imgs/icon/sanwal.svg' %}" alt="Logo" width="50" height="45">
-		</a> -->
-		<!-- <div class="col"> -->
-			<h1 class="h5 mb-0">Your Wishlist</h1>
-			<div class="vr"></div>
-			<div class="text-muted">Manage your orders and personal details</div>
-		<!-- </div> -->
+		<h1 class="h5 mb-0 wishlist-heading">Favorites</h1>
+		<div class="vr"></div>
+		<div class="text-muted">Manage your orders and personal details</div>
 	</div>
 	<hr>
-	<article class="products">
-		<div class="row row-cols-1 row-cols-md-3 g-4 m-auto justify-content-center">
+	<section class="products">
+		<div class="row place row-cols-1 {% if object_list|length > 0 %} row-cols-sm-2 row-cols-lg-3 g-4 {% endif %} mx-md-5 my-2">
 			{% for item in object_list %}
-				<div class="card">
-					<a href="{{ item.get_absolute_url }}">
-						<div class="row g-1">
-							<div class="col-md-12 pb-2">
-								{% if item.img.first.image %}
-									<div class="swiper itemImageSwiper">
-										<div class="swiper-wrapper">
-											{% for image in item.img.all %}
-												<div class="swiper-slide">
-													<img src="{{ image.image.url }}" alt="{{ image.image }}" >
-												</div>
-											{% endfor %}
-										</div>
-									</div>
+				<div class="col">
+					<div class="card position-relative p-3">
+						<div class="h-100 w-100 position-relative">
+							<div class="product-img-container">
+								{% if item.get_images %}
+									{% with image=item.get_images.0.image %}
+										<img src="{{ image.url }}" width="370" alt="{{ image.alt_text }}" >
+									{% endwith %}
 								{% else %}
-									<img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="No Image Available">
+									No Image
 								{% endif %}
 							</div>
-							<div class="card-body text-center col-12 pt-0 position-relative">
-								<h6 class="card-title">{{ item.title | title }}</h6>
-								<!-- <p class="card-text">{{ item.description | truncatechars:100 }}</p> -->
-								<a href="{{ item.get_absolute_url }}">
-									{% if item.discount_price %}
-									<del style="text-decoration-color: red;">Rs. {{ item.regular_price }}</del> Rs. {{ item.discount_price }}
-									{% else %}
-									Rs. {{ item.regular_price }}
-									{% endif %}
-								</a>
-								<a href="{% url 'account:add-to-wishlist' item.slug %}" class="position-absolute start-100 translate-middle-x">
-									{% if item in wishlist_listings %}
-										<ion-icon name="heart"></ion-icon>
-									{% else %}
-										<ion-icon name="heart-outline"></ion-icon>
-									{% endif %}
-								</a>
+							<a href="{{ item.get_absolute_url }}" class="card-body d-none d-md-grid">
+								<h2 class="card-title h5">{{ item.title | title }}</h2>
+								{% if item.discount_price %}
+									<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
+								{% else %}
+									Rs. {{ item.regular_price|floatformat }}
+								{% endif %}
+							</a>
+							<div class="card-body d-grid d-md-none">
+								<h2 class="card-title h5">{{ item.title | title }}</h2>
+								{% if item.discount_price %}
+									<span class="d-flex gap-2 justify-content-center"><del>Rs. {{ item.regular_price|floatformat }}</del> Rs. {{ item.discount_price|floatformat }}</span>
+								{% else %}
+									Rs. {{ item.regular_price|floatformat }}
+								{% endif %}
+
+								<a href="{{ item.get_absolute_url }}" class="btn btn-secondary explore-btn w-fit-content fs-5 px-5 mt-3 mx-auto fw-semibold">Explore</a>
 							</div>
+							<!-- <a href="{% url 'account:add-to-wishlist' item.slug %}" class="wishlist_icon position-absolute text-success bottom-0 end-0 translate-middle">
+								{% if item in wishlist_listings %}
+									<ion-icon name="heart"></ion-icon>
+								{% else %}
+									<ion-icon name="heart-outline"></ion-icon>
+								{% endif %}
+							</a> -->
 						</div>
-					</a>
+					</div>
 				</div>
 			{% empty %}
-				<div class="col">No products have been added to your wishlist yet.</div>
+				<h2 class="text-center mt-5 mb-4">No Favorites Added</h2>
+				<a href="{% url 'store:index' %}" class="btn btn-primary w-fit-content px-5 mx-auto">Back to Home</a>
 			{% endfor %}
-			</col>
 		</div>
 								<!-- PAGINATION START -->
 		{% if is_paginated %}
@@ -106,7 +112,7 @@
 			</nav>
 		{% endif %}
 								<!-- PAGINATION END -->
-	</article>
+	</section>
 </div>
 
 {% endblock %}

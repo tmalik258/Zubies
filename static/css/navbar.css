@@ -98,18 +98,6 @@
 	transition-duration: var(--def-transition-duration);
 }
 
-.header-side-content #menu-container ul:has(li:hover) a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
-	--secondary-color: rgb(79, 71, 67);
-}
-
-.header-side-content #menu-container ul a.back-button:hover {
-	--secondary-color: #f4f3eec2 !important;
-}
-
-.header-side-content #menu-container ul a:hover {
-	--secondary-color: #f4f3ee !important;
-}
-
 .header-side-content #menu-container a .letter {
 	--def-transition-duration: 0.3s;
 	display: inline-block;
@@ -233,6 +221,20 @@
 
 .header-side-content #menu-container li a:hover ~ .category-img:nth-of-type(3) {
 	transition-delay: calc(var(--def-transition-duration) * 0.5);
+}
+
+@media screen and (width > 768px) {
+	.header-side-content #menu-container ul:has(li:hover) a:not(:has(+ .sub-menu.submenu-open)):not(.back-button) {
+		--secondary-color: rgb(79, 71, 67);
+	}
+	
+	.header-side-content #menu-container ul a.back-button:hover {
+		--secondary-color: #f4f3eec2 !important;
+	}
+	
+	.header-side-content #menu-container ul a:hover {
+		--secondary-color: #f4f3ee !important;
+	}
 }
 
 /* Menu Button */
