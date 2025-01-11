@@ -211,7 +211,7 @@ class Product (models.Model):
 		value = self.title.replace(" ", "-")
 		self.slug = slugify(value, allow_unicode=True)
 
-		self.in_stock = models.F('stock') > 0
+		self.in_stock = self.stock > 0
 
 		super().save(*args, **kwargs)
 
