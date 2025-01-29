@@ -20,7 +20,6 @@ DEBUG = get_bool_from_env("DEBUG_MODE", False)
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -28,12 +27,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # EXTERNAL PACKAGES
+
+    # EXTERNAL APPS
     "django_cleanup.apps.CleanupConfig",
     "django_countries",
     "mptt",
     "django_mptt_admin",
     'facebook_pixel_code',
+
     # INTERNAL APPS
     "account",
     "address",

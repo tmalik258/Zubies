@@ -182,6 +182,21 @@ class Product (models.Model):
 			"max_length": _("The price must be between 0 and 99999999.99."),
 		},
 	}, blank=True, null=True)
+	retail_price = models.DecimalField(verbose_name=_("Retail Price"), max_digits=10, decimal_places=2, help_text=_("Maximum 99999999.99"), error_messages={
+		"name": {
+			"max_length": _("The price must be between 0 and 99999999.99."),
+		},
+	}, blank=True, null=True)
+	whole_sale_price = models.DecimalField(verbose_name=_("Whole Sale Price"), max_digits=10, decimal_places=2, help_text=_("Maximum 99999999.99"), error_messages={
+		"name": {
+			"max_length": _("The price must be between 0 and 99999999.99."),
+		},
+	}, blank=True, null=True)
+	manufacturing_cost = models.DecimalField(verbose_name=_("Manufacturing Cost"), max_digits=10, decimal_places=2, help_text=_("Maximum 99999999.99"), error_messages={
+		"name": {
+			"max_length": _("The price must be between 0 and 99999999.99."),
+		},
+	}, blank=True, null=True)
 	description = models.TextField(help_text=_("Required"))
 	sku = models.CharField(default='123', max_length=124)
 	category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
