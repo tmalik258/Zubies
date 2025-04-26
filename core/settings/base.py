@@ -135,6 +135,7 @@ EMAIL_PORT: int = int(os.getenv('EMAIL_PORT', 587))  # or the appropriate port f
 EMAIL_HOST_USER: str = os.getenv('EMAIL_HOST_USER')  # your Gmail or email service username
 EMAIL_HOST_PASSWORD: str = os.getenv('EMAIL_HOST_PASSWORD')  # your Gmail or email service password
 EMAIL_USE_TLS: bool = True  # or False if your email service does not support TLS/SSL
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
