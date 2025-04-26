@@ -27,7 +27,7 @@ class AboutView(TemplateView):
 class CatalogView(ListView):
 	model = Product
 	paginate_by = 12
-	template_name = 'store/products.html'
+	template_name = 'store/list.html'
 
 	def get_queryset(self, **kwargs):
 		category_title = self.kwargs.get('category_title')
@@ -69,7 +69,7 @@ class CatalogView(ListView):
 class CategoryListView (ListView):
 	model = Product
 	paginate_by = 12
-	template_name = 'store/products.html'
+	template_name = 'store/list.html'
 
 	def setup(self, request, *args, **kwargs):
 		super().setup(request, *args, **kwargs)
@@ -99,7 +99,7 @@ class CategoryListView (ListView):
 class CollectionListView (ListView):
 	model = Product
 	paginate_by = 12
-	template_name = 'store/products.html'
+	template_name = 'store/list.html'
 
 	def setup(self, request, *args, **kwargs):
 		super().setup(request, *args, **kwargs)
@@ -129,7 +129,7 @@ class CollectionListView (ListView):
 class DiscountListView (ListView):
 	model = Product
 	paginate_by = 12
-	template_name = 'store/products.html'
+	template_name = 'store/list.html'
 
 	def get_queryset(self):
 		queryset = Product.products.filter(discount_price__isnull=False).exclude(discount_price=0)

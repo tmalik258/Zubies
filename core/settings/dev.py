@@ -2,6 +2,14 @@ from .base import *
 
 ALLOWED_HOSTS = ['*']
 
+INSTALLED_APPS += [
+    "django_browser_reload",
+]
+
+MIDDLEWARE += [
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",

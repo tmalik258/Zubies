@@ -1,0 +1,50 @@
+# Build stage
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Final stage
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy installed dependencies from builder
+COPY --from=builder /root/.local /root/.local
+
+# Copy application code
+COPY . .
+
+# Create non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
+
+# Set environment variables for collectstatic
+ENV DJANGO_SETTINGS_MODULE=core.settings.prod_docker
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH=/root/.local/bin:$PATH
+
+# Expose port
+EXPOSE 8002
+
+# Switch to non-root user
+USER appuser
+
+# Run gunicorn
+CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8002", "core.wsgi:application"]

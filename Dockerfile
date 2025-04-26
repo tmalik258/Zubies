@@ -2,23 +2,23 @@
 FROM python:3.11-slim
 
 # Set the working directory in the container
-WORKDIR /
+WORKDIR /app
 
 # Copy the requirements file into the container
-COPY requirements.txt /
+COPY requirements.txt /app
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt && pip install --upgrade pip
 
 # Copy the rest of the application code into the container
-COPY . /
+COPY . /app
 
 # Expose the port the app runs on
-EXPOSE 8001
+EXPOSE 8002
 
 # Set the environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8002"]

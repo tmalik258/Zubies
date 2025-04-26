@@ -3,6 +3,7 @@ boto3==1.35.22
 botocore==1.35.22
 Django==5.0.4
 django-appconf==1.0.6
+django-browser-reload==1.18.0
 django-cleanup==8.1.0
 django-countries==7.6.1
 django-facebook-pixel-code==0.0.2
@@ -25,3 +26,4 @@ toposort==1.10
 typing_extensions==4.11.0
 tzdata==2024.1
 urllib3==2.2.3
+dj-database-url

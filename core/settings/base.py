@@ -18,6 +18,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = get_bool_from_env("DEBUG_MODE", False)
 DEBUG_PROPAGATE_EXCEPTIONS = True
+DOCKER = get_bool_from_env("DOCKER_MODE", False)
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     "more",
     "order",
     "store",
-	'promotion',
+	# 'promotion',
 ]
 
 MIDDLEWARE = [

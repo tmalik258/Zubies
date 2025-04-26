@@ -13,6 +13,7 @@ urlpatterns = [
     path("order/", include("order.urls", namespace="order")),
     path("address/", include("address.urls", namespace="address")),
     path("checkout/", include("checkout.urls", namespace="checkout")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 # add at the last
