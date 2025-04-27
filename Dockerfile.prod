@@ -35,13 +35,17 @@ RUN pip install --no-cache-dir --find-links=/wheels -r requirements.txt
 # Copy application code
 COPY . .
 
+# Explicitly install gunicorn and make it executable
+RUN pip install gunicorn && \
+    chmod +x $(which gunicorn)
+
 # Create non-root user
 RUN useradd -m appuser && chown -R appuser:appuser /app
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PATH=/root/.local/bin:$PATH
+ENV PATH=/usr/local/bin:$PATH
 
 # Expose port
 EXPOSE 8002
