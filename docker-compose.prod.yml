@@ -65,7 +65,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx-entrypoint.sh:/docker-entrypoint.d/40-create-certs-if-missing.sh
+      - ./nginx/nginx-entrypoint.sh:/docker-entrypoint.d/40-create-certs-if-missing.sh
       - certbot_data:/etc/letsencrypt
       - ./nginx/webroot:/data/nginx
     networks:
