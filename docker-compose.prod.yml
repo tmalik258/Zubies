@@ -9,6 +9,8 @@ services:
       sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8002"
     expose:
       - "8002"
+    volumes:
+      - .:/app
     environment:
       - DJANGO_SETTINGS_MODULE=core.settings.prod_docker
       - DEBUG=False
