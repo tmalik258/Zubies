@@ -25,6 +25,8 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_HOST_USER=${EMAIL_HOST_USER}
       - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+    networks:
+      - zubies_network
     depends_on:
       db:
         condition: service_healthy
@@ -51,6 +53,8 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    networks:
+      - zubies_network
     expose:
       - "5432"
 
@@ -64,6 +68,8 @@ services:
       - ./nginx-entrypoint.sh:/docker-entrypoint.d/40-create-certs-if-missing.sh
       - certbot_data:/etc/letsencrypt
       - ./nginx/webroot:/data/nginx
+    networks:
+      - zubies_network
     depends_on:
       backend:
         condition: service_healthy
@@ -75,6 +81,8 @@ services:
       - certbot_data:/etc/letsencrypt
       - ./nginx/webroot:/data/nginx
     entrypoint: "/bin/sh -c 'certbot certonly --webroot --webroot-path=/data/nginx --email ${CERTBOT_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN}'"
+    networks:
+      - zubies_network
     depends_on:
       - nginx
 
@@ -83,6 +91,8 @@ services:
     volumes:
       - certbot_data:/etc/letsencrypt
     entrypoint: "/bin/sh -c 'while true; do certbot renew; sleep 5184000; done'" # 5184000 seconds = 60 days
+    networks:
+      - zubies_network
     depends_on:
       - nginx
     restart: unless-stopped
