@@ -40,6 +40,7 @@ ADMINS = [("Talha", "talhamalik25.tm@gmail.com")]
 # Security settings for production
 SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
 SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_COOKIE_SECURE = True  # CSRF cookies only sent over HTTPS
 SECURE_BROWSER_XSS_FILTER = True  # Enable XSS filtering
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME type sniffing
