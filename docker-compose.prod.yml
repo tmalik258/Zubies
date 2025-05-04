@@ -71,6 +71,8 @@ services:
     networks:
       - zubies_network
     depends_on:
+      certbot:
+        condition: service_completed_successfully
       backend:
         condition: service_healthy
     healthcheck: 
@@ -89,7 +91,7 @@ services:
     networks:
       - zubies_network
     depends_on:
-      nginx:
+      backend:
         condition: service_healthy
     restart: on-failure
 
