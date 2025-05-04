@@ -81,8 +81,6 @@ services:
       - ./nginx/webroot:/data/nginx
     entrypoint: "/bin/sh -c 'certbot certonly --webroot --webroot-path=/data/nginx --email ${CERTBOT_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN} -d www.${DOMAIN}'"
     network_mode: service:nginx
-    networks:
-      - zubies_network
     depends_on:
       - nginx
 
