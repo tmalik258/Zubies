@@ -31,8 +31,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Media files configuration (S3)
 DEFAULT_FILE_STORAGE = "core.storages.MediaStore"
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")  # Local path for collectstatic
 
 # Admin email configuration
 ADMINS = [("Talha", "talhamalik25.tm@gmail.com")]
