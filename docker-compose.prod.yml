@@ -86,7 +86,7 @@ services:
       - zubies_network
     depends_on:
       - nginx
-    # restart: on-failure
+    restart: on-failure
 
   certbot-renew:
     image: certbot/certbot:latest
