@@ -92,11 +92,11 @@ services:
       - ${DOMAIN}
       - -d
       - www.${DOMAIN}
+      - --force-renewal
     networks:
       - zubies_network
     depends_on:
       - nginx
-    restart: on-failure
 
   certbot-renew:
     image: certbot/certbot:latest
