@@ -30,7 +30,7 @@ body {
 }
 
 /*------------------------			 Lenis Scroll CSS Setup Start		----------------------*/
-@media screen and (width > 768px) {
+/* @media screen and (width > 768px) {
 	html.lenis,
 	html.lenis body {
 		height: auto;
@@ -51,7 +51,7 @@ body {
 	.lenis.lenis-smooth iframe {
 		pointer-events: none;
 	}
-}
+} */
 /*------------------------			 Lenis Scroll CSS Setup End		----------------------*/
 
 

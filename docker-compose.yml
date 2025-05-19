@@ -1,14 +1,15 @@
 services:
   backend:
-    build: ./backend
+    build: .
+    container_name: zubies_backend
     ports:
       - "8002:8002"
     volumes:
-      - ./backend:/app
+      - .:/app
     environment:
       - DEBUG=True
       - DJANGO_ALLOWED_HOSTS=backend,localhost,127.0.0.1
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/seo_db
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/zubies_db
     depends_on:
       - db
 
@@ -25,4 +26,4 @@ services:
       - "5435:5432"
 
 volumes:
-  postgres_data: 
+  postgres_data:

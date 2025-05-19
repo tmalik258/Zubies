@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const img = new Image();
         img.src = src;
         img.alt = alt;
-        img.decoding = 'async';
+        // img.decoding = 'async';
         img.loading = 'eager';
 
         img.onload = () => {
