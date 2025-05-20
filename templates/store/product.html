@@ -2,7 +2,6 @@
 {% load static %}
 {% load custom_filters %}
 
-
 {% block title %}{{ product.title | title }}{% endblock %}
 
 {% block style %}
@@ -18,12 +17,14 @@
 				<div class="product-images-grid">
 					{% if product.get_images %}
 						{% for product_img in product.get_images %}
-							<div class="product-img-item">
+							<div class="product-img-item" data-image="{{ product_img.image.url }}" data-alt="{{ product_img.alt_text }}">
 								<img src="{{ product_img.image.url }}" alt="{{ product_img.alt_text }}" loading="lazy" decoding="async">
 							</div>
 						{% endfor %}
 					{% else %}
-						<div class="product-img-item"><img src="{% static 'store\imgs\products\No_image_available.png' %}" class="card-img-top" alt="no image found"></div>
+						<div class="product-img-item" data-image="{% static 'store/imgs/products/No_image_available.png' %}" data-alt="no image found">
+							<img src="{% static 'store/imgs/products/No_image_available.png' %}" class="card-img-top" alt="no image found">
+						</div>
 					{% endif %}
 				</div>
 			</div>
@@ -31,7 +32,7 @@
 			<!-------- Product Body ---------->
 			<div class="col-12 col-lg-4 order-md-first order-lg-last">
 				<div class="card-body d-flex flex-column gap-3">
-					<h1 class="card-title">{{ product.title | title }} </h1>
+					<h1 class="card-title">{{ product.title | title }}</h1>
 					<div>
 						{% if product.discount_price %}
 							Rs. <del>{{ product.regular_price|floatformat }}</del>
@@ -56,9 +57,10 @@
 					</div>
 					<div class="col-12 d-flex flex-lg-column flex-xl-row gap-2">
 						<button class="btn btn-primary fs-5 d-flex align-items-center justify-content-center gap-2 flex-grow-1"
-							type="button" id="add-to-basket" data-index="{{  product.id }}"><ion-icon name="bag-add-outline"></ion-icon>Throw to Basket</button>
-						<button
-						data-csrf="{{ csrf_token }}" id="wishlist-btn" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2">
+							type="button" id="add-to-basket" data-index="{{ product.id }}">
+							<ion-icon name="bag-add-outline"></ion-icon>Throw to Basket
+						</button>
+						<button data-csrf="{{ csrf_token }}" id="wishlist-btn" class="btn btn-secondary d-flex align-items-center justify-content-center gap-2">
 							{% if product.is_wishlisted %}
 								<ion-icon name="heart"></ion-icon>
 								<span class="d-none d-lg-inline d-xl-none fs-5">Unwish</span>
@@ -74,6 +76,18 @@
 		</div>
 	</div>
 </article>
+
+<!-- Gallery Modal -->
+<div class="gallery-modal" id="galleryModal">
+	<div class="gallery-modal-content">
+		<button class="gallery-close"><ion-icon name="close-outline"></ion-icon></button>
+		<div class="gallery-slider">
+			<div class="gallery-slides"></div>
+		</div>
+		<button class="gallery-prev"><ion-icon name="chevron-back-outline"></ion-icon></button>
+		<button class="gallery-next"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}
@@ -81,22 +95,23 @@
 		// Quantity Change
 		$('.plus-btn').on('click', function (e) {
 			$('.quantity').text(parseInt($('.quantity').text()) + 1);
-		})
+		});
 		$('.min-btn').on('click', function (e) {
 			let quantity = parseInt($('.quantity').text());
 			if (quantity > 1) {
 				$('.quantity').text(quantity - 1);
 			}
-		})
+		});
+
 		// Add to Basket
 		$(document).on('click', '#add-to-basket', function (e) {
 			e.preventDefault();
 			$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
 			$(this).prop('disabled', true);
 
-			var attribute_ids = []
+			var attribute_ids = [];
 			$('input[type="radio"]:checked').each(function (index, element) {
-				attribute_ids.push($(element).val())
+				attribute_ids.push($(element).val());
 			});
 
 			var csrfToken = "{{ csrf_token }}";
@@ -120,9 +135,10 @@
 					console.error('Error:', err);
 				}
 			});
-		})
-		// wishlist
-		$('#wishlist-btn').click(function(e) {
+		});
+
+		// Wishlist
+		$('#wishlist-btn').click(function (e) {
 			e.preventDefault();
 			const button = $(this);
 			const csrf = button.data('csrf');
@@ -130,35 +146,142 @@
 
 			button.html('<span class="spinner-border" style="width: 1em; height: 1em" role="status" aria-hidden="true"></span><span class="d-none d-lg-inline d-xl-none fs-5">Loading ...</span>');
 			button.prop('disabled', true);
-	
+
 			$.ajax({
 				url: `{% url 'account:add-to-wishlist' product_slug=product.slug %}`,
 				method: 'POST',
 				headers: {
 					'X-CSRFToken': csrf
 				},
-				success: function(response) {
+				success: function (response) {
 					if (response.status === 'success') {
 						button.prop('disabled', false);
 						if (response.in_wishlist)
-							button.html('<ion-icon name="heart"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Unwish</span>')
+							button.html('<ion-icon name="heart"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Unwish</span>');
 						else
-							button.html('<ion-icon name="heart-outline"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Favourite</span>')
-
+							button.html('<ion-icon name="heart-outline"></ion-icon><span class="d-none d-lg-inline d-xl-none fs-5">Favourite</span>');
 					}
 				},
-				error: function(xhr, status, error) {
+				error: function (xhr, status, error) {
 					if (xhr.status === 302 || xhr.status === 401 || xhr.status === 403) {
-						// Redirect to login page
 						window.location.href = `/account/login/?next=${window.location.pathname}`;
 					} else {
 						console.error('Error updating wishlist:', error);
-						// Reset button state
 						button.prop('disabled', false);
 						button.html(button_html);
 					}
 				}
 			});
+		});
+
+		// Gallery Functionality
+		const modal = $('#galleryModal');
+		const slidesContainer = $('.gallery-slides');
+		const prevButton = $('.gallery-prev');
+		const nextButton = $('.gallery-next');
+		const closeButton = $('.gallery-close');
+		let currentIndex = 0;
+		let images = [];
+
+		// Open gallery when clicking an image
+		$('.product-img-item').on('click', function () {
+			images = $('.product-img-item').map(function () {
+				return {
+					src: $(this).data('image'),
+					alt: $(this).data('alt')
+				};
+			}).get();
+
+			currentIndex = $('.product-img-item').index(this);
+			updateGallery();
+			modal.css('display', 'flex');
+			setTimeout(() => modal.addClass('show'), 10);
+			$('body').css('overflow', 'hidden'); // Prevent scrolling
+		});
+
+		// Close gallery
+		closeButton.on('click', function () {
+			modal.removeClass('show');
+			setTimeout(() => {
+				modal.css('display', 'none');
+				slidesContainer.empty();
+				images = [];
+				currentIndex = 0;
+				$('body').css('overflow', 'auto'); // Restore scrolling
+			}, 300);
+		});
+
+		// Navigate to previous image
+		prevButton.on('click', function () {
+			if (currentIndex > 0) {
+				currentIndex--;
+				updateGallery();
+			}
+		});
+
+		// Navigate to next image
+		nextButton.on('click', function () {
+			if (currentIndex < images.length - 1) {
+				currentIndex++;
+				updateGallery();
+			}
+		});
+
+		// Update gallery slides with fade animation
+		function updateGallery() {
+			slidesContainer.empty();
+			images.forEach((img, index) => {
+				const slide = $('<div>').addClass('gallery-slide').css({
+					opacity: index === currentIndex ? 1 : 0,
+					transform: `translateX(${(index - currentIndex) * 100}%)`,
+					transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out'
+				});
+				const image = $('<img>').attr({
+					src: img.src,
+					alt: img.alt,
+					'class': 'gallery-image'
+				});
+				slide.append(image);
+				slidesContainer.append(slide);
+			});
+
+			// Update button states
+			prevButton.prop('disabled', currentIndex === 0);
+			nextButton.prop('disabled', currentIndex === images.length - 1);
+		}
+
+		// Zoom and pan functionality
+		$(document).on('click', '.gallery-image', function () {
+			const img = $(this);
+			if (img.hasClass('zoomed')) {
+				img.removeClass('zoomed').css({
+					transform: 'scale(1)',
+					cursor: 'zoom-in',
+					'transform-origin': 'center center'
+				});
+				img.parent().off('mousemove');
+			} else {
+				img.addClass('zoomed').css({
+					transform: 'scale(2)',
+					cursor: 'move'
+				});
+				const parent = img.parent();
+				parent.on('mousemove', function (e) {
+					const rect = parent[0].getBoundingClientRect();
+					const x = e.clientX - rect.left;
+					const y = e.clientY - rect.top;
+					const xPercent = (x / rect.width) * 100;
+					const yPercent = (y / rect.height) * 100;
+					img.css('transform-origin', `${xPercent}% ${yPercent}%`);
+				});
+			}
+		});
+
+		// Close modal when clicking outside the image
+		modal.on('click', function (e) {
+			if ($(e.target).is('.gallery-modal')) {
+				closeButton.trigger('click');
+			}
 		});
 	</script>
 {% endblock %}
