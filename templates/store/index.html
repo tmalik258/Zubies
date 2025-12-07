@@ -17,8 +17,8 @@
 	<!-- Carousel Start -->
 	<div class="container-fluid carousel">
 		<div class="text">
-			<h1 class="animate-text"></h1>
-			<p class="animate-text"></p>
+			<h1 class="animate-text">New Arrivals</h1>
+			<p class="animate-text">We know you'll love!</p>
 		</div>
 		<a href="#" class="carousel-image">
 			<img src="{% static 'img/index/carousel/arrival.webp' %}" alt="New Arrivals" decoding="async" loading="eager" fetchpriority="high">
@@ -112,7 +112,7 @@
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/seasoned-1.webp' %}" fetchpriority="low">
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/discount-2.webp' %}" fetchpriority="low">
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/heels.webp' %}" fetchpriority="low">
-	<script src="{% static 'js/store/index.js' %}" data-rel-js></script>
+	<script src="{% static 'js/store/index.js' %}" data-rel-js></link>
 	<script>
 		const textOptions = [
 			{ h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/index/carousel/arrival.webp' %}", href: "{% url 'store:products-by-collection' collection_slug='new-arrivals' %}" },
