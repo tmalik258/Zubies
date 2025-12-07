@@ -34,9 +34,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		const { img:src, h1:alt, href } = item;
         element.classList.remove('visible');
         
-        // Use preloaded image if available
-        if (preloadedImages.has(src)) {
-            const img = preloadedImages.get(src).cloneNode(true);
+        // Create new image element
+        const img = new Image();
+        img.src = src;
+        img.alt = alt;
+        img.decoding = 'async';
+
+        // Check if image is already preloaded and complete
+        const preloadedImg = preloadedImages.get(src);
+        const isPreloaded = preloadedImg && preloadedImg.complete;
+
+        // Function to show the image
+        const showImage = () => {
             setTimeout(() => {
                 element.innerHTML = '';
                 element.appendChild(img);
@@ -46,28 +55,28 @@ document.addEventListener('DOMContentLoaded', function() {
 					element.setAttribute('disabled', 'true')
                 element.classList.add('visible');
             }, 500);
-        } else {
-            const img = new Image();
-            img.src = src;
-            img.alt = alt;
-            img.decoding = 'async';
-            img.loading = 'lazy';
+        };
 
+        // If preloaded and complete, show immediately (will load from cache)
+        if (isPreloaded) {
+            // Image is cached, will load instantly
+            img.onload = showImage;
+            // If somehow already complete, show immediately
+            if (img.complete) {
+                showImage();
+            }
+        } else {
+            // Wait for image to load
             img.onload = () => {
+                // Cache the image for future use
                 preloadedImages.set(src, img);
-                setTimeout(() => {
-                    element.innerHTML = '';
-                    element.appendChild(img.cloneNode(true));
-					if (href)
-						element.setAttribute('href', href)
-					else
-						element.setAttribute('disabled', 'true')
-                    element.classList.add('visible');
-                }, 500);
+                showImage();
             };
 
             img.onerror = () => {
                 console.error(`Failed to load image: ${src}`);
+                // Show element even if image fails to load
+                element.classList.add('visible');
             };
         }
     }
@@ -81,15 +90,21 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex = (currentIndex + 1) % textOptions.length;
     }
 
-    // Preload images in background without blocking
+        // Preload images in background without blocking
     function preloadImages() {
         textOptions.forEach((option, index) => {
+            // Skip first image as it's already loaded
+            if (index === 0) return;
+
             const img = new Image();
             img.src = option.img;
             img.decoding = 'async';
-            img.loading = index === 0 ? 'eager' : 'lazy';
+            img.loading = 'lazy';
             img.onload = () => {
                 preloadedImages.set(option.img, img);
+            };
+            img.onerror = () => {
+                console.error(`Failed to preload image: ${option.img}`);
             };
         });
     }
