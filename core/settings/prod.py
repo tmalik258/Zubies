@@ -1,11 +1,11 @@
 from .base import *
 
-ALLOWED_HOSTS = ['.zubies.co', '67.223.119.66']
+ALLOWED_HOSTS = ['.zubies.com', '65.109.77.89']
 
 ## CSRF TOKEN CLEARANCE
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_DOMAIN = '.zubies.co'
-CSRF_TRUSTED_ORIGINS = ['https://zubies.co', 'https://www.zubies.co']
+CSRF_COOKIE_DOMAIN = '.zubies.com'
+CSRF_TRUSTED_ORIGINS = ['https://zubies.com', 'https://www.zubies.com']
 
 ## Secure-Only Session Cookie
 SESSION_COOKIE_SECURE = True
