@@ -170,10 +170,6 @@ window.addEventListener("load", () => {
 		if (checkAnimationsComplete()) {
 			loadingElement.classList.add("hide");
 			$("body").css("overflow", "initial");
-			// Initialize Lenis after loader is hidden
-			setTimeout(() => {
-				initLenis();
-			}, 100);
 			// Check if URL contains a hash
 			if (window.location.hash === '#contact-section') {
 				scrollToContact();
@@ -191,23 +187,14 @@ function scrollToContact() {
 	const contactSection = document.querySelector('#contact-us');
 	if (contactSection) {
 		setTimeout(() => {
-			if (lenis) {
-				// Use Lenis smooth scroll if available
-				lenis.scrollTo(contactSection, {
-					offset: -100,
-					duration: 1.5
-				});
-			} else {
-				// Fallback to native smooth scroll
-				contactSection.scrollIntoView({
-					behavior: 'smooth'
-				});
-			}
+			contactSection.scrollIntoView({
+				behavior: 'smooth'
+			});
 		}, 100); // Small delay to ensure DOM is ready
 	}
 }
 
-// SHOW SCROLL UP - Optimized with throttling and Lenis support
+// SHOW SCROLL UP - Optimized with throttling
 let scrollTimeout;
 function scrollUp() {
 	if (scrollTimeout) {
@@ -218,9 +205,7 @@ function scrollUp() {
 		$(scrollUpBtn).click(() => {
 			scrollToTop();
 		});
-		// Get scroll position from Lenis if available, otherwise use window.scrollY
-		const scrollY = lenis ? lenis.scroll : window.scrollY;
-		if (scrollY >= 350) {
+		if (window.scrollY >= 350) {
 			$(scrollUpBtn).fadeIn("slow");
 		} else {
 			$(scrollUpBtn).fadeOut("slow");
@@ -229,98 +214,40 @@ function scrollUp() {
 	});
 }
 
-// Attach native scroll listener as fallback (will be replaced by Lenis on desktop)
+// Use passive event listener for better scroll performance
 window.addEventListener("scroll", scrollUp, { passive: true });
 
 function scrollToTop() {
-	if (lenis) {
-		// Use Lenis smooth scroll if available
-		lenis.scrollTo(0, {
-			duration: 1.2
-		});
-	} else {
-		// Fallback to custom smooth scroll
-		const scrollDuration = 300; // Set the total scroll duration (in milliseconds)
-		const start = window.scrollY;
-		const startTime = performance.now();
+	const scrollDuration = 300; // Set the total scroll duration (in milliseconds)
+	const start = window.scrollY;
+	const startTime = performance.now();
 
-		function scrollStep(timestamp) {
-			const currentTime = timestamp - startTime;
-			const progress = Math.min(currentTime / scrollDuration, 1); // Calculate progress (0 to 1)
-			const easeInOutQuad =
-				progress < 0.5
-					? 2 * progress * progress
-					: -1 + (4 - 2 * progress) * progress; // Ease-in-out function for smoother scrolling
-			window.scrollTo(0, start - start * easeInOutQuad);
+	function scrollStep(timestamp) {
+		const currentTime = timestamp - startTime;
+		const progress = Math.min(currentTime / scrollDuration, 1); // Calculate progress (0 to 1)
+		const easeInOutQuad =
+			progress < 0.5
+				? 2 * progress * progress
+				: -1 + (4 - 2 * progress) * progress; // Ease-in-out function for smoother scrolling
+		window.scrollTo(0, start - start * easeInOutQuad);
 
-			if (progress < 1) {
-				requestAnimationFrame(scrollStep);
-			}
+		if (progress < 1) {
+			requestAnimationFrame(scrollStep);
 		}
-
-		requestAnimationFrame(scrollStep);
 	}
+
+	requestAnimationFrame(scrollStep);
 }
 
-// Lenis Smooth Scroll with GSAP integration (Desktop only for performance)
-let lenis = null;
-
-function initLenis() {
-	// Only enable on desktop for better performance
-	// Check if Lenis and GSAP are available
-	if (window.innerWidth > 768 && typeof Lenis !== 'undefined' && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-		lenis = new Lenis({
-			duration: 1.2, // Smooth scroll duration
-			easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing function
-			direction: 'vertical',
-			gestureDirection: 'vertical',
-			smooth: true,
-			smoothTouch: false, // Disable on touch devices for better performance
-			touchMultiplier: 2,
-			wheelMultiplier: 1,
-			infinite: false,
-		});
-
-		// Integrate with GSAP ScrollTrigger
-		lenis.on('scroll', ScrollTrigger.update);
-
-		// Attach scroll event for scroll-up button
-		lenis.on('scroll', scrollUp);
-
-		// Use GSAP ticker for optimal performance (runs at 60fps)
-		gsap.ticker.add((time) => {
-			lenis.raf(time * 1000);
-		});
-
-		// Optimize GSAP ticker settings for smooth performance
-		gsap.ticker.lagSmoothing(0);
-
-		// Make lenis available globally for scroll functions
-		window.lenis = lenis;
-
-		// Remove native scroll listener since Lenis handles it now
-		window.removeEventListener("scroll", scrollUp);
-
-		return lenis;
-	}
-	return null;
-}
-
-// Handle window resize - destroy/reinitialize Lenis based on screen size
-let resizeTimeout;
-window.addEventListener('resize', () => {
-	clearTimeout(resizeTimeout);
-	resizeTimeout = setTimeout(() => {
-		if (window.innerWidth <= 768 && lenis) {
-			// Destroy Lenis on mobile for better performance
-			lenis.destroy();
-			lenis = null;
-			window.lenis = null;
-			// Re-attach native scroll listener
-			window.addEventListener("scroll", scrollUp, { passive: true });
-		} else if (window.innerWidth > 768 && !lenis && typeof Lenis !== 'undefined') {
-			// Initialize Lenis on desktop
-			initLenis();
-		}
-	}, 250);
-});
+// Lenis Basic GSAP js setup
+// if(window.innerWidth > "768") {
+// 	const lenis = new Lenis();
+	
+// 	lenis.on("scroll", ScrollTrigger.update);
+	
+// 	gsap.ticker.add((time) => {
+// 		lenis.raf(time * 1000);
+// 	});
+	
+// 	gsap.ticker.lagSmoothing(0);
+// }
