@@ -112,8 +112,8 @@
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/seasoned-1.webp' %}" fetchpriority="low">
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/discount-2.webp' %}" fetchpriority="low">
 	<link rel="preload" as="image" href="{% static 'img/index/carousel/heels.webp' %}" fetchpriority="low">
-	<script src="{% static 'js/store/index.js' %}" data-rel-js></script>
 	<script>
+		// Define textOptions before index.js loads
 		const textOptions = [
 			{ h1: "New Arrivals", p: "We know you'll love!", img: "{% static 'img/index/carousel/arrival.webp' %}", href: "{% url 'store:products-by-collection' collection_slug='new-arrivals' %}" },
 			{ h1: "Fall/Winter 24'", p: "Perfect for the season.", img: "{% static 'img/index/carousel/seasoned-1.webp' %}", href: "{% url 'store:products-by-collection' collection_slug='fallwinter-24' %}" },
@@ -124,4 +124,5 @@
 		const contact_url = "{% url 'store:contact-us' %}";
 		const subscribe_url = "{% url 'more:subscribe' %}";
 	</script>
+	<script src="{% static 'js/store/index.js' %}"></script>
 {% endblock script %}
