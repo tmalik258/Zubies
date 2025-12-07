@@ -38,28 +38,28 @@ body {
 }
 
 /*------------------------			 Lenis Scroll CSS Setup Start		----------------------*/
-@media screen and (width > 768px) {
+/* @media screen and (width > 768px) {
 	html.lenis,
 	html.lenis body {
 		height: auto;
 	}
-
+	
 	.lenis.lenis-smooth {
 		scroll-behavior: auto !important;
 	}
-
+	
 	.lenis.lenis-smooth [data-lenis-prevent] {
 		overscroll-behavior: contain;
 	}
-
+	
 	.lenis.lenis-stopped {
 		overflow: hidden;
 	}
-
+	
 	.lenis.lenis-smooth iframe {
 		pointer-events: none;
 	}
-}
+} */
 /*------------------------			 Lenis Scroll CSS Setup End		----------------------*/
 
 
