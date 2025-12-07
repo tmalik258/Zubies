@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const pElement = document.querySelector('.carousel .text p');
     const imgElement = document.querySelector('.carousel .carousel-image');
     let currentIndex = 0;
+    let isInitialLoad = true;
+    const preloadedImages = new Map();
 
     function animateText(element, text) {
         element.classList.remove('visible');
@@ -32,13 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		const { img:src, h1:alt, href } = item;
         element.classList.remove('visible');
         
-        const img = new Image();
-        img.src = src;
-        img.alt = alt;
-        // img.decoding = 'async';
-        img.loading = 'eager';
-
-        img.onload = () => {
+        // Use preloaded image if available
+        if (preloadedImages.has(src)) {
+            const img = preloadedImages.get(src).cloneNode(true);
             setTimeout(() => {
                 element.innerHTML = '';
                 element.appendChild(img);
@@ -48,12 +46,30 @@ document.addEventListener('DOMContentLoaded', function() {
 					element.setAttribute('disabled', 'true')
                 element.classList.add('visible');
             }, 500);
-        };
+        } else {
+            const img = new Image();
+            img.src = src;
+            img.alt = alt;
+            img.decoding = 'async';
+            img.loading = 'lazy';
 
-        img.onerror = () => {
-            console.error(`Failed to load image: ${src}`);
-            // Optionally, you can set a placeholder image here
-        };
+            img.onload = () => {
+                preloadedImages.set(src, img);
+                setTimeout(() => {
+                    element.innerHTML = '';
+                    element.appendChild(img.cloneNode(true));
+					if (href)
+						element.setAttribute('href', href)
+					else
+						element.setAttribute('disabled', 'true')
+                    element.classList.add('visible');
+                }, 500);
+            };
+
+            img.onerror = () => {
+                console.error(`Failed to load image: ${src}`);
+            };
+        }
     }
 
     function changeText() {
@@ -65,29 +81,57 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex = (currentIndex + 1) % textOptions.length;
     }
 
-    // Function to start content animation
-    function startContentAnimation() {
-        // Ensure all initial images are loaded before starting the animation
-        Promise.all(textOptions.map(option => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = option.img;
-                img.onload = resolve;
-                img.onerror = reject;
-            });
-        })).then(() => {
-            // Initial animation
-            changeText();
-            // Change text every 5 seconds
-            setInterval(changeText, 5000);
-        }).catch(error => {
-            console.error('Failed to load all images:', error);
+    // Preload images in background without blocking
+    function preloadImages() {
+        textOptions.forEach((option, index) => {
+            const img = new Image();
+            img.src = option.img;
+            img.decoding = 'async';
+            img.loading = index === 0 ? 'eager' : 'lazy';
+            img.onload = () => {
+                preloadedImages.set(option.img, img);
+            };
         });
+    }
+
+    // Start content animation immediately with first item
+    function startContentAnimation() {
+        // Show first content immediately
+        if (isInitialLoad) {
+            isInitialLoad = false;
+            const firstItem = textOptions[0];
+            animateText(h1Element, firstItem.h1);
+            animateText(pElement, firstItem.p);
+
+            // Load first image immediately
+            const firstImg = new Image();
+            firstImg.src = firstItem.img;
+            firstImg.alt = firstItem.h1;
+            firstImg.decoding = 'async';
+            firstImg.loading = 'eager';
+            firstImg.onload = () => {
+                preloadedImages.set(firstItem.img, firstImg);
+                imgElement.innerHTML = '';
+                imgElement.appendChild(firstImg);
+                if (firstItem.href)
+                    imgElement.setAttribute('href', firstItem.href)
+                else
+                    imgElement.setAttribute('disabled', 'true')
+                imgElement.classList.add('visible');
+            };
+
+            currentIndex = 1;
+        }
+
+        // Change text every 5 seconds
+        setInterval(changeText, 5000);
+
+        // Preload remaining images in background
+        preloadImages();
     }
 
     // Hide loader and start content animation
     function hideLoaderAndStartContent() {
-        // loaderElement.classList.add('hide');
         loaderElement.addEventListener('animationend', function() {
             startContentAnimation();
         }, { once: true });
@@ -111,23 +155,49 @@ document.addEventListener('DOMContentLoaded', function() {
         hideLoaderAndStartContent();
     }
 
+	// Optimize ScrollTrigger performance
+	gsap.registerPlugin(ScrollTrigger);
+
+	// Reduce ScrollTrigger refresh rate for better performance
+	ScrollTrigger.config({
+		autoRefreshEvents: "visibilitychange,DOMContentLoaded,load"
+	});
+
 	const elements = document.querySelectorAll(".appear");
 
-	elements.forEach((el) => {
-		gsap.set(el, {
-			clipPath: "inset(100% 100% 0 0)",
-			opacity: 0
-		})
+	// Use requestAnimationFrame to batch DOM reads/writes
+	requestAnimationFrame(() => {
+		elements.forEach((el) => {
+			gsap.set(el, {
+				clipPath: "inset(100% 100% 0 0)",
+				opacity: 0,
+				willChange: "clip-path, opacity"
+			})
 
-		gsap.to(el, {
-			scrollTrigger: {
-				trigger: el,
-				start: 'top bottom',
-				end: 'bottom 80%',
-				scrub: true
-			},
-			clipPath: "inset(0% 0% 0 0)",
-			opacity: 1
+			const trigger = gsap.to(el, {
+				scrollTrigger: {
+					trigger: el,
+					start: 'top bottom',
+					end: 'bottom 80%',
+					scrub: 0.5, // Reduced from true for better performance
+					once: false, // Allow reverse animation
+					markers: false,
+					refreshPriority: -1, // Lower priority for better performance
+					invalidateOnRefresh: false // Prevent unnecessary recalculations
+				},
+				clipPath: "inset(0% 0% 0 0)",
+				opacity: 1,
+				ease: "power1.out",
+				onComplete: () => {
+					// Remove will-change after animation for better performance
+					el.style.willChange = "auto";
+				}
+			});
+
+			// Clean up on unmount for better memory management
+			window.addEventListener('beforeunload', () => {
+				trigger.kill();
+			});
 		})
 	})
 
