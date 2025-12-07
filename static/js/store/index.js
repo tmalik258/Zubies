@@ -115,59 +115,25 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isInitialLoad) {
             isInitialLoad = false;
             const firstItem = textOptions[0];
+            animateText(h1Element, firstItem.h1);
+            animateText(pElement, firstItem.p);
 
-            // Function to show first content (both image and text together)
-            const showFirstContent = () => {
-                // Show text
-                animateText(h1Element, firstItem.h1);
-                animateText(pElement, firstItem.p);
-
-                // Show image
+            // Load first image immediately
+            const firstImg = new Image();
+            firstImg.src = firstItem.img;
+            firstImg.alt = firstItem.h1;
+            firstImg.decoding = 'async';
+            firstImg.loading = 'eager';
+            firstImg.onload = () => {
+                preloadedImages.set(firstItem.img, firstImg);
+                imgElement.innerHTML = '';
+                imgElement.appendChild(firstImg);
                 if (firstItem.href)
                     imgElement.setAttribute('href', firstItem.href)
                 else
                     imgElement.setAttribute('disabled', 'true')
                 imgElement.classList.add('visible');
             };
-
-            // Check if image already exists in DOM (from HTML) and is loaded
-            const existingImg = imgElement.querySelector('img');
-            if (existingImg) {
-                // Check if image is already loaded
-                if (existingImg.complete && existingImg.naturalHeight !== 0) {
-                    // Image is already loaded, cache it and show content immediately
-                    preloadedImages.set(firstItem.img, existingImg);
-                    showFirstContent();
-                } else {
-                    // Image is loading, wait for it then show content
-                    existingImg.addEventListener('load', () => {
-                        preloadedImages.set(firstItem.img, existingImg);
-                        showFirstContent();
-                    }, { once: true });
-
-                    // Fallback: if image fails to load, show content anyway
-                    existingImg.addEventListener('error', () => {
-                        showFirstContent();
-                    }, { once: true });
-                }
-            } else {
-                // No image in DOM, create and load it
-                const firstImg = new Image();
-                firstImg.src = firstItem.img;
-                firstImg.alt = firstItem.h1;
-                firstImg.decoding = 'async';
-                firstImg.loading = 'eager';
-                firstImg.onload = () => {
-                    preloadedImages.set(firstItem.img, firstImg);
-                    imgElement.innerHTML = '';
-                    imgElement.appendChild(firstImg);
-                    showFirstContent();
-                };
-                firstImg.onerror = () => {
-                    // Show content even if image fails
-                    showFirstContent();
-                };
-            }
 
             currentIndex = 1;
         }
